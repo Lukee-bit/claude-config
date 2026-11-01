@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+# Make the current project directory an Obsidian vault if it is not one already. Idempotent, never overwrites.
+set -u
+dir="${1:-${CLAUDE_PROJECT_DIR:-$PWD}}"
+dir="$(cd "$dir" 2>/dev/null && pwd -P)" || exit 0
+home="$(cd ~ && pwd -P)"
+# Skip non-project locations
+case "$dir" in
+  "$home"|/|/tmp*|/private/tmp*|/private/var*|/var/*|/usr*|/etc*|/System*|/Library*|/Applications*) exit 0;;
+  "$home/Library"*|"$home/.claude"*|"$home/.claude-tools"*|"$home/.cache"*|"$home/.local"*|"$home/.npm"*) exit 0;;
+  "$home/Desktop"|"$home/Documents"|"$home/Downloads"|"$home/Projects") exit 0;;
+esac
+[ -d "$dir/.obsidian" ] && [ -f "$dir/.obsidian/app.json" ] && exit 0
+# Project-ish: git repo, known marker file, or fresh/near-empty dir
+fresh=0; n=$(ls -A "$dir" 2>/dev/null | wc -l | tr -d ' ')
+[ "$n" -le 3 ] && fresh=1
+marker=0
+for m in .git package.json pyproject.toml Cargo.toml go.mod CLAUDE.md AGENTS.md Makefile README.md; do [ -e "$dir/$m" ] && marker=1; done
+[ $fresh -eq 0 ] && [ $marker -eq 0 ] && exit 0
+
+P=~/.claude-tools/obsidian-plugins
+mkdir -p "$dir/.obsidian/plugins"
+for id in obsidian-local-rest-api; do
+  [ -d "$P/$id" ] && [ ! -d "$dir/.obsidian/plugins/$id" ] && cp -R "$P/$id" "$dir/.obsidian/plugins/$id"
+done
+[ -f "$dir/.obsidian/app.json" ] || echo '{}' > "$dir/.obsidian/app.json"
+[ -f "$dir/.obsidian/community-plugins.json" ] || echo '["obsidian-local-rest-api"]' > "$dir/.obsidian/community-plugins.json"
+[ -f "$dir/.obsidian/core-plugins.json" ] || echo '["file-explorer","global-search","graph","backlink","outgoing-link","tag-pane","properties","outline","bookmarks","page-preview"]' > "$dir/.obsidian/core-plugins.json"
+[ -f "$dir/.obsidian/graph.json" ] || echo '{"showTags":true,"showAttachments":false,"showOrphans":true,"colorGroups":[]}' > "$dir/.obsidian/graph.json"
+# Pre-seed Local REST API plugin key (shared key stored 0600 outside the vault)
+K=~/.claude-tools/obsidian.env
+[ -f "$K" ] || { printf 'OBSIDIAN_API_KEY=%s\n' "$(openssl rand -hex 32)" > "$K"; chmod 600 "$K"; }
+key="$(sed -n 's/^OBSIDIAN_API_KEY=//p' "$K")"
+LR="$dir/.obsidian/plugins/obsidian-local-rest-api/data.json"
+[ -f "$LR" ] || printf '{"apiKey":"%s","enableInsecureServer":true,"insecurePort":27123,"port":27124}\n' "$key" > "$LR"
+# Ignore plugin binaries and workspace noise in git-tracked projects
+if [ -d "$dir/.git" ] && ! grep -qs '^\.obsidian/plugins' "$dir/.gitignore" 2>/dev/null; then
+  printf '\n# obsidian vault\n.obsidian/plugins/\n.obsidian/workspace*.json\n' >> "$dir/.gitignore"
+fi
+# Starter notes so the graph view is not empty
+[ -f "$dir/Home.md" ] || printf '# %s\n\nProject vault. Created %s by vault-bootstrap.\n\n- [[Notes]]\n' "$(basename "$dir")" "$(date +%F)" > "$dir/Home.md"
+[ -f "$dir/Notes.md" ] || printf '# Notes\n\nBack to [[Home]].\n' > "$dir/Notes.md"
+# Register the vault with the Obsidian app so it appears in the vault switcher
+OC="$HOME/Library/Application Support/obsidian/obsidian.json"
+mkdir -p "$(dirname "$OC")"
+python3 - "$OC" "$dir" <<'PY'
+import json,sys,os,hashlib,time
+oc,d=sys.argv[1],sys.argv[2]
+try: c=json.load(open(oc))
+except Exception: c={}
+v=c.setdefault('vaults',{})
+if not any(x.get('path')==d for x in v.values()):
+    v[hashlib.sha1(d.encode()).hexdigest()[:16]]={'path':d,'ts':int(time.time()*1000)}
+    json.dump(c,open(oc,'w'))
+PY
+echo "vault-bootstrap: created Obsidian vault at $dir"

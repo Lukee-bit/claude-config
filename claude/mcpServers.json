@@ -1,0 +1,16 @@
+{
+  "mcptoon": {
+    "command": "__HOME__/.local/share/uv/tools/mcptoon/bin/python",
+    "args": [
+      "-m",
+      "mcptoon",
+      "serve"
+    ]
+  },
+  "caveman": {
+    "type": "stdio",
+    "command": "__HOME__/.caveman/bin/caveman-mcp",
+    "args": [],
+    "env": {}
+  }
+}

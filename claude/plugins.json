@@ -1,0 +1,36 @@
+{
+  "marketplaces": {
+    "context-mode": {
+      "source": "github",
+      "repo": "mksglu/context-mode"
+    },
+    "obsidian-skills": {
+      "source": "github",
+      "repo": "kepano/obsidian-skills"
+    },
+    "obsidian-wiki": {
+      "source": "github",
+      "repo": "Ar9av/obsidian-wiki"
+    },
+    "ponytail": {
+      "source": "github",
+      "repo": "DietrichGebert/ponytail"
+    },
+    "sessionbridge": {
+      "source": "github",
+      "repo": "tongtongtju/sessionbridge"
+    },
+    "caveman": {
+      "source": "github",
+      "repo": "JuliusBrussee/caveman"
+    }
+  },
+  "enabled": [
+    "caveman@caveman",
+    "context-mode@context-mode",
+    "obsidian-wiki@obsidian-wiki",
+    "obsidian@obsidian-skills",
+    "ponytail@ponytail",
+    "sessionbridge@sessionbridge"
+  ]
+}

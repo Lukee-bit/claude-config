@@ -1,0 +1,9 @@
+@bilalba/fig-mcp@1.1.5
+@caveman-ai/cli@4.0.1
+@colbymchenry/codegraph@1.6.2
+@fission-ai/openspec@1.16.0
+@open-pencil/cli@0.16.0
+@open-pencil/mcp@0.16.0
+context-mode@1.0.169
+npm@11.20.0
+ui-ux-pro-max-cli@2.15.0

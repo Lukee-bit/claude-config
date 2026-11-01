@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# codegraph MCP bound to the current project; builds the index first if missing (bounded wait, finishes in background otherwise).
+p="${CLAUDE_PROJECT_DIR:-$PWD}"
+export PATH="/opt/homebrew/bin:$HOME/.local/bin:$PATH"
+cd "$p" 2>/dev/null || exit 1
+exec /opt/homebrew/bin/codegraph serve --mcp --path "$p"

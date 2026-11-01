@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Build codegraph index for the project dir if missing (background, idempotent). Same filter as vault-bootstrap.
+set -u
+dir="${1:-${CLAUDE_PROJECT_DIR:-$PWD}}"
+dir="$(cd "$dir" 2>/dev/null && pwd -P)" || exit 0
+home="$(cd ~ && pwd -P)"
+case "$dir" in
+  "$home"|/|/tmp*|/private/tmp*|/private/var*|/var/*|/usr*|/etc*|/System*|/Library*|/Applications*) exit 0;;
+  "$home/Library"*|"$home/.claude"*|"$home/.claude-tools"*|"$home/.cache"*|"$home/.local"*|"$home/.npm"*) exit 0;;
+  "$home/Desktop"|"$home/Documents"|"$home/Downloads"|"$home/Projects") exit 0;;
+esac
+[ -f "$dir/.index-bootstrap-off" ] && exit 0
+fresh=0; n=$(ls -A "$dir" 2>/dev/null | wc -l | tr -d ' ')
+[ "$n" -le 3 ] && fresh=1
+marker=0
+for m in .git package.json pyproject.toml Cargo.toml go.mod CLAUDE.md AGENTS.md Makefile README.md; do [ -e "$dir/$m" ] && marker=1; done
+[ $fresh -eq 0 ] && [ $marker -eq 0 ] && exit 0
+export PATH="/opt/homebrew/bin:$HOME/.local/bin:$PATH"
+if [ -d "$dir/.codegraph" ]; then
+  ( nohup codegraph sync "$dir" </dev/null >/dev/null 2>&1 & )
+else
+  ( nohup codegraph init -y "$dir" </dev/null >/dev/null 2>&1 & )
+fi
+# agent-fusion: pre-start per-project server (cold JVM start exceeds mcptoon's 30s call timeout)
+( CLAUDE_PROJECT_DIR="$dir" nohup "$HOME/.claude-tools/bin/agent-fusion-run" </dev/null >/dev/null 2>&1 & )
+exit 0

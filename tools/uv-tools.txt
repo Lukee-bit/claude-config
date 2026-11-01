@@ -1,0 +1,5 @@
+jcodemunch-mcp v1.108.367
+mcp-obsidian v0.2.3
+mcptoon v0.8.20
+obsidian-wiki v2026.10.4
+specify-cli v1.2.6.dev0

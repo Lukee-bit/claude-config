@@ -1,0 +1,127 @@
+{
+  "servers": {
+    "jcodemunch": {
+      "transport": "stdio",
+      "command": [
+        "uvx"
+      ],
+      "args": [
+        "jcodemunch-mcp"
+      ]
+    },
+    "context-mode": {
+      "transport": "stdio",
+      "command": [
+        "/opt/homebrew/bin/context-mode"
+      ],
+      "args": []
+    },
+    "fallow": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--package",
+        "fallow",
+        "fallow-mcp"
+      ]
+    },
+    "kwipu": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.claude-tools/bin/kwipu-mcp"
+      ],
+      "args": []
+    },
+    "mcp-obsidian": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.claude-tools/bin/mcp-obsidian-run"
+      ],
+      "args": []
+    },
+    "lumen": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.local/bin/lumen",
+        "stdio"
+      ],
+      "args": []
+    },
+    "figcraft": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.artcraft/bin/figcraft-cli",
+        "mcp"
+      ],
+      "args": []
+    },
+    "shadcn": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ]
+    },
+    "open-pencil": {
+      "transport": "stdio",
+      "command": [
+        "/opt/homebrew/bin/openpencil-mcp"
+      ],
+      "args": []
+    },
+    "fig-mcp": {
+      "transport": "stdio",
+      "command": [
+        "/opt/homebrew/bin/fig-mcp"
+      ],
+      "args": []
+    },
+    "chrome-devtools": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "chrome-devtools-mcp@1.10.1",
+        "--executablePath",
+        "/Applications/Comet.app/Contents/MacOS/Comet",
+        "--userDataDir",
+        "__HOME__/Library/Application Support/Comet"
+      ]
+    },
+    "playwright": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "@playwright/mcp@latest",
+        "--executable-path",
+        "/Applications/Comet.app/Contents/MacOS/Comet",
+        "--user-data-dir",
+        "__HOME__/Library/Application Support/Comet"
+      ]
+    },
+    "codegraph": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.claude-tools/bin/codegraph-run"
+      ],
+      "args": []
+    },
+    "agent-fusion": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.claude-tools/bin/agent-fusion-run"
+      ],
+      "args": []
+    }
+  }
+}

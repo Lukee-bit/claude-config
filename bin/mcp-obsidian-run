@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# MarkusPfundstein mcp-obsidian against the Local REST API plugin (key pre-seeded by vault-bootstrap).
+set -a; [ -f ~/.claude-tools/obsidian.env ] && . ~/.claude-tools/obsidian.env; set +a
+export OBSIDIAN_HOST="${OBSIDIAN_HOST:-127.0.0.1}" OBSIDIAN_PORT="${OBSIDIAN_PORT:-27124}"
+exec ~/.local/bin/mcp-obsidian "$@"

@@ -1,0 +1,349 @@
+{
+  "env": {
+    "ENABLE_TOOL_SEARCH": "true",
+    "ANTHROPIC_BASE_URL": "http://127.0.0.1:8788/w/claude",
+    "_CLAUDE_CODE_ASSUME_FIRST_PARTY_BASE_URL": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(set -o pipefail)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.local/bin/jcodemunch-mcp hook-posttooluse"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|NotebookEdit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.claude-tools/bin/agent-handoff tool",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.local/bin/jcodemunch-mcp hook-precompact"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read|Grep|Glob|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.local/bin/jcodemunch-mcp hook-pretooluse"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'/opt/homebrew/bin/node' '/opt/homebrew/bin/caveman' shrink-hook",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.local/share/caveman-blocks/bin/caveman-blocks hook --harness claude",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact|resume|fork",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.local/bin/jcodemunch-mcp hook-sessionstart"
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.claude-tools/bin/vault-bootstrap",
+            "timeout": 20
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"__HOME__/.claude/hooks/context-mode-cache-heal.mjs\""
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.claude-tools/bin/spec-bootstrap",
+            "timeout": 120
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.claude-tools/bin/index-bootstrap",
+            "timeout": 20
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.claude-tools/bin/agent-handoff init",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PATH=\"__HOME__/.local/share/uv/tools/obsidian-wiki/bin:$PATH\" bash \"__HOME__/.local/share/uv/tools/obsidian-wiki/lib/python3.12/site-packages/obsidian_wiki/_data/hooks/wiki-stop-capture.sh\""
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.local/bin/jcodemunch-mcp hook-subagent-start"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.local/bin/jcodemunch-mcp hook-taskcomplete"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.claude-tools/bin/agent-handoff end",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HOME__/.claude-tools/bin/agent-handoff prompt",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "context-mode@context-mode": true,
+    "obsidian@obsidian-skills": true,
+    "obsidian-wiki@obsidian-wiki": true,
+    "ponytail@ponytail": true,
+    "sessionbridge@sessionbridge": true,
+    "caveman@caveman": true
+  },
+  "extraKnownMarketplaces": {
+    "context-mode": {
+      "source": {
+        "source": "github",
+        "repo": "mksglu/context-mode"
+      }
+    },
+    "obsidian-skills": {
+      "source": {
+        "source": "github",
+        "repo": "kepano/obsidian-skills"
+      }
+    },
+    "obsidian-wiki": {
+      "source": {
+        "source": "github",
+        "repo": "Ar9av/obsidian-wiki"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    },
+    "sessionbridge": {
+      "source": {
+        "source": "github",
+        "repo": "tongtongtju/sessionbridge"
+      }
+    },
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    }
+  },
+  "modelSettings": {
+    "claude-sonnet-5-5": {
+      "autoCompactWindow": 400000
+    },
+    "claude-opus-5-5": {
+      "autoCompactWindow": 400000
+    }
+  },
+  "autoCompactWindow": 400000,
+  "theme": "dark"
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.caveman.proxy</string>
+  <key>ProgramArguments</key><array><string>__HOME__/.caveman/bin/caveman-proxy</string></array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>ANTHROPIC_BASE_URL</key><string>https://api.anthropic.com</string>
+    <key>CAVEMAN_PROXY_OWNER</key><string>wrap</string>
+    <key>CAVEMAN_MODE</key><string>compress</string>
+    <key>CAVEMAN_LISTEN</key><string>127.0.0.1:8788</string>
+    <key>CAVEMAN_RECOVERY</key><string>mcp</string>
+    <key>HOME</key><string>__HOME__</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>ThrottleInterval</key><integer>5</integer>
+  <key>StandardOutPath</key><string>__HOME__/.caveman/proxy.log</string>
+  <key>StandardErrorPath</key><string>__HOME__/.caveman/proxy.log</string>
+</dict>
+</plist>

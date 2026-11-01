@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Kwipu MCP over the current project (vault) directory, using local Ollama models.
+set -a; [ -f ~/.claude-tools/obsidian.env ] && . ~/.claude-tools/obsidian.env; set +a
+export KWIPU_KNOWLEDGE_DIR="${KWIPU_KNOWLEDGE_DIR:-$(d="${CLAUDE_PROJECT_DIR:-$PWD}"; [ -d "$d/.obsidian" ] && echo "$d" || echo "$HOME/.claude-tools/default-vault")}"
+export KWIPU_LLM_MODEL="${KWIPU_LLM_MODEL:-qwen3-coder:30b-a3b-q4_K_M}"
+export KWIPU_EMBED_MODEL="${KWIPU_EMBED_MODEL:-nomic-embed-text}"
+exec ~/.claude-tools/Kwipu/.venv/bin/python ~/.claude-tools/Kwipu/kwipu_mcp_server.py "$@"
