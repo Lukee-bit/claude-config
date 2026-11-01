@@ -2,6 +2,8 @@
 
 A portable snapshot of one Claude Code setup: hooks, plugins, MCP servers, skills, helper scripts and the tool list behind them. Built to cut token use, keep project memory in the repo so any agent harness can pick up where the last one stopped, and give every project an Obsidian vault.
 
+Licensed under MIT (see `LICENSE`); bundled third-party skills keep their own licenses (see Skill sources).
+
 Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directory are stored as `__HOME__` and filled in by `install.sh`.
 
 ## What the stack does
@@ -42,9 +44,10 @@ Then, by hand:
 1. `caveman setup`, then load the proxy: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.caveman.proxy.plist`. `settings.json` points `ANTHROPIC_BASE_URL` at `127.0.0.1:8788`; if the proxy is not running, Claude Code cannot reach the API. Remove that env var to bypass it.
 2. **Agent-Fusion:** `git clone https://github.com/krokozyab/Agent-Fusion ~/.claude-tools/src/Agent-Fusion`, build `./gradlew shadowJar`, copy `build/libs/orchestrator-0.1.0-all.jar` to `~/.claude-tools/agent-fusion/`. Needs `openjdk@21`.
 3. **Kwipu:** `git clone https://github.com/benmaster82/Kwipu ~/.claude-tools/Kwipu`, create its `.venv` and install its requirements.
-4. **lumen:** install the `lumen` binary on your PATH (source not recorded in this snapshot; version 0.0.42).
-5. Open Obsidian once so `obsidian-local-rest-api` creates its key; `bin/vault-bootstrap` seeds the key from `~/.claude-tools/obsidian.env`, which is generated on first run and never committed.
-6. Restart Claude Code, run `mcptoon doctor` (expect 14 servers OK) and `/context`.
+4. **lumen:** install the `lumen` binary (version 0.0.42) from https://github.com/ory/lumen and put it on your PATH (`~/.local/bin/lumen`).
+5. **figcraft:** install the FigCraft desktop app from https://github.com/storytold/figcraft/releases (macOS `.dmg`, drag to `/Applications`); the MCP server expects its CLI at `~/.artcraft/bin/figcraft-cli`.
+6. **Obsidian:** install the app from https://obsidian.md. Open it once so `obsidian-local-rest-api` creates its key; `bin/vault-bootstrap` seeds the key from `~/.claude-tools/obsidian.env`, which is generated on first run and never committed.
+7. Restart Claude Code, run `mcptoon doctor` (expect 14 servers OK) and `/context`.
 
 ## Layout
 
@@ -68,7 +71,7 @@ export.py          re-snapshot this machine into the repo
 Run `python3 export.py` after changing the stack, review `git diff`, commit. The script scans its output for secret-like strings and stops if it finds any. Never add `~/.claude.json`, transcripts, `obsidian.env` or `.env` files.
 
 ## Source repositories
-Upstream repo for every tool in the stack. Links were taken from package metadata, `plugins.json`, the local clones and `gh repo view`.
+Upstream repo for every tool in the stack. `install.sh` installs the Homebrew packages (rtk, ollama, gh, openjdk@21) through `brew`; their sites are https://www.rtk-ai.app/ and https://ollama.com/. Links were taken from package metadata, `plugins.json`, the local clones and `gh repo view`.
 
 | Tool | Source |
 |---|---|
