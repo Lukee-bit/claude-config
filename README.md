@@ -101,4 +101,27 @@ Upstream repo for every tool in the stack. Links were taken from package metadat
 | Ollama | https://github.com/ollama/ollama |
 
 ## Skill sources
-`skills/` was copied from: ui-ux-pro-max (nextlevelbuilder/ui-ux-pro-max-skill), wcag-accessibility (mrKanoh/wcag-accessibility-audit-skill), design-review (AslanMazhidov/design-review-skill), humanizer and structural-humanizer (NulightJens/humanizer-stack), fig-parser (sunyui/figma-parser), shadcn (shadcn-ui/ui), plus Vercel and Obsidian helper skills. Third-party skills keep their original licenses and copyrights; this repo's license does not apply to them. Check each skill's upstream repository for its terms before reusing it.
+Each folder in `skills/`, with its upstream repo. "Confirmed" means the repo's file tree lists that skill; "unconfirmed" means the origin is inferred from the skill's own metadata or a code search, so check it before relying on it.
+
+| Skill | Source | Status |
+|---|---|---|
+| composition-patterns, react-best-practices, react-native-skills, react-view-transitions, web-design-guidelines, writing-guidelines, deploy-to-vercel, vercel-cli-with-tokens, vercel-optimize | https://github.com/vercel-labs/agent-skills | confirmed |
+| migrate-radix-to-base, shadcn | https://github.com/shadcn-ui/ui | migrate-radix-to-base confirmed, shadcn unconfirmed |
+| ui-styling | https://github.com/mrgoonie/claudekit-skills | confirmed |
+| banner-design, brand, design, design-system, slides | claudekit (author field); likely https://github.com/mrgoonie/claudekit-skills or its marketing sibling | unconfirmed |
+| frontend-design | https://github.com/anthropics/skills | confirmed (skill lock file) |
+| ui-ux-pro-max | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill | confirmed |
+| wcag-accessibility | https://github.com/mrKanoh/wcag-accessibility-audit-skill | confirmed |
+| design-review | https://github.com/AslanMazhidov/design-review-skill | per earlier install |
+| humanizer | https://github.com/blader/humanizer (stack: https://github.com/NulightJens/humanizer-stack) | confirmed |
+| structural-humanizer | https://github.com/NulightJens/humanizer-stack | per earlier install |
+| fig-parser | https://github.com/sunyui/figma-parser | per earlier install |
+| figcraft | https://github.com/storytold/figcraft (skill pack: https://github.com/Vinciux99/artcraft-claude-skills) | confirmed |
+| open-pencil | https://github.com/open-pencil/open-pencil | unconfirmed |
+| mcptoon | https://github.com/activeing123/mcptoon | confirmed |
+| architecture-decision-records | https://github.com/affaan-m/ECC | unconfirmed (code search hit) |
+| harness-init, vault-context, vault-discover, obsidian-tooling | origin not found | unknown |
+
+Plugin-provided skills are not copied here; `install.sh` installs them from the marketplaces listed in `claude/plugins.json` (see Source repositories above).
+
+Third-party skills keep their original licenses and copyrights; this repo's license does not apply to them. Check each skill's upstream repository for its terms before reusing it.
