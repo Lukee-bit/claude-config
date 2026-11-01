@@ -67,5 +67,38 @@ export.py          re-snapshot this machine into the repo
 ## Keeping it current
 Run `python3 export.py` after changing the stack, review `git diff`, commit. The script scans its output for secret-like strings and stops if it finds any. Never add `~/.claude.json`, transcripts, `obsidian.env` or `.env` files.
 
+## Source repositories
+Upstream repo for every tool in the stack. Links were taken from package metadata, `plugins.json`, the local clones and `gh repo view`.
+
+| Tool | Source |
+|---|---|
+| RTK | https://github.com/rtk-ai/rtk |
+| Caveman (plugin, CLI, proxy) | https://github.com/JuliusBrussee/caveman |
+| context-mode | https://github.com/mksglu/context-mode |
+| mcptoon | https://github.com/activeing123/mcptoon |
+| agent-handoff, vault-bootstrap, spec-bootstrap, index-bootstrap | this repo (`bin/`) |
+| Obsidian helper skills (`obsidian` plugin) | https://github.com/kepano/obsidian-skills |
+| obsidian-wiki | https://github.com/Ar9av/obsidian-wiki |
+| mcp-obsidian | https://github.com/MarkusPfundstein/mcp-obsidian |
+| Obsidian Local REST API plugin | https://github.com/coddingtonbear/obsidian-local-rest-api |
+| jCodeMunch | https://github.com/jgravelle/jcodemunch-mcp |
+| lumen | https://github.com/ory/lumen |
+| codegraph | https://github.com/colbymchenry/codegraph |
+| fallow | https://github.com/fallow-rs/fallow |
+| Kwipu | https://github.com/benmaster82/Kwipu |
+| Agent-Fusion | https://github.com/krokozyab/Agent-Fusion |
+| OpenSpec | https://github.com/Fission-AI/OpenSpec |
+| spec-kit | https://github.com/github/spec-kit |
+| ponytail | https://github.com/DietrichGebert/ponytail |
+| sessionbridge | https://github.com/tongtongtju/sessionbridge |
+| figcraft | https://github.com/storytold/figcraft |
+| open-pencil | https://github.com/open-pencil/open-pencil |
+| fig-mcp | https://github.com/bilalba/fig-mcp |
+| shadcn MCP | https://github.com/shadcn-ui/ui |
+| playwright MCP | https://github.com/microsoft/playwright-mcp |
+| chrome-devtools MCP | https://github.com/ChromeDevTools/chrome-devtools-mcp |
+| ui-ux-pro-max (CLI and skill) | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill |
+| Ollama | https://github.com/ollama/ollama |
+
 ## Skill sources
 `skills/` was copied from: ui-ux-pro-max (nextlevelbuilder/ui-ux-pro-max-skill), wcag-accessibility (mrKanoh/wcag-accessibility-audit-skill), design-review (AslanMazhidov/design-review-skill), humanizer and structural-humanizer (NulightJens/humanizer-stack), fig-parser (sunyui/figma-parser), shadcn (shadcn-ui/ui), plus Vercel and Obsidian helper skills. Third-party skills keep their original licenses and copyrights; this repo's license does not apply to them. Check each skill's upstream repository for its terms before reusing it.
