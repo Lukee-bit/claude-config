@@ -122,6 +122,16 @@
         "__HOME__/.claude-tools/bin/agent-fusion-run"
       ],
       "args": []
+    },
+    "context7": {
+      "transport": "stdio",
+      "command": [
+        "npx"
+      ],
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@4.4.4"
+      ]
     }
   }
 }

@@ -13,7 +13,7 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Shrink bash output | RTK | `rtk hook claude` rewrites noisy command output |
 | Shrink requests and replies | Caveman (plugin, CLI, local proxy on `127.0.0.1:8788`, caveman-blocks) | compresses input and output, terse style |
 | Keep raw data out of context | context-mode (plugin) | sandboxed execution plus search index |
-| Hide tool schemas | mcptoon | one gateway in front of 14 MCP servers (314 tools behind a handful of gateway tools) |
+| Hide tool schemas | mcptoon | one gateway in front of 15 MCP servers (314 tools behind a handful of gateway tools) |
 | Project memory and handoff | agent-handoff (`bin/agent-handoff`) | writes `.agent/` and a managed block in `AGENTS.md` on session start, logs edits, writes a summary at session end |
 | Obsidian vault in every project | `bin/vault-bootstrap`, Obsidian plugin, obsidian-wiki, mcp-obsidian | creates `.obsidian/`, `Home.md`, registers the vault |
 | Code lookup | jCodeMunch (symbols), lumen (semantic search), codegraph (graph), fallow (static analysis) | all via mcptoon |
@@ -47,7 +47,7 @@ Then, by hand:
 4. **lumen:** install the `lumen` binary (version 0.0.42) from https://github.com/ory/lumen and put it on your PATH (`~/.local/bin/lumen`).
 5. **figcraft:** install the FigCraft desktop app from https://github.com/storytold/figcraft/releases (macOS `.dmg`, drag to `/Applications`); the MCP server expects its CLI at `~/.artcraft/bin/figcraft-cli`.
 6. **Obsidian:** install the app from https://obsidian.md. Open it once so `obsidian-local-rest-api` creates its key; `bin/vault-bootstrap` seeds the key from `~/.claude-tools/obsidian.env`, which is generated on first run and never committed.
-7. Restart Claude Code, run `mcptoon doctor` (expect 14 servers OK) and `/context`.
+7. Restart Claude Code, run `mcptoon doctor` (expect 15 servers OK) and `/context`.
 
 ## Layout
 
@@ -55,7 +55,7 @@ Then, by hand:
 claude/            CLAUDE.md, RTK.md, settings.json (hooks, plugins, env), commands/, hooks/, mcpServers.json, plugins.json
 skills/            user skills (third-party skills keep their own licenses)
 bin/               helper scripts that the hooks call
-mcptoon/           gateway config (14 servers)
+mcptoon/           gateway config (15 servers)
 launchd/           caveman proxy service
 tools/             brew, uv, npm and Ollama model lists with versions
 export.py          re-snapshot this machine into the repo
@@ -101,6 +101,7 @@ Upstream repo for every tool in the stack. `install.sh` installs the Homebrew pa
 | playwright MCP | https://github.com/microsoft/playwright-mcp |
 | chrome-devtools MCP | https://github.com/ChromeDevTools/chrome-devtools-mcp |
 | ui-ux-pro-max (CLI and skill) | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill |
+| Context7 MCP | https://github.com/upstash/context7 |
 | Ollama | https://github.com/ollama/ollama |
 
 ## Skill sources
@@ -121,6 +122,8 @@ Each folder in `skills/` with its upstream repo. Every repo below was confirmed 
 | fig-parser | https://github.com/sunyui/figma-parser |
 | figcraft | https://github.com/storytold/figcraft (skill pack: https://github.com/Vinciux99/artcraft-claude-skills, not tree-checked) |
 | mcptoon | https://github.com/activeing123/mcptoon |
+| unslop | https://github.com/heydamir/unslop (CC-BY-4.0) |
+| untangle-codebase | https://github.com/caldoai/skills (`skills/untangle-codebase`) |
 
 Plugin-provided skills are not copied here; `install.sh` installs them from the marketplaces listed in `claude/plugins.json` (see Source repositories above).
 
