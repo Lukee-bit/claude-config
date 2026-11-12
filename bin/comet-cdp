@@ -1,0 +1,13 @@
+#!/bin/sh
+# Ensure Comet runs normally on the user's real profile with a debug port.
+# Never launches Comet through automation flags, so the profile is not reset or modified.
+PORT=9223
+up() { nc -z 127.0.0.1 $PORT 2>/dev/null; }
+if ! up; then
+  if pgrep -x Comet >/dev/null; then
+    echo "Comet is running without a debug port. Quit Comet (Cmd+Q) and retry; it will relaunch with port $PORT." >&2; exit 1
+  fi
+  open -a Comet --args --remote-debugging-port=$PORT
+  for i in $(seq 1 30); do up && break; sleep 1; done
+fi
+up || { echo "Comet debug port $PORT did not come up" >&2; exit 1; }

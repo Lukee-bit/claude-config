@@ -141,30 +141,16 @@
     "playwright-comet": {
       "transport": "stdio",
       "command": [
-        "npx",
-        "-y"
+        "__HOME__/.claude-tools/bin/comet-playwright"
       ],
-      "args": [
-        "@playwright/mcp@latest",
-        "--executable-path",
-        "/Applications/Comet.app/Contents/MacOS/Comet",
-        "--user-data-dir",
-        "__HOME__/Library/Application Support/Comet"
-      ]
+      "args": []
     },
     "chrome-devtools-comet": {
       "transport": "stdio",
       "command": [
-        "npx",
-        "-y"
+        "__HOME__/.claude-tools/bin/comet-chrome-devtools"
       ],
-      "args": [
-        "chrome-devtools-mcp@1.10.1",
-        "--executablePath",
-        "/Applications/Comet.app/Contents/MacOS/Comet",
-        "--userDataDir",
-        "__HOME__/Library/Application Support/Comet"
-      ]
+      "args": []
     }
   }
 }

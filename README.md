@@ -21,7 +21,7 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Specs | OpenSpec and spec-kit | scaffolded by `bin/spec-bootstrap` |
 | Style | ponytail plugin | smallest-change discipline |
 | Other harness sessions | sessionbridge plugin | Claude to Codex session moves |
-| Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` MCP plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-comet` and `chrome-devtools-comet` drive `/Applications/Comet.app`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
+| Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` MCP plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-comet` and `chrome-devtools-comet` attach to `/Applications/Comet.app` on debug port 9223 via `bin/comet-cdp`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
 | Design and web | figcraft, open-pencil, fig-mcp, shadcn, playwright, chrome-devtools MCPs plus the design and Vercel skills in `skills/` | |
 
 ### What happens in a new project
@@ -68,7 +68,7 @@ export.py          re-snapshot this machine into the repo
 - OpenSpec and spec-kit overlap; both are kept on purpose.
 - `claude/settings.json` contains Caveman's generated hooks with absolute Homebrew paths. Re-run `caveman setup` if Node lives elsewhere.
 
-- Browser policy: Lightpanda is the primary browser. `playwright` needs `--isolated` against it (otherwise "No page on the STARTUP session"). The Comet fallback fails with "browser is already running" while Comet is open, so quit Comet first. Claude Desktop's own browser setting cannot be pointed at Lightpanda; the deny rules cover Claude Code only. `lightpanda mcp` and CDP attach were tested; screenshots and logged-in pages need the Comet fallback.
+- Browser policy: Lightpanda is the primary browser. `playwright` needs `--isolated` against it (otherwise "No page on the STARTUP session"). The Comet fallback attaches to Comet on debug port 9223; if Comet is already open without that port, quit it (Cmd+Q) and the next fallback call relaunches it normally. Launching Comet via automation (`--userDataDir`) once wiped its extensions and sign-in, so do not do that. Claude Desktop's own browser setting cannot be pointed at Lightpanda; the deny rules cover Claude Code only. `lightpanda mcp` and CDP attach were tested; screenshots and logged-in pages need the Comet fallback.
 
 ## Keeping it current
 Run `python3 export.py` after changing the stack, review `git diff`, commit. The script scans its output for secret-like strings and stops if it finds any. Never add `~/.claude.json`, transcripts, `obsidian.env` or `.env` files.

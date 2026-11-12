@@ -1,0 +1,3 @@
+#!/bin/sh
+"$(dirname "$0")/comet-cdp" || exit 1
+exec npx -y @playwright/mcp@0.0.85 --cdp-endpoint http://127.0.0.1:9223 "$@"

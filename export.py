@@ -16,7 +16,8 @@ CLAUDE = HOME / ".claude"
 TOOLS = HOME / ".claude-tools"
 
 BIN_SCRIPTS = ["agent-handoff", "vault-bootstrap", "spec-bootstrap", "index-bootstrap",
-               "agent-fusion-run", "kwipu-mcp", "mcp-obsidian-run", "codegraph-run"]
+               "agent-fusion-run", "kwipu-mcp", "mcp-obsidian-run", "codegraph-run",
+               "comet-cdp", "comet-chrome-devtools", "comet-playwright"]
 # Third-party skills keep their own licenses; skip app-managed and unknown-origin ones.
 SKILL_SKIP = {"synced", "learned", "codex-transfer"}
 COPY_IGNORE = shutil.ignore_patterns("node_modules", ".git", ".DS_Store", "__pycache__", "*.pyc")

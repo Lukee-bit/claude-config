@@ -44,5 +44,5 @@ same gateway: `mcptoon manifest` lists them.
 ## Browser policy (mandatory, all tools, skills, plugins, MCPs, subagents)
 
 Primary browser = Lightpanda (`lightpanda` MCP; `playwright`/`chrome-devtools` via mcptoon are wired to its CDP server at http://127.0.0.1:9222, daemon `io.lightpanda.serve`). Always use it first for any browsing, scraping, page reading, or automation.
-Fallback ONLY when Lightpanda cannot do the job (needs real rendering, screenshots, heavy JS, logins): Comet via `playwright-comet` / `chrome-devtools-comet` (mcptoon). State why before falling back.
+Fallback ONLY when Lightpanda cannot do the job (needs real rendering, screenshots, heavy JS, logins): Comet via `playwright-comet` / `chrome-devtools-comet` (mcptoon). They attach to the user's real Comet profile over debug port 9223 (`comet-cdp` starts Comet normally). Never launch Comet through automation flags: that reset the profile once. State why before falling back.
 Never use claude-in-chrome, built-in Claude_Browser, the plugin playwright, or any other browser (denied in settings.json). Skills that name another browser: substitute this policy.
