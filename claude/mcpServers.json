@@ -12,5 +12,11 @@
     "command": "__HOME__/.caveman/bin/caveman-mcp",
     "args": [],
     "env": {}
+  },
+  "lightpanda": {
+    "command": "__HOME__/.local/bin/lightpanda",
+    "args": [
+      "mcp"
+    ]
   }
 }

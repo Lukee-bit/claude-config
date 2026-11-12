@@ -89,10 +89,8 @@
       ],
       "args": [
         "chrome-devtools-mcp@1.10.1",
-        "--executablePath",
-        "/Applications/Comet.app/Contents/MacOS/Comet",
-        "--userDataDir",
-        "__HOME__/Library/Application Support/Comet"
+        "--browserUrl",
+        "http://127.0.0.1:9222"
       ]
     },
     "playwright": {
@@ -102,11 +100,10 @@
         "-y"
       ],
       "args": [
-        "@playwright/mcp@latest",
-        "--executable-path",
-        "/Applications/Comet.app/Contents/MacOS/Comet",
-        "--user-data-dir",
-        "__HOME__/Library/Application Support/Comet"
+        "@playwright/mcp@0.0.85",
+        "--cdp-endpoint",
+        "http://127.0.0.1:9222",
+        "--isolated"
       ]
     },
     "codegraph": {
@@ -131,6 +128,42 @@
       "args": [
         "-y",
         "@upstash/context7-mcp@4.4.4"
+      ]
+    },
+    "lightpanda": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.local/bin/lightpanda",
+        "mcp"
+      ],
+      "args": []
+    },
+    "playwright-comet": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "@playwright/mcp@latest",
+        "--executable-path",
+        "/Applications/Comet.app/Contents/MacOS/Comet",
+        "--user-data-dir",
+        "__HOME__/Library/Application Support/Comet"
+      ]
+    },
+    "chrome-devtools-comet": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "chrome-devtools-mcp@1.10.1",
+        "--executablePath",
+        "/Applications/Comet.app/Contents/MacOS/Comet",
+        "--userDataDir",
+        "__HOME__/Library/Application Support/Comet"
       ]
     }
   }

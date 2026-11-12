@@ -21,6 +21,7 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Specs | OpenSpec and spec-kit | scaffolded by `bin/spec-bootstrap` |
 | Style | ponytail plugin | smallest-change discipline |
 | Other harness sessions | sessionbridge plugin | Claude to Codex session moves |
+| Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` MCP plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-comet` and `chrome-devtools-comet` drive `/Applications/Comet.app`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
 | Design and web | figcraft, open-pencil, fig-mcp, shadcn, playwright, chrome-devtools MCPs plus the design and Vercel skills in `skills/` | |
 
 ### What happens in a new project
@@ -56,7 +57,7 @@ claude/            CLAUDE.md, RTK.md, settings.json (hooks, plugins, env), comma
 skills/            user skills (third-party skills keep their own licenses)
 bin/               helper scripts that the hooks call
 mcptoon/           gateway config (15 servers)
-launchd/           caveman proxy service
+launchd/           caveman proxy and Lightpanda CDP daemon
 tools/             brew, uv, npm and Ollama model lists with versions
 export.py          re-snapshot this machine into the repo
 ```
@@ -66,6 +67,8 @@ export.py          re-snapshot this machine into the repo
 - The Caveman proxy is a single point of failure for every request; savings are not measured here.
 - OpenSpec and spec-kit overlap; both are kept on purpose.
 - `claude/settings.json` contains Caveman's generated hooks with absolute Homebrew paths. Re-run `caveman setup` if Node lives elsewhere.
+
+- Browser policy: Lightpanda is the primary browser. `playwright` needs `--isolated` against it (otherwise "No page on the STARTUP session"). The Comet fallback fails with "browser is already running" while Comet is open, so quit Comet first. Claude Desktop's own browser setting cannot be pointed at Lightpanda; the deny rules cover Claude Code only. `lightpanda mcp` and CDP attach were tested; screenshots and logged-in pages need the Comet fallback.
 
 ## Keeping it current
 Run `python3 export.py` after changing the stack, review `git diff`, commit. The script scans its output for secret-like strings and stops if it finds any. Never add `~/.claude.json`, transcripts, `obsidian.env` or `.env` files.
@@ -98,6 +101,7 @@ Upstream repo for every tool in the stack. `install.sh` installs the Homebrew pa
 | open-pencil | https://github.com/open-pencil/open-pencil |
 | fig-mcp | https://github.com/bilalba/fig-mcp |
 | shadcn MCP | https://github.com/shadcn-ui/ui |
+| Lightpanda | https://github.com/lightpanda-io/browser |
 | playwright MCP | https://github.com/microsoft/playwright-mcp |
 | chrome-devtools MCP | https://github.com/ChromeDevTools/chrome-devtools-mcp |
 | ui-ux-pro-max (CLI and skill) | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill |

@@ -62,6 +62,25 @@ print("  merged:", ", ".join(new))
 PY
 else echo "  would merge claude/mcpServers.json into ~/.claude.json"; fi
 
+say "Lightpanda (primary browser, Comet is the fallback)"
+if [ $DRY -eq 0 ] && [ ! -x "$HOME/.local/bin/lightpanda" ]; then
+  case "$(uname -m)" in arm64) LP=lightpanda-aarch64-macos;; *) LP=lightpanda-x86_64-macos;; esac
+  mkdir -p "$HOME/.local/share/lightpanda" "$HOME/.local/bin"
+  gh release download 1.0.3 --repo lightpanda-io/browser -p "$LP" -D "$HOME/.local/share/lightpanda" --clobber
+  chmod +x "$HOME/.local/share/lightpanda/$LP"; xattr -d com.apple.quarantine "$HOME/.local/share/lightpanda/$LP" 2>/dev/null || true
+  ln -sf "$HOME/.local/share/lightpanda/$LP" "$HOME/.local/bin/lightpanda"
+else echo "  would install lightpanda 1.0.3 from GitHub releases (or already present)"; fi
+place launchd/io.lightpanda.serve.plist "$HOME/Library/LaunchAgents/io.lightpanda.serve.plist"
+echo "  start the CDP daemon: launchctl bootstrap gui/\$(id -u) ~/Library/LaunchAgents/io.lightpanda.serve.plist"
+D="$HOME/Library/Application Support/Claude/claude_desktop_config.json"
+if [ $DRY -eq 0 ] && [ -f "$D" ]; then python3 - "$D" <<'PY'
+import json, os, sys
+p = sys.argv[1]; d = json.load(open(p))
+d.setdefault("mcpServers", {})["lightpanda"] = {"command": os.path.expanduser("~/.local/bin/lightpanda"), "args": ["mcp"]}
+json.dump(d, open(p, "w"), indent=2)
+PY
+else echo "  would add lightpanda to Claude Desktop config"; fi
+
 say "Plugins"
 if command -v claude >/dev/null; then
 python3 - <<'PY' | while read -r repo; do run claude plugin marketplace add "$repo" || true; done

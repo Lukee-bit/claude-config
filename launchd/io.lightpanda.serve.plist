@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>io.lightpanda.serve</string>
+<key>ProgramArguments</key><array><string>__HOME__/.local/bin/lightpanda</string><string>serve</string><string>--host</string><string>127.0.0.1</string><string>--port</string><string>9222</string></array>
+<key>RunAtLoad</key><true/><key>KeepAlive</key><true/>
+<key>StandardErrorPath</key><string>/tmp/lightpanda.log</string>
+</dict></plist>
