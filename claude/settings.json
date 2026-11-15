@@ -257,6 +257,14 @@
         "hooks": [
           {
             "type": "command",
+            "command": "__HOME__/.claude/hooks/sycophancy-transform.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "__HOME__/.claude-tools/bin/agent-handoff prompt",
             "timeout": 5
           }
@@ -301,7 +309,12 @@
     "obsidian-wiki@obsidian-wiki": true,
     "ponytail@ponytail": true,
     "sessionbridge@sessionbridge": true,
-    "caveman@caveman": true
+    "caveman@caveman": true,
+    "superpowers@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "candor@candor": true,
+    "claude-guardrails@guardrails": true,
+    "guard-pack@claude-code-hooks": true
   },
   "extraKnownMarketplaces": {
     "context-mode": {
@@ -338,6 +351,24 @@
       "source": {
         "source": "github",
         "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "candor": {
+      "source": {
+        "source": "github",
+        "repo": "itsryanlenk/candor"
+      }
+    },
+    "guardrails": {
+      "source": {
+        "source": "github",
+        "repo": "RabihJabr29/claude-guardrails"
+      }
+    },
+    "claude-code-hooks": {
+      "source": {
+        "source": "github",
+        "repo": "karanb192/claude-code-hooks"
       }
     }
   },

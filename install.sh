@@ -30,6 +30,7 @@ if [ $TOOLS -eq 1 ]; then
   run brew install rtk openjdk@21 ollama node pnpm gh
   say "uv tools"
   for t in jcodemunch-mcp mcp-obsidian mcptoon obsidian-wiki specify-cli; do run uv tool install "$t" || true; done
+  run uv tool install -p 3.13 serena-agent || true
   say "npm globals"
   while read -r pkg; do [ -n "$pkg" ] && [ "${pkg%%@*}" != "npm" ] && run npm install -g "$pkg"; done < tools/npm-global.txt
   say "Other tools (manual, see README): lumen, Kwipu, Agent-Fusion jar"
@@ -43,6 +44,9 @@ place claude/RTK.md "$HOME/.claude/RTK.md"
 place claude/settings.json "$HOME/.claude/settings.json"
 for f in claude/commands/* claude/hooks/*; do place "$f" "$HOME/.claude/${f#claude/}"; done
 if [ $DRY -eq 0 ]; then mkdir -p "$HOME/.claude/skills"; cp -R skills/. "$HOME/.claude/skills/"; else echo "  would copy skills/ -> ~/.claude/skills"; fi
+
+say "GSD Core (adds its hooks, skills and statusline to ~/.claude)"
+run npx -y @opengsd/gsd-core@latest --claude --global || true
 
 say "Helper scripts and mcptoon"
 for f in bin/*; do place "$f" "$HOME/.claude-tools/bin/$(basename "$f")"; done
