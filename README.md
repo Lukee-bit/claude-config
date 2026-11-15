@@ -21,6 +21,10 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Specs | OpenSpec and spec-kit | scaffolded by `bin/spec-bootstrap` |
 | Style | ponytail plugin | smallest-change discipline |
 | Other harness sessions | sessionbridge plugin | Claude to Codex session moves |
+| Code intelligence and web search | Serena (symbol-level code tools), free-search-mcp (no-API-key web search) | both via mcptoon; `bin/free-search-mcp-run` pins `free-search-mcp==0.18.0` and sends its browser work to Lightpanda first, then Comet (no Chromium download needed) |
+| Workflow and review | Superpowers, GSD Core, pr-review-toolkit plugins | GSD is installed by `install.sh` through its own installer (adds hooks, skills, statusline) |
+| Anti-sycophancy | Candor plugin, anti-sycophancy skill plus `UserPromptSubmit` hook | rewrites confirmation-seeking prompts and adds critical-response rules to `CLAUDE.md` |
+| Safety and security | claude-guardrails, claude-code-hooks `guard-pack`, Semgrep's local MCP server | guards block piped remote scripts, `--no-verify`, secret reads, force pushes; Semgrep runs locally through `bin/semgrep-mcp-run` with tracing and metrics off (no account needed) |
 | Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` MCP plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-comet` and `chrome-devtools-comet` attach to `/Applications/Comet.app` on debug port 9223 via `bin/comet-cdp`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
 | Design and web | figcraft, open-pencil, fig-mcp, shadcn, playwright, chrome-devtools MCPs plus the design and Vercel skills in `skills/` | |
 
@@ -48,7 +52,7 @@ Then, by hand:
 4. **lumen:** install the `lumen` binary (version 0.0.42) from https://github.com/ory/lumen and put it on your PATH (`~/.local/bin/lumen`).
 5. **figcraft:** install the FigCraft desktop app from https://github.com/storytold/figcraft/releases (macOS `.dmg`, drag to `/Applications`); the MCP server expects its CLI at `~/.artcraft/bin/figcraft-cli`.
 6. **Obsidian:** install the app from https://obsidian.md. Open it once so `obsidian-local-rest-api` creates its key; `bin/vault-bootstrap` seeds the key from `~/.claude-tools/obsidian.env`, which is generated on first run and never committed.
-7. Restart Claude Code, run `mcptoon doctor` (expect 15 servers OK) and `/context`.
+7. Restart Claude Code, run `mcptoon doctor` (all servers OK) and `/context`.
 
 ## Layout
 
@@ -69,6 +73,10 @@ export.py          re-snapshot this machine into the repo
 - `claude/settings.json` contains Caveman's generated hooks with absolute Homebrew paths. Re-run `caveman setup` if Node lives elsewhere.
 
 - Browser policy: Lightpanda is the primary browser. `playwright` needs `--isolated` against it (otherwise "No page on the STARTUP session"). The Comet fallback attaches to Comet on debug port 9223; if Comet is already open without that port, quit it (Cmd+Q) and the next fallback call relaunches it normally. Launching Comet via automation (`--userDataDir`) once wiped its extensions and sign-in, so do not do that. Claude Desktop's own browser setting cannot be pointed at Lightpanda; the deny rules cover Claude Code only. `lightpanda mcp` and CDP attach were tested; screenshots and logged-in pages need the Comet fallback.
+
+- Serena runs in its `claude-code` context, so through mcptoon it exposes `initial_instructions` and `serena_repl`; the symbol tools are called through the repl. Only `guard-pack` from claude-code-hooks is installed (it bundles the seven guard hooks); the other catalog plugins are not. Guard plugins block edits to hook and settings files by design: disable one for a session if you need to change them. Perplexity MCP and Semgrep Guardian were dropped because they need paid accounts.
+
+- free-search-mcp only knows how to launch its own Chromium, so `bin/free-search-mcp-run` swaps that one call for a CDP connection (Lightpanda 9222, then Comet 9223 through `comet-cdp`). Lightpanda gets a fresh isolated context; Comet reuses its real profile. A few sites with incomplete certificate chains (example.com) fail its plain-HTTP path and fall back to the browser.
 
 ## Keeping it current
 Run `python3 export.py` after changing the stack, review `git diff`, commit. The script scans its output for secret-like strings and stops if it finds any. Never add `~/.claude.json`, transcripts, `obsidian.env` or `.env` files.
@@ -102,6 +110,16 @@ Upstream repo for every tool in the stack. `install.sh` installs the Homebrew pa
 | fig-mcp | https://github.com/bilalba/fig-mcp |
 | shadcn MCP | https://github.com/shadcn-ui/ui |
 | Lightpanda | https://github.com/lightpanda-io/browser |
+| Serena | https://github.com/oraios/serena |
+| free-search-mcp | https://github.com/sweetcornna/free-search-mcp |
+| Superpowers | https://github.com/obra/superpowers |
+| GSD Core | https://github.com/open-gsd/gsd-core |
+| Candor | https://github.com/itsryanlenk/candor |
+| anti-sycophancy | https://github.com/0xcjl/anti-sycophancy |
+| pr-review-toolkit | https://github.com/anthropics/claude-plugins-official/tree/main/plugins/pr-review-toolkit |
+| Semgrep (local MCP) | https://github.com/semgrep/semgrep |
+| claude-guardrails | https://github.com/RabihJabr29/claude-guardrails |
+| claude-code-hooks | https://github.com/karanb192/claude-code-hooks |
 | playwright MCP | https://github.com/microsoft/playwright-mcp |
 | chrome-devtools MCP | https://github.com/ChromeDevTools/chrome-devtools-mcp |
 | ui-ux-pro-max (CLI and skill) | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill |

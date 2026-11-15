@@ -17,11 +17,11 @@ TOOLS = HOME / ".claude-tools"
 
 BIN_SCRIPTS = ["agent-handoff", "vault-bootstrap", "spec-bootstrap", "index-bootstrap",
                "agent-fusion-run", "kwipu-mcp", "mcp-obsidian-run", "codegraph-run",
-               "comet-cdp", "comet-chrome-devtools", "comet-playwright"]
+               "comet-cdp", "comet-chrome-devtools", "comet-playwright", "semgrep-mcp-run", "free-search-mcp-run"]
 # Third-party skills keep their own licenses; skip app-managed and unknown-origin ones.
 SKILL_SKIP = {"synced", "learned", "codex-transfer"}
 COPY_IGNORE = shutil.ignore_patterns("node_modules", ".git", ".DS_Store", "__pycache__", "*.pyc")
-SECRET = re.compile(r"(sk-[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9]{20,}|github_pat_\w{20,}|xox[abprs]-[\w-]{10,}|AKIA[0-9A-Z]{16}"
+SECRET = re.compile(r"(sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_\w{20,}|xox[abprs]-[\w-]{10,}|AKIA[0-9A-Z]{16}"
                     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----|(?i:api[_-]?key|secret|token|password)\s*[=:]\s*[\"']?[A-Za-z0-9_\-]{24,})")
 
 
@@ -53,11 +53,25 @@ def main() -> None:
     # Claude Code user config
     for name in ("CLAUDE.md", "RTK.md"):
         copy_text(CLAUDE / name, f"claude/{name}")
-    copy_text(CLAUDE / "settings.json", "claude/settings.json")
+    # GSD Core installs its own hooks, permissions and statusline; install.sh re-runs its installer instead
+    st = json.load((CLAUDE / "settings.json").open())
+    for ev, groups in list(st.get("hooks", {}).items()):
+        for g in groups:
+            g["hooks"] = [h for h in g["hooks"] if "gsd-" not in h.get("command", "")]
+        st["hooks"][ev] = [g for g in groups if g["hooks"]]
+    st["hooks"] = {ev: g for ev, g in st["hooks"].items() if g}
+    st["permissions"]["allow"] = [a for a in st["permissions"].get("allow", []) if ".planning" not in a and "STATE.md" not in a]
+    if "gsd-" in json.dumps(st.get("statusLine", {})):
+        st.pop("statusLine")
+    put("claude/settings.json", json.dumps(st, indent=2) + "\n")
     for d in ("commands", "hooks"):
         for f in sorted((CLAUDE / d).glob("*")):
+            if f.name.startswith("gsd-") or not f.is_file() or f.name in ("managed-hooks-registry.cjs", "package.json"):
+                continue
             copy_text(f, f"claude/{d}/{f.name}", 0o755 if f.suffix in (".sh", ".mjs") else None)
-    mcp = json.load((HOME / ".claude.json").open()).get("mcpServers", {})
+    # allowlist: ~/.claude.json also holds servers with auth headers (never export those)
+    mcp = {k: v for k, v in json.load((HOME / ".claude.json").open()).get("mcpServers", {}).items()
+           if k in ("mcptoon", "caveman", "lightpanda")}
     put("claude/mcpServers.json", json.dumps(mcp, indent=2) + "\n")
 
     # Plugins: marketplaces + which are enabled (installed from source by install.sh)
@@ -69,7 +83,7 @@ def main() -> None:
 
     # Skills (user level)
     for d in sorted((CLAUDE / "skills").iterdir()):
-        if d.is_dir() and d.name not in SKILL_SKIP:
+        if d.is_dir() and d.name not in SKILL_SKIP and not d.name.startswith("gsd-"):
             shutil.copytree(d, OUT / "skills" / d.name, ignore=COPY_IGNORE)
 
     # mcptoon, helper scripts, launchd

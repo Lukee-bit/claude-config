@@ -151,6 +151,32 @@
         "__HOME__/.claude-tools/bin/comet-chrome-devtools"
       ],
       "args": []
+    },
+    "serena": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.local/bin/serena",
+        "start-mcp-server"
+      ],
+      "args": [
+        "--context",
+        "claude-code",
+        "--project-from-cwd"
+      ]
+    },
+    "free-search": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.claude-tools/bin/free-search-mcp-run"
+      ],
+      "args": []
+    },
+    "semgrep": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.claude-tools/bin/semgrep-mcp-run"
+      ],
+      "args": []
     }
   }
 }

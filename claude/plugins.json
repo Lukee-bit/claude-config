@@ -23,6 +23,18 @@
     "caveman": {
       "source": "github",
       "repo": "JuliusBrussee/caveman"
+    },
+    "candor": {
+      "source": "github",
+      "repo": "itsryanlenk/candor"
+    },
+    "guardrails": {
+      "source": "github",
+      "repo": "RabihJabr29/claude-guardrails"
+    },
+    "claude-code-hooks": {
+      "source": "github",
+      "repo": "karanb192/claude-code-hooks"
     }
   },
   "enabled": [
@@ -31,6 +43,11 @@
     "obsidian-wiki@obsidian-wiki",
     "obsidian@obsidian-skills",
     "ponytail@ponytail",
-    "sessionbridge@sessionbridge"
+    "sessionbridge@sessionbridge",
+    "superpowers@claude-plugins-official",
+    "pr-review-toolkit@claude-plugins-official",
+    "candor@candor",
+    "claude-guardrails@guardrails",
+    "guard-pack@claude-code-hooks"
   ]
 }

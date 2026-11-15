@@ -1,0 +1,34 @@
+#!/bin/sh
+# free-search-mcp with its browser redirected: Lightpanda first (CDP 9222), Comet as the fallback (CDP 9223,
+# started normally by comet-cdp). The package only knows how to launch its own Chromium, so this launcher
+# swaps that one call for a CDP connection and leaves the package itself untouched.
+exec "$(command -v uvx || echo "$HOME/.local/bin/uvx")" --from free-search-mcp==0.18.0 python -c '
+import asyncio, os, subprocess, sys
+from playwright.async_api import BrowserType
+
+CTX_OPTS = ("user_agent", "locale", "timezone_id", "viewport", "extra_http_headers", "proxy")
+
+async def _connect(self, user_data_dir=None, **kw):
+    last = None
+    for url, comet in (("http://127.0.0.1:9222", False), ("http://127.0.0.1:9223", True)):
+        try:
+            if comet:
+                helper = os.path.expanduser("~/.claude-tools/bin/comet-cdp")
+                await asyncio.to_thread(subprocess.run, [helper], check=True, capture_output=True)
+            browser = await self.connect_over_cdp(url)
+            if comet and browser.contexts:
+                return browser.contexts[0]
+            opts = {k: v for k, v in kw.items() if k in CTX_OPTS}
+            try:
+                return await browser.new_context(**opts)
+            except Exception:
+                return await browser.new_context()
+        except Exception as e:
+            last = e
+    raise last
+
+BrowserType.launch_persistent_context = _connect
+from search_mcp.__main__ import main
+sys.argv = ["free-search-mcp"] + sys.argv[1:]
+main()
+' "$@"
