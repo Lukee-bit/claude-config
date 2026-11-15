@@ -41,6 +41,8 @@ Opt out per project by touching `.agent-handoff-off`, `.spec-bootstrap-off` or `
 
 > **Windows 11:** see [`windows/README.md`](windows/README.md) and `install.ps1`. It renders these same templates for Windows; nothing here is duplicated.
 
+> **OpenCode V2:** see [`opencode/README.md`](opencode/README.md) and `install-opencode.sh` (macOS) / `install-opencode.ps1` (Windows 11). The same templates rendered for OpenCode; run the base installer for your OS first. Nothing here is duplicated.
+
 ## Restore on a new Mac
 
 ```bash

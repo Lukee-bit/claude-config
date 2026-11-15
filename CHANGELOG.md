@@ -3,6 +3,10 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-15 OpenCode V2 port
+- New `opencode/` (global `AGENTS.md`, six commands, the `claude-config.js` bridge plugin, `render.py`), `install-opencode.sh` (macOS) and `install-opencode.ps1` (Windows 11): the same templates rendered for OpenCode V2. `~/.claude` is untouched; GSD/RTK/Caveman are wired by their own OpenCode installers.
+- Action: run the base installer for your OS once (if not installed), then `./install-opencode.sh` or `pwsh ./install-opencode.ps1` and restart OpenCode. Verify with `opencode mcp list` (caveman, gsd, lightpanda, mcptoon) — details and gotchas in `opencode/README.md`.
+
 ## 2026-11-15 config-sync: update detection
 - New `bin/config-sync` and a SessionStart hook. Claude is told when newer commits exist and offers `/config-update`.
 - Action: none beyond `./install.sh` (macOS) or `pwsh ./install.ps1` once, so the hook and `config-sync` exist.

@@ -6,3 +6,15 @@
 node_modules/
 __pycache__/
 *.pyc
+# >>> agent-handoff (managed)
+.env
+.DS_Store
+.codegraph/
+.obsidian/plugins/
+.obsidian/workspace*.json
+.obsidian/cache
+.agent/cache/
+.agent/.buffer/
+.claude/settings.local.json
+*.pre-handoff-*
+# <<< agent-handoff
