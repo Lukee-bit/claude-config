@@ -16,7 +16,7 @@ src,dst,proj,port,web,d=sys.argv[1:]
 t=open(src).read()
 t=re.sub(r'(\[orchestrator\.server\]\s*\nhost = "127\.0\.0\.1"\s*\nport = )\d+',r'\g<1>'+port,t,1)
 t=re.sub(r'(\[web\]\s*\nhost = "127\.0\.0\.1"\s*\nport = )\d+',r'\g<1>'+web,t,1)
-t=re.sub(r'(?m)^(ignore_patterns = \[\n)',r'\1    ".next/", ".obsidian/", ".codegraph/", "pnpm-lock.yaml", "package-lock.json", "yarn.lock", "*.lock", "*.map", "*.min.js", "*.tsbuildinfo", ".specify/", ".cache/", "coverage/", "__pycache__/", "out/",\n',t,1)
+t=re.sub(r'(?m)^(ignore_patterns = \[\n)',r'\1    "skills/", ".next/", ".obsidian/", ".codegraph/", "pnpm-lock.yaml", "package-lock.json", "yarn.lock", "*.lock", "*.map", "*.min.js", "*.tsbuildinfo", ".specify/", ".cache/", "coverage/", "__pycache__/", "out/",\n',t,1)
 t=t.replace('git_intent_links = true','git_intent_links = false',1)  # its per-file rebuild fails (FK error) and delays the HTTP port by minutes
 t=re.sub(r'db_path = "[^"]*"','db_path = "%s/context.duckdb"'%d,t,1)
 t=re.sub(r'(?m)^watch_paths = \[[^\]]*\]','watch_paths = ["%s"]'%proj,t,1)
@@ -27,12 +27,11 @@ fi
 python3 - "$D/fusionagent.toml" <<'PY'
 import re,sys
 p=sys.argv[1]; t=open(p).read()
+if '"skills/"' not in t:  # vendored skill trees (hundreds of files) stall startup indexing for tens of minutes; the HTTP port only binds after indexing
+    t=re.sub(r'(?m)^(ignore_patterns = \[\n)',r'\1    "skills/",\n',t,1)
+    open(p,'w').write(t)
 if 'autoLaunchBrowser' not in t:
-    t=re.sub(r'(?m)^\[web\][ 	]*
-','[web]
-# dashboard stays up, but never auto-opens a browser
-autoLaunchBrowser = false
-',t,1)
+    t=re.sub(r'(?m)^\[web\][ \t]*\n','[web]\n# dashboard stays up, but never auto-opens a browser\nautoLaunchBrowser = false\n',t,1)
     open(p,'w').write(t)
 PY
 if [ -f "$D/pid" ] && kill -0 "$(cat "$D/pid")" 2>/dev/null; then :; elif ! curl -s -m 2 -o /dev/null "http://127.0.0.1:$PORT/mcp/json-rpc" -d '{"jsonrpc":"2.0","id":0,"method":"ping"}' -H 'content-type: application/json'; then
