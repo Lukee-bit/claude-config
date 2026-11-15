@@ -3,7 +3,7 @@
 # started normally by comet-cdp). The package only knows how to launch its own Chromium, so this launcher
 # swaps that one call for a CDP connection and leaves the package itself untouched.
 exec "$(command -v uvx || echo "$HOME/.local/bin/uvx")" --from free-search-mcp==0.18.0 python -c '
-import asyncio, os, subprocess, sys
+import asyncio, os, shutil, subprocess, sys
 from playwright.async_api import BrowserType
 
 CTX_OPTS = ("user_agent", "locale", "timezone_id", "viewport", "extra_http_headers", "proxy")
@@ -14,7 +14,8 @@ async def _connect(self, user_data_dir=None, **kw):
         try:
             if comet:
                 helper = os.path.expanduser("~/.claude-tools/bin/comet-cdp")
-                await asyncio.to_thread(subprocess.run, [helper], check=True, capture_output=True)
+                cmd = [shutil.which("bash") or "C:/Program Files/Git/bin/bash.exe", helper] if os.name == "nt" else [helper]  # Windows cannot exec a shebang script
+                await asyncio.to_thread(subprocess.run, cmd, check=True, capture_output=True)
             browser = await self.connect_over_cdp(url)
             if comet and browser.contexts:
                 return browser.contexts[0]

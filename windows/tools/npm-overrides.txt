@@ -1,0 +1,5 @@
+# Windows-only overrides for tools/npm-global.txt (name@version). These versions are the ones verified on Windows.
+# context-mode >= 2 needs the `server` argument (windows/render.py EXTRA_ARGS); @caveman-ai/cli 4.1 matches the proxy binary.
+context-mode@2.2.0
+@caveman-ai/cli@4.1.0
+@fission-ai/openspec@2.0.0

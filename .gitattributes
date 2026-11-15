@@ -1,0 +1,11 @@
+# Keep scripts LF on every OS (Windows checkouts default to CRLF and break shebangs/heredocs).
+* text=auto
+bin/* text eol=lf
+claude/hooks/* text eol=lf
+claude/commands/* text eol=lf
+launchd/* text eol=lf
+windows/** text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+install.sh text eol=lf
+*.ps1 text eol=crlf

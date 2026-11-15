@@ -37,6 +37,8 @@ On the first session in a directory, SessionStart hooks run:
 
 Opt out per project by touching `.agent-handoff-off`, `.spec-bootstrap-off` or `.index-bootstrap-off`.
 
+> **Windows 11:** see [`windows/README.md`](windows/README.md) and `install.ps1`. It renders these same templates for Windows; nothing here is duplicated.
+
 ## Restore on a new Mac
 
 ```bash

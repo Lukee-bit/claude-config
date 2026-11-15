@@ -17,6 +17,30 @@ HOME = Path.home()
 TS = time.strftime("%Y%m%d-%H%M%S")
 TODAY = time.strftime("%Y-%m-%d")
 
+if os.name == "nt":  # Windows: UTF-8 file IO and console (the default code page is not UTF-8)
+    _wt, _rt = Path.write_text, Path.read_text
+    Path.write_text = lambda self, data, encoding="utf-8", **k: _wt(self, data, encoding=encoding, **k)
+    Path.read_text = lambda self, encoding="utf-8", **k: _rt(self, encoding=encoding, **k)
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
+def _is_link(p: Path) -> bool:
+    return p.is_symlink() or (hasattr(p, "is_junction") and p.is_junction())  # junctions are Windows-only
+
+def _unlink(p: Path):
+    try:
+        p.unlink()
+    except (PermissionError, OSError):  # a Windows junction is removed with rmdir
+        os.rmdir(p)
+
+def _mklink(link: Path, target: Path):
+    try:
+        link.symlink_to(target, target_is_directory=True)
+    except OSError:  # Windows without symlink privilege: a directory junction needs none
+        subprocess.run(["cmd", "/c", "mklink", "/J", str(link), str(target)], check=True, capture_output=True)
+
 def project_dir():
     a = [x for x in sys.argv[2:] if not x.startswith("-")]
     d = a[0] if a else os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
@@ -27,6 +51,14 @@ def eligible(d: Path) -> bool:
     h = str(HOME.resolve())
     if (d / ".agent-handoff-off").exists():
         return False
+    if os.name == "nt":  # Windows: compare lowercase with forward slashes, skip system and app-data locations
+        s, h = s.replace("\\", "/").lower(), h.replace("\\", "/").lower()
+        if re.match(r"^[a-z]:/?$", s) or re.match(r"^[a-z]:/(windows|program files|programdata)", s):
+            return False
+        if any(s.startswith(f"{h}/{p}") for p in ("appdata", "scoop", ".claude", ".claude-tools", ".cache", ".local", ".npm")):
+            return False
+        if s in (h, f"{h}/desktop", f"{h}/documents", f"{h}/downloads", f"{h}/projects"):
+            return False
     if s in (h, "/") or s.startswith(("/tmp", "/private/tmp", "/private/var", "/var/", "/usr", "/etc", "/System", "/Library", "/Applications")):
         return False
     for p in ("Library", ".claude", ".claude-tools", ".cache", ".local", ".npm"):
@@ -78,11 +110,11 @@ def managed(d, p: Path, body: str, name="agent-handoff", comment="#", create_hea
 def link_dir(link: Path, target: Path, backup_root: Path):
     """Make `link` a symlink to `target`, migrating any real contents into target first."""
     target.mkdir(parents=True, exist_ok=True)
-    if link.is_symlink():
+    if _is_link(link):
         if link.resolve() == target.resolve():
             return "ok"
-        link.unlink()
-        link.symlink_to(target)
+        _unlink(link)
+        _mklink(link, target)
         return "repointed"
     if link.exists():
         bk = backup_root / link.name
@@ -96,10 +128,10 @@ def link_dir(link: Path, target: Path, backup_root: Path):
             link.rename(link.with_name(link.name + f".pre-handoff-{TS}"))
         else:
             link.rmdir()
-        link.symlink_to(target)
+        _mklink(link, target)
         return "migrated"
     link.parent.mkdir(parents=True, exist_ok=True)
-    link.symlink_to(target)
+    _mklink(link, target)
     return "linked"
 
 def claude_slug(d: Path) -> str:
@@ -380,7 +412,8 @@ def end(d: Path):
         b.unlink(missing_ok=True)
         return
     subprocess.Popen([sys.executable, __file__, "_summarize", str(d), str(b)], stdin=subprocess.DEVNULL,
-                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                     **({"creationflags": 0x00000008 | 0x00000200} if os.name == "nt" else {"start_new_session": True}))
 
 def main():
     cmd = sys.argv[1] if len(sys.argv) > 1 else "init"

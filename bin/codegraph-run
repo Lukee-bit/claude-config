@@ -2,5 +2,7 @@
 # codegraph MCP bound to the current project; builds the index first if missing (bounded wait, finishes in background otherwise).
 p="${CLAUDE_PROJECT_DIR:-$PWD}"
 export PATH="/opt/homebrew/bin:$HOME/.local/bin:$PATH"
+. "$(dirname "$0")/_platform.sh"; cc_add_path; p="$(cc_path "$p")"
 cd "$p" 2>/dev/null || exit 1
-exec /opt/homebrew/bin/codegraph serve --mcp --path "$p"
+CG=/opt/homebrew/bin/codegraph; [ -x "$CG" ] || CG=codegraph
+exec "$CG" serve --mcp --path "$p"
