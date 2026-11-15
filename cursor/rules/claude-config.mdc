@@ -1,0 +1,24 @@
+---
+description: claude-config stack pointers for Cursor / Cursor Code (global)
+alwaysApply: true
+---
+
+# claude-config (Cursor)
+
+This machine runs the claude-config stack. Source of truth: the repo in `~/.claude-tools/config-repo` (or this clone).
+
+## MCP
+
+One gateway: **mcptoon** (`mcptoon serve` in `~/.cursor/mcp.json`). Upstream servers (browsers, serena, figcraft, semgrep, jcodemunch, …) stay behind it — use `mcptoon_manifest`, `mcptoon_inspect`, `mcptoon_call`. Do not expect 20 raw MCP servers in the Cursor MCP list.
+
+## Skills
+
+User skills live in `~/.claude/skills` (base install). Cursor loads them; do not maintain a second copy under `~/.cursor/skills` unless a skill is Cursor-only.
+
+## Project memory
+
+In repos with `.agent/`: read `.agent/handoff.md` then `.agent/memory/MEMORY.md` before changing anything. Write durable facts one-per-file under `.agent/memory/`. Never commit secrets.
+
+## Windows note
+
+If a hook tries to run a bare `.sh` and Windows shows “Select an app…”, re-run `pwsh ./install-cursor.ps1` (wraps Claude `.sh` hooks Cursor also loads). Prefer `.cmd` / `node` / absolute `bash.exe` for any new Cursor hooks.

@@ -43,6 +43,8 @@ Opt out per project by touching `.agent-handoff-off`, `.spec-bootstrap-off` or `
 
 > **OpenCode V2:** see [`opencode/README.md`](opencode/README.md) and `install-opencode.sh` (macOS) / `install-opencode.ps1` (Windows 11). The same templates rendered for OpenCode; run the base installer for your OS first. Nothing here is duplicated.
 
+> **Cursor / Cursor Code:** see [`cursor/README.md`](cursor/README.md) and `install-cursor.sh` (macOS) / `install-cursor.ps1` (Windows 11). Wires the same mcptoon gateway + skills into Cursor IDE and Cursor Code CLI; run the base installer for your OS first.
+
 ## Restore on a new Mac
 
 ```bash
@@ -66,9 +68,12 @@ Then, by hand:
 claude/            CLAUDE.md, RTK.md, settings.json (hooks, plugins, env), commands/, hooks/, mcpServers.json, plugins.json
 skills/            user skills (third-party skills keep their own licenses)
 bin/               helper scripts that the hooks call
-mcptoon/           gateway config (15 servers)
+mcptoon/           gateway config (upstream servers behind the gateway)
 launchd/           caveman proxy and Lightpanda CDP daemon
 tools/             brew, uv, npm and Ollama model lists with versions
+windows/           Windows render of the same templates (install.ps1)
+opencode/          OpenCode V2 surface (install-opencode.*)
+cursor/            Cursor IDE + Cursor Code surface (install-cursor.*)
 export.py          re-snapshot this machine into the repo
 ```
 

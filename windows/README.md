@@ -24,6 +24,8 @@ pwsh ./install.ps1             # apply (-NoTools skips winget/uv/npm/ollama)
 Needs PowerShell 7, Git for Windows (Git Bash runs the scripts), Node, uv and Python 3 first.
 Existing files are backed up as `*.bak-YYYYMMDD`. After it finishes: restart Claude Code, run `mcptoon doctor` (21 servers OK).
 
+Optional surfaces after the base install: **Cursor** — `pwsh ./install-cursor.ps1` (see `cursor/README.md`); **OpenCode** — `pwsh ./install-opencode.ps1`.
+
 ## Known Windows differences and gotchas
 
 - **Ollama + ad blockers/VPN filters:** AdGuard answered `http://localhost:11434` with `500 Request Blocked`, so Ollama never saw its runner as healthy (hangs on embed and chat). Exclude `ollama.exe` and `llama-server.exe` from the filter.
