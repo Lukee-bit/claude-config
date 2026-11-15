@@ -23,6 +23,18 @@ t=re.sub(r'(?m)^watch_paths = \[[^\]]*\]','watch_paths = ["%s"]'%proj,t,1)
 open(dst,'w').write(t)
 PY
 fi
+# The dashboard is not used (agents talk to the MCP port); keep the server but stop it opening a browser. Idempotent, also patches existing configs.
+python3 - "$D/fusionagent.toml" <<'PY'
+import re,sys
+p=sys.argv[1]; t=open(p).read()
+if 'autoLaunchBrowser' not in t:
+    t=re.sub(r'(?m)^\[web\][ 	]*
+','[web]
+# dashboard stays up, but never auto-opens a browser
+autoLaunchBrowser = false
+',t,1)
+    open(p,'w').write(t)
+PY
 if [ -f "$D/pid" ] && kill -0 "$(cat "$D/pid")" 2>/dev/null; then :; elif ! curl -s -m 2 -o /dev/null "http://127.0.0.1:$PORT/mcp/json-rpc" -d '{"jsonrpc":"2.0","id":0,"method":"ping"}' -H 'content-type: application/json'; then
   ( cd "$D" && nohup "$JAVA" -jar "$JAR" --agents "$D/fusionagent.toml" >>"$D/server.log" 2>&1 & echo $! >"$D/pid" )
   for i in $(seq 1 40); do curl -s -m 1 -o /dev/null "http://127.0.0.1:$PORT/mcp/json-rpc" -d '{"jsonrpc":"2.0","id":0,"method":"ping"}' -H 'content-type: application/json' && break; $CC_SLEEP 1; done
