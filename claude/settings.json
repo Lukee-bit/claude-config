@@ -124,16 +124,6 @@
         ]
       },
       {
-        "matcher": "startup",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "__HOME__/.claude-tools/bin/config-sync check",
-            "timeout": 20
-          }
-        ]
-      },
-      {
         "matcher": "startup|resume",
         "hooks": [
           {
