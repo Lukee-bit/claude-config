@@ -149,4 +149,9 @@ if ((Get-Command caveman -ErrorAction SilentlyContinue) -and -not $DryRun) {
   }
 } else { Write-Host '  after installing @caveman-ai/cli run: pwsh ./install.ps1 again (it runs `caveman setup` and registers the proxy on the route Caveman recorded)' }
 
+if (-not $DryRun) {
+  New-Item -ItemType Directory -Force "$HOME/.claude-tools" | Out-Null
+  (Get-Location).Path -replace '\', '/' | Set-Content "$HOME/.claude-tools/config-repo" -Encoding ascii
+  (git rev-parse HEAD) | Set-Content "$HOME/.claude-tools/.config-rev" -Encoding ascii
+}
 Say 'Done. Remaining by hand: Comet (debug port via bin/comet-cdp), figcraft app, open Obsidian once per vault, restart Claude Code, run `mcptoon doctor`. See windows/README.md.'

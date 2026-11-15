@@ -1,0 +1,18 @@
+# Changelog
+
+Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
+Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
+
+## 2026-11-15 config-sync: update detection
+- New `bin/config-sync` and a SessionStart hook. Claude is told when newer commits exist and offers `/config-update`.
+- Action: none beyond `./install.sh` (macOS) or `pwsh ./install.ps1` once, so the hook and `config-sync` exist.
+
+## 2026-11-15 Agent-Fusion dashboard no longer opens a browser
+- `bin/agent-fusion-run` sets `[web] autoLaunchBrowser = false` in each project's `fusionagent.toml` (also patches existing ones).
+- Search and the MCP port are unchanged. Takes effect the next time a project's Agent-Fusion server starts; to apply now, stop the old `java ... orchestrator` process and open a new session.
+
+## 2026-11-15 Windows 11 port
+- `install.ps1`, `windows/`, `bin/_platform.sh` and OS-gated branches in `bin/*`. macOS code paths are unchanged.
+- Re-run `./install.sh` on macOS so `bin/_platform.sh` sits next to the scripts that now source it.
+- Shared source-build pins: `tools/git-sources.txt` (Agent-Fusion e22d2a6 needs `tools/agent-fusion/ReciprocalRankFusion.kt` copied into `src/main/kotlin/com/orchestrator/context/search/` before `./gradlew shadowJar`).
+- Large Kwipu vaults: build once outside MCP with `python ~/.claude-tools/bin/kwipu-build.py <vault>`.
