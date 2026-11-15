@@ -9,3 +9,4 @@ windows/** text eol=lf
 *.py text eol=lf
 install.sh text eol=lf
 *.ps1 text eol=crlf
+opencode/** text eol=lf
