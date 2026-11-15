@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# claude-config updater (macOS and Windows). Detects when the repo this machine was installed from has moved on.
+#   config-sync check    SessionStart hook: silent unless newer commits exist (checks at most every 6 h)
+#   config-sync status   show applied vs latest revision and the pending CHANGELOG entries
+#   config-sync apply    git pull --ff-only, re-run the installer (config only, backups kept), record the new revision
+set -u
+. "$(dirname "$0")/_platform.sh"
+CT="$HOME/.claude-tools"
+REPO="$(cat "$CT/config-repo" 2>/dev/null)"
+[ -n "$REPO" ] && [ -d "$REPO/.git" ] || { [ "${1:-check}" = check ] && exit 0; echo "config-sync: repo path not recorded; run the installer once from your clone"; exit 1; }
+applied="$(cat "$CT/.config-rev" 2>/dev/null)"
+latest() { git -C "$REPO" rev-parse '@{u}' 2>/dev/null; }
+pending() { # CHANGELOG lines added between the applied revision and $1
+  if [ -n "$applied" ] && git -C "$REPO" cat-file -e "$applied" 2>/dev/null; then
+    git -C "$REPO" diff "$applied" "$1" -- CHANGELOG.md | grep '^+' | grep -v '^+++' | sed 's/^+//'
+  else git -C "$REPO" show "$1:CHANGELOG.md" 2>/dev/null | head -30; fi
+}
+case "${1:-check}" in
+  check)
+    stamp="$CT/.config-checked"
+    [ -f "$stamp" ] && [ -z "$(find "$stamp" -mmin +360 2>/dev/null)" ] && exit 0
+    touch "$stamp"
+    git -C "$REPO" fetch -q origin 2>/dev/null || exit 0
+    new="$(latest)"; [ -n "$new" ] && [ "$new" != "$applied" ] || exit 0
+    echo "claude-config update available ($(git -C "$REPO" rev-list --count "${applied:-$new}..$new" 2>/dev/null || echo '?') commits). Tell the user, and on their OK run /config-update. Changes:"
+    pending "$new" | head -40;;
+  status)
+    git -C "$REPO" fetch -q origin 2>/dev/null; new="$(latest)"
+    echo "applied: ${applied:-unknown}"; echo "latest:  ${new:-unknown}"; [ "$new" = "$applied" ] && echo "up to date" || pending "$new";;
+  apply)
+    git -C "$REPO" pull --ff-only -q || { echo "config-sync: pull failed (local changes in $REPO?)"; exit 1; }
+    if [ "$CC_OS" = windows ]; then pwsh -NoProfile -File "$(cc_winpath "$REPO/install.ps1")" -NoTools || exit 1
+    else (cd "$REPO" && bash ./install.sh --no-tools) || exit 1; fi
+    git -C "$REPO" rev-parse HEAD > "$CT/.config-rev"; echo "config-sync: applied $(cat "$CT/.config-rev")";;
+  *) echo "usage: config-sync check|status|apply"; exit 2;;
+esac

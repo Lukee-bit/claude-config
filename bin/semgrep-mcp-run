@@ -1,4 +1,7 @@
 #!/bin/sh
 # Semgrep's local MCP server with its OpenTelemetry tracing and metrics off (no data leaves the machine).
 export SEMGREP_MCP_DISABLE_TRACING=true SEMGREP_SEND_METRICS=off SEMGREP_ENABLE_VERSION_CHECK=0
+. "$(dirname "$0")/_platform.sh"
+# Windows: mcptoon's client does not answer roots/list, which semgrep mcp requires; the shim does.
+[ "$CC_OS" = windows ] && { export PYTHONUTF8=1; exec python "$(dirname "$0")/semgrep-roots-shim.py" "$@"; }
 exec "$HOME/.local/bin/semgrep" mcp "$@"

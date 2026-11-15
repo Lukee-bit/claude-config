@@ -102,4 +102,7 @@ place launchd/com.caveman.proxy.plist "$HOME/Library/LaunchAgents/com.caveman.pr
 echo "  after 'caveman setup' has installed ~/.caveman, load it with:"
 echo "  launchctl bootstrap gui/\$(id -u) ~/Library/LaunchAgents/com.caveman.proxy.plist"
 
+mkdir -p "$HOME/.claude-tools"
+if [ $DRY -eq 0 ]; then pwd > "$HOME/.claude-tools/config-repo"; git rev-parse HEAD > "$HOME/.claude-tools/.config-rev" 2>/dev/null || true; fi
+
 say "Done. Next steps are in README.md (Agent-Fusion jar, Kwipu, lumen, Obsidian, restart Claude Code)."

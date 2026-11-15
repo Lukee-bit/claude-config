@@ -1,0 +1,157 @@
+# Restore this Claude Code stack on Windows 11. Safe to re-run: files it replaces are backed up (*.bak-YYYYMMDD).
+# Counterpart of install.sh. The repo's templates stay the single source; windows/render.py maps them to Windows.
+#   pwsh ./install.ps1 -DryRun     print what would happen
+#   pwsh ./install.ps1             apply
+#   pwsh ./install.ps1 -NoTools    config only (skip winget/uv/npm/ollama installs)
+# Needs: PowerShell 7, Git for Windows (Git Bash runs the helper scripts and hooks), Node, uv, Python 3.
+param([switch]$DryRun, [switch]$NoTools)
+$ErrorActionPreference = 'Stop'
+Set-Location $PSScriptRoot
+$Stamp = Get-Date -Format yyyyMMdd
+$Home_ = ($HOME -replace '\\', '/')
+$Tmp = Join-Path ([IO.Path]::GetTempPath()) "claude-config-render"
+New-Item -ItemType Directory -Force $Tmp | Out-Null
+
+function Say($m) { Write-Host "`n== $m" }
+function Run([scriptblock]$b, $what) { if ($DryRun) { Write-Host "  would: $what" } else { & $b } }
+function Place($src, $dst) {
+  if ($DryRun) { Write-Host "  would place $src -> $dst"; return }
+  New-Item -ItemType Directory -Force (Split-Path $dst) | Out-Null
+  if (Test-Path $dst) { Copy-Item $dst "$dst.bak-$Stamp" -Force }
+  (Get-Content $src -Raw) -replace '__HOME__', $Home_ | Set-Content $dst -NoNewline -Encoding utf8
+}
+function Render($what, $out, [string[]]$extra = @()) { python windows/render.py $what --home $Home_ --bash $Bash --out $out @extra; if ($LASTEXITCODE) { throw "render $what failed" } }
+function Lines($f) { Get-Content $f | Where-Object { $_ -and $_ -notmatch '^\s*#' } }
+
+Say 'Prerequisites'
+foreach ($c in 'git', 'node', 'npm', 'uv', 'python') { if (-not (Get-Command $c -ErrorAction SilentlyContinue)) { throw "missing: $c (install it first; see windows/tools/winget.txt)" } }
+$Bash = (Join-Path (Split-Path (Split-Path (git --exec-path) -Parent) -Parent) 'bin/bash.exe') -replace '\\', '/'
+if (-not (Test-Path $Bash)) { $Bash = 'C:/Program Files/Git/bin/bash.exe' }
+if (-not (Test-Path $Bash)) { throw 'Git Bash not found (install Git for Windows)' }
+Write-Host "  git bash: $Bash"
+$HaveClaude = [bool](Get-Command claude -ErrorAction SilentlyContinue)
+if (-not $HaveClaude) { Write-Host "  note: 'claude' CLI not found; plugin steps will be skipped" }
+$env:UV_LINK_MODE = 'copy'   # hardlinked venv files trip Kwipu's path-security check
+
+if (-not $NoTools) {
+  Say 'winget packages'
+  foreach ($p in Lines windows/tools/winget.txt) { Run { winget install -e --id $p --accept-source-agreements --accept-package-agreements --silent } "winget install $p" }
+  Say 'uv tools'
+  foreach ($t in 'jcodemunch-mcp', 'mcp-obsidian', 'mcptoon', 'obsidian-wiki', 'specify-cli', 'semgrep') { Run { uv tool install $t } "uv tool install $t" }
+  Run { uv tool install -p 3.13 serena-agent } 'uv tool install serena-agent'
+  Say 'npm globals (tools/npm-global.txt, with windows/tools/npm-overrides.txt)'
+  $ov = @{}; foreach ($l in Lines windows/tools/npm-overrides.txt) { $ov[$l.Substring(0, $l.LastIndexOf('@'))] = $l }
+  foreach ($pkg in Lines tools/npm-global.txt) {
+    $name = $pkg.Substring(0, $pkg.LastIndexOf('@'))
+    if ($name -eq 'npm') { continue }
+    $want = if ($ov.ContainsKey($name)) { $ov[$name] } else { $pkg }
+    Run { npm install -g $want } "npm install -g $want"
+  }
+  Say 'Ollama models (tools/ollama-models.txt)'
+  foreach ($m in Lines tools/ollama-models.txt) { Run { ollama pull $m } "ollama pull $m" }
+  Say 'lumen, rtk (single binaries)'
+  if (-not (Get-Command lumen -ErrorAction SilentlyContinue)) {
+    Run { New-Item -ItemType Directory -Force "$HOME/.local/bin" | Out-Null; gh release download v0.0.42 -R ory/lumen -p 'lumen-0.0.42-windows-amd64.exe' -O "$HOME/.local/bin/lumen.exe" --clobber } 'download lumen 0.0.42'
+  }
+  if (-not (Get-Command rtk -ErrorAction SilentlyContinue)) { Write-Host '  rtk not found: install it (see tools/brew.txt for the version) and put rtk.exe on PATH' }
+}
+
+Say 'Claude Code config'
+Place claude/CLAUDE.md "$HOME/.claude/CLAUDE.md"
+Place claude/RTK.md "$HOME/.claude/RTK.md"
+if (-not $DryRun) {
+  Render settings "$Tmp/settings.json"
+  $dst = "$HOME/.claude/settings.json"
+  if (Test-Path $dst) { Copy-Item $dst "$dst.bak-$Stamp" -Force }
+  Copy-Item "$Tmp/settings.json" $dst -Force
+} else { Write-Host '  would render claude/settings.json -> ~/.claude/settings.json (Caveman hooks come from `caveman setup`)' }
+foreach ($f in (Get-ChildItem claude/commands, claude/hooks -File)) { Place $f.FullName "$HOME/.claude/$($f.Directory.Name)/$($f.Name)" }
+Run { New-Item -ItemType Directory -Force "$HOME/.claude/skills" | Out-Null; Copy-Item skills/* "$HOME/.claude/skills/" -Recurse -Force } 'copy skills/ -> ~/.claude/skills'
+
+Say 'GSD Core (adds its hooks, skills and statusline to ~/.claude)'
+Run { npx -y '@opengsd/gsd-core@latest' --claude --global } 'npx @opengsd/gsd-core --claude --global'
+
+Say 'Helper scripts and mcptoon'
+foreach ($f in (Get-ChildItem bin -File)) { Place $f.FullName "$HOME/.claude-tools/bin/$($f.Name)" }
+if (-not $DryRun) {
+  Render mcptoon "$Tmp/mcptoon.json"
+  New-Item -ItemType Directory -Force "$HOME/.mcptoon" | Out-Null
+  if (Test-Path "$HOME/.mcptoon/config.json") { Copy-Item "$HOME/.mcptoon/config.json" "$HOME/.mcptoon/config.json.bak-$Stamp" -Force }
+  Copy-Item "$Tmp/mcptoon.json" "$HOME/.mcptoon/config.json" -Force
+}
+
+Say 'MCP servers in ~/.claude.json (mcptoon, caveman, lightpanda)'
+if (-not $DryRun) {
+  Render mcpservers "$Tmp/mcps.json"
+  python -c "import json,os,sys; p=os.path.expanduser('~/.claude.json'); c=json.load(open(p,encoding='utf-8')) if os.path.exists(p) else {}; n=json.load(open(sys.argv[1],encoding='utf-8')); c.setdefault('mcpServers',{}).update(n); json.dump(c,open(p,'w',encoding='utf-8'),indent=2); print('  merged:',', '.join(n))" "$Tmp/mcps.json"
+}
+
+Say 'Third-party repos built from source (tools/git-sources.txt)'
+foreach ($l in Lines tools/git-sources.txt) {
+  $name, $url, $rev = $l -split '\s+'
+  $dir = if ($name -eq 'Kwipu') { "$HOME/.claude-tools/Kwipu" } else { "$HOME/.claude-tools/src/$name" }
+  if (Test-Path $dir) { Write-Host "  $name present"; continue }
+  Run { New-Item -ItemType Directory -Force (Split-Path $dir) | Out-Null; git clone $url $dir; git -C $dir checkout $rev } "clone $name @ $rev"
+}
+if (-not $DryRun) {
+  $kw = "$HOME/.claude-tools/Kwipu"
+  if ((Test-Path $kw) -and -not (Test-Path "$kw/.venv/Scripts/python.exe")) { uv venv "$kw/.venv" --python 3.13; uv pip install --python "$kw/.venv/Scripts/python.exe" -r "$kw/requirements.txt" }
+  $af = "$HOME/.claude-tools/src/Agent-Fusion"; $jar = "$HOME/.claude-tools/agent-fusion/orchestrator-0.1.0-all.jar"
+  if ((Test-Path $af) -and -not (Test-Path $jar)) {
+    $rrf = "$af/src/main/kotlin/com/orchestrator/context/search/ReciprocalRankFusion.kt"   # missing upstream at the pinned commit
+    if (-not (Test-Path $rrf)) { Copy-Item tools/agent-fusion/ReciprocalRankFusion.kt $rrf }
+    Push-Location $af; try { ./gradlew.bat shadowJar } finally { Pop-Location }
+    New-Item -ItemType Directory -Force (Split-Path $jar) | Out-Null; Copy-Item "$af/build/libs/orchestrator-0.1.0-all.jar" $jar
+  }
+}
+
+Say 'Obsidian Local REST API plugin (copied into each vault by bin/vault-bootstrap)'
+$pl = "$HOME/.claude-tools/obsidian-plugins/obsidian-local-rest-api"
+if (-not (Test-Path "$pl/main.js")) {
+  Run { New-Item -ItemType Directory -Force $pl | Out-Null; foreach ($a in 'main.js', 'manifest.json', 'styles.css') { gh release download -R coddingtonbear/obsidian-local-rest-api -p $a -D $pl --clobber } } 'download obsidian-local-rest-api release assets'
+}
+
+Say 'Lightpanda (primary browser; unsigned community Windows port, Comet is the fallback)'
+if (-not (Test-Path "$HOME/.local/bin/lightpanda.exe")) {
+  Run { $z = Join-Path $Tmp 'lp.zip'; gh release download portable-v0.2.5 -R qidiai/lightpanda-windows-port -p 'lightpanda-portable-windows-x64.zip' -O $z --clobber; Expand-Archive $z "$Tmp/lp" -Force; New-Item -ItemType Directory -Force "$HOME/.local/bin" | Out-Null; Copy-Item (Get-ChildItem "$Tmp/lp" -Recurse -Filter 'lightpanda*.exe' | Select-Object -First 1).FullName "$HOME/.local/bin/lightpanda.exe" -Force } 'download lightpanda portable-v0.2.5'
+}
+
+Say 'Plugins (claude/plugins.json)'
+if ($HaveClaude) {
+  $pj = Get-Content claude/plugins.json -Raw | ConvertFrom-Json
+  foreach ($m in $pj.marketplaces.PSObject.Properties) { Run { claude plugin marketplace add $m.Value.repo } "claude plugin marketplace add $($m.Value.repo)" }
+  foreach ($p in $pj.enabled) { Run { claude plugin install $p } "claude plugin install $p" }
+}
+
+Say 'Services (scheduled tasks, rendered from launchd/*.plist)'
+function Register-Service($plist, $listen) {
+  $spec = "$HOME/.claude-tools/services/$([IO.Path]::GetFileNameWithoutExtension($plist)).json"
+  if ($DryRun) { Write-Host "  would register scheduled task from $plist"; return }
+  New-Item -ItemType Directory -Force (Split-Path $spec) | Out-Null
+  $x = @(); if ($listen) { $x = @('--listen', $listen) }
+  Render service $spec (@('--plist', $plist) + $x)
+  $name = (Get-Content $spec -Raw | ConvertFrom-Json).name
+  $act = New-ScheduledTaskAction -Execute 'pwsh.exe' -Argument "-NoProfile -WindowStyle Hidden -File `"$PSScriptRoot\windows\run-service.ps1`" -Spec `"$spec`""
+  Register-ScheduledTask -TaskName $name -Action $act -Trigger (New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME) -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit 0) -Force | Out-Null
+  Start-ScheduledTask -TaskName $name
+  Write-Host "  registered and started: $name"
+}
+Register-Service launchd/io.lightpanda.serve.plist ''
+# Caveman records the proxy route it wired into settings.json; the proxy must listen on exactly that route.
+if ((Get-Command caveman -ErrorAction SilentlyContinue) -and -not $DryRun) {
+  caveman setup
+  $route = (Get-Content "$HOME/.caveman/integrations/claude.json" -Raw | ConvertFrom-Json).operations | ForEach-Object { $_.owned.route } | Where-Object { $_ } | Select-Object -First 1
+  if ($route) {
+    $listen = ([uri]$route).Authority
+    python -c "import json,os,sys; p=os.path.expanduser('~/.claude/settings.json'); s=json.load(open(p,encoding='utf-8')); s.setdefault('env',{})['ANTHROPIC_BASE_URL']=sys.argv[1]; json.dump(s,open(p,'w',encoding='utf-8'),indent=2)" $route
+    Register-Service launchd/com.caveman.proxy.plist $listen
+    caveman doctor claude --fix
+  }
+} else { Write-Host '  after installing @caveman-ai/cli run: pwsh ./install.ps1 again (it runs `caveman setup` and registers the proxy on the route Caveman recorded)' }
+
+if (-not $DryRun) {
+  New-Item -ItemType Directory -Force "$HOME/.claude-tools" | Out-Null
+  (Get-Location).Path -replace '\', '/' | Set-Content "$HOME/.claude-tools/config-repo" -Encoding ascii
+  (git rev-parse HEAD) | Set-Content "$HOME/.claude-tools/.config-rev" -Encoding ascii
+}
+Say 'Done. Remaining by hand: Comet (debug port via bin/comet-cdp), figcraft app, open Obsidian once per vault, restart Claude Code, run `mcptoon doctor`. See windows/README.md.'

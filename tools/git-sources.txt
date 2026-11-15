@@ -1,0 +1,3 @@
+# Third-party repos built from source: name  url  pinned-commit  (read by install.ps1; install.sh's README steps clone the same repos)
+Agent-Fusion https://github.com/krokozyab/Agent-Fusion e22d2a6
+Kwipu https://github.com/benmaster82/Kwipu 9fee13a

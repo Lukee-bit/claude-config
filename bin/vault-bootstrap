@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Make the current project directory an Obsidian vault if it is not one already. Idempotent, never overwrites.
 set -u
-dir="${1:-${CLAUDE_PROJECT_DIR:-$PWD}}"
+. "$(dirname "$0")/_platform.sh"
+dir="${1:-${CLAUDE_PROJECT_DIR:-$PWD}}"; dir="$(cc_path "$dir")"
 dir="$(cd "$dir" 2>/dev/null && pwd -P)" || exit 0
 home="$(cd ~ && pwd -P)"
 # Skip non-project locations
@@ -10,6 +11,7 @@ case "$dir" in
   "$home/Library"*|"$home/.claude"*|"$home/.claude-tools"*|"$home/.cache"*|"$home/.local"*|"$home/.npm"*) exit 0;;
   "$home/Desktop"|"$home/Documents"|"$home/Downloads"|"$home/Projects") exit 0;;
 esac
+cc_system_dir "$dir" && exit 0
 [ -d "$dir/.obsidian" ] && [ -f "$dir/.obsidian/app.json" ] && exit 0
 # Project-ish: git repo, known marker file, or fresh/near-empty dir
 fresh=0; n=$(ls -A "$dir" 2>/dev/null | wc -l | tr -d ' ')
@@ -42,8 +44,10 @@ fi
 [ -f "$dir/Notes.md" ] || printf '# Notes\n\nBack to [[Home]].\n' > "$dir/Notes.md"
 # Register the vault with the Obsidian app so it appears in the vault switcher
 OC="$HOME/Library/Application Support/obsidian/obsidian.json"
+[ "$CC_OS" = windows ] && OC="${APPDATA:-$HOME/AppData/Roaming}/obsidian/obsidian.json"
+WD="$(cc_winpath "$dir")"
 mkdir -p "$(dirname "$OC")"
-python3 - "$OC" "$dir" <<'PY'
+python3 - "$OC" "$WD" <<'PY'
 import json,sys,os,hashlib,time
 oc,d=sys.argv[1],sys.argv[2]
 try: c=json.load(open(oc))
@@ -53,4 +57,6 @@ if not any(x.get('path')==d for x in v.values()):
     v[hashlib.sha1(d.encode()).hexdigest()[:16]]={'path':d,'ts':int(time.time()*1000)}
     json.dump(c,open(oc,'w'))
 PY
+# Windows: turn off Restricted mode for this vault so community plugins load (needs Obsidian closed; prints a hint otherwise)
+[ "$CC_OS" = windows ] && { python3 "$(dirname "$0")/obsidian-trust-vault.py" "$WD" || true; }
 echo "vault-bootstrap: created Obsidian vault at $dir"

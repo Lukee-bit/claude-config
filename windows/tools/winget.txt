@@ -1,0 +1,10 @@
+# winget package ids for Windows (the counterpart of tools/brew.txt). Versions float; macOS pins live in tools/brew.txt.
+Git.Git
+OpenJS.NodeJS
+astral-sh.uv
+Python.Python.3.13
+Ollama.Ollama
+GitHub.cli
+EclipseAdoptium.Temurin.21.JDK
+Microsoft.PowerShell
+Obsidian.Obsidian
