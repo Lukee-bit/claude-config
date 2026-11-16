@@ -31,6 +31,8 @@ if [ $TOOLS -eq 1 ]; then
   say "uv tools"
   for t in jcodemunch-mcp mcp-obsidian mcptoon obsidian-wiki specify-cli; do run uv tool install "$t" || true; done
   run uv tool install -p 3.13 serena-agent || true
+  run uv tool install "skillspector[mcp] @ git+https://github.com/NVIDIA/skillspector.git@v2.13.4" || true
+  run uv tool install reverse-api-engineer || true
   say "npm globals"
   while read -r pkg; do [ -n "$pkg" ] && [ "${pkg%%@*}" != "npm" ] && run npm install -g "$pkg"; done < tools/npm-global.txt
   say "Other tools (manual, see README): lumen, Kwipu, Agent-Fusion jar"

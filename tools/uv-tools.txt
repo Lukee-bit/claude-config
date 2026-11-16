@@ -4,3 +4,5 @@ mcptoon v0.8.20
 obsidian-wiki v2026.10.4
 specify-cli v1.2.6.dev0
 serena-agent (python 3.13)
+skillspector[mcp] v2.13.4 (git NVIDIA/skillspector@v2.13.4)
+reverse-api-engineer v0.14.0
