@@ -44,9 +44,16 @@ say "Claude Code config"
 place claude/CLAUDE.md "$HOME/.claude/CLAUDE.md"
 place claude/RTK.md "$HOME/.claude/RTK.md"
 place claude/settings.json "$HOME/.claude/settings.json"
-for f in claude/commands/* claude/hooks/*; do place "$f" "$HOME/.claude/${f#claude/}"; done
+for f in claude/commands/* claude/hooks/* claude/agents/*; do place "$f" "$HOME/.claude/${f#claude/}"; done
 if [ $DRY -eq 0 ]; then mkdir -p "$HOME/.claude/skills"; cp -R skills/. "$HOME/.claude/skills/"; else echo "  would copy skills/ -> ~/.claude/skills"; fi
 
+say "craft-anything CLI (macOS universal binary)"
+if [ $DRY -eq 0 ] && [ ! -x "$HOME/.local/bin/craft-anything-cli" ]; then
+  mkdir -p "$HOME/.claude-tools/craft-anything" "$HOME/.local/bin"
+  curl -fsSL -o /tmp/craft-anything-cli.zip "https://github.com/storytold/craft-anything/releases/download/v0.6.1/craft-anything-cli-0.6.1-macos-universal.zip" \
+    && unzip -oq /tmp/craft-anything-cli.zip -d "$HOME/.claude-tools/craft-anything" \
+    && ln -sf "$HOME/.claude-tools/craft-anything/craft-anything-cli" "$HOME/.local/bin/craft-anything-cli" || echo "  craft-anything-cli install failed; see README"
+fi
 say "GSD Core (adds its hooks, skills and statusline to ~/.claude)"
 run npx -y @opengsd/gsd-core@latest --claude --global || true
 

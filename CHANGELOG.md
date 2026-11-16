@@ -11,6 +11,10 @@ Each entry says what changed and whether anything needs doing beyond the re-run 
 - New `opencode/` (global `AGENTS.md`, six commands, the `claude-config.js` bridge plugin, `render.py`), `install-opencode.sh` (macOS) and `install-opencode.ps1` (Windows 11): the same templates rendered for OpenCode V2. `~/.claude` is untouched; GSD/RTK/Caveman are wired by their own OpenCode installers.
 - Action: run the base installer for your OS once (if not installed), then `./install-opencode.sh` or `pwsh ./install-opencode.ps1` and restart OpenCode. Verify with `opencode mcp list` (caveman, gsd, lightpanda, mcptoon) — details and gotchas in `opencode/README.md`.
 
+## 2026-11-16 GSD, astryx, reverse-engineer-anything, github-direct, gitkraken
+- Added the 72 `gsd-*` skills, 35 `gsd-*` agents (`claude/agents/`), `astryx` and `reverse-engineer-anything` skills, `@astryxdesign/cli`, `github-direct` and `gitkraken` MCPs, and a `craft-anything-cli` download step.
+- Action: export `GITHUB_PERSONAL_ACCESS_TOKEN` for `github-direct`; re-run the installer.
+
 ## 2026-11-16 more tools
 - Added MCPs `skillspector`, `bla`, `rea`, `craft-anything`; plugins `egm`, `cli-anything`, `frontend-design`, `playwright`, `github`; 14 skills; npm `bla-agents`, `rea-agents`, `agent-desktop`, `agent-device`; uv `skillspector`, `reverse-api-engineer`.
 - Action: re-run the installer; install `craft-anything-cli` by hand if you want that MCP.

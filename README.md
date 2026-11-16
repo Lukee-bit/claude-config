@@ -166,4 +166,4 @@ Plugin-provided skills are not copied here; `install.sh` installs them from the 
 
 Third-party skills keep their original licenses and copyrights; this repo's license does not apply to them. Check each skill's upstream repository for its terms before reusing it.
 
-> Not installable from this repo: the `craft-anything` MCP needs the prebuilt `craft-anything-cli` binary at `~/.local/bin/craft-anything-cli` (https://github.com/storytold/craft-anything), and the `gitkraken` plugin comes from the Claude account's synced plugins. The Windows renderer copies `craft-anything` as is; it only works where that binary exists.
+> `install.sh` downloads the `craft-anything-cli` v0.6.1 macOS binary (https://github.com/storytold/craft-anything). `github-direct` needs `GITHUB_PERSONAL_ACCESS_TOKEN` set in your environment (never stored in the repo). `gitkraken` is installed as an MCP (`npx @gitkraken/gk mcp`) instead of the account-synced plugin. GSD skills and agents are snapshots; `install.sh` also re-runs GSD's own installer, which wins on conflict.

@@ -11,3 +11,4 @@ bla-agents@3.2.0
 rea-agents@6.8.0
 agent-desktop@1.1.0
 agent-device@0.21.36
+@astryxdesign/cli@0.7.11

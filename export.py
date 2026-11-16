@@ -84,8 +84,11 @@ def main() -> None:
 
     # Skills (user level)
     for d in sorted((CLAUDE / "skills").iterdir()):
-        if d.is_dir() and d.name not in SKILL_SKIP and not d.name.startswith("gsd-"):
+        if d.is_dir() and d.name not in SKILL_SKIP:
             shutil.copytree(d, OUT / "skills" / d.name, ignore=COPY_IGNORE)
+
+    for a in sorted((CLAUDE / "agents").glob("gsd-*.md")):
+        copy_text(a, f"claude/agents/{a.name}")
 
     # mcptoon, helper scripts, launchd
     copy_text(HOME / ".mcptoon" / "config.json", "mcptoon/config.json")
