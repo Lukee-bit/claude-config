@@ -26,6 +26,10 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Anti-sycophancy | Candor plugin, anti-sycophancy skill plus `UserPromptSubmit` hook | rewrites confirmation-seeking prompts and adds critical-response rules to `CLAUDE.md` |
 | Safety and security | claude-guardrails, claude-code-hooks `guard-pack`, Semgrep's local MCP server | guards block piped remote scripts, `--no-verify`, secret reads, force pushes; Semgrep runs locally through `bin/semgrep-mcp-run` with tracing and metrics off (no account needed) |
 | Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` MCP plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-comet` and `chrome-devtools-comet` attach to `/Applications/Comet.app` on debug port 9223 via `bin/comet-cdp`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
+| Agent and device control | agent-desktop, agent-device, orca-cli, orca-computer-use, orchestration skills; `bla`, `rea` MCPs (npm `bla-agents`, `rea-agents`) | desktop/mobile GUI automation, Orca worktrees and workers, reverse-engineering and hardening agents |
+| Skill and plugin audit | SkillSpector (`skillspector` MCP) | scans skills for risky behaviour |
+| Mobile and app skills | expo-animation, expo-design-system, expo-native-ui, expo-router, react-native-best-practices | Expo and React Native guidance |
+| Other skills and plugins | blind-llm-agents, google-maps-scraper, karpathy-guidelines, reverse-api-engineer skills; egm, cli-anything, frontend-design, playwright, github plugins | `playwright` stays on the deny list (browser policy) |
 | Design and web | figcraft, open-pencil, fig-mcp, shadcn, playwright, chrome-devtools MCPs plus the design and Vercel skills in `skills/` | |
 
 ### What happens in a new project
@@ -161,3 +165,5 @@ Each folder in `skills/` with its upstream repo. Every repo below was confirmed 
 Plugin-provided skills are not copied here; `install.sh` installs them from the marketplaces listed in `claude/plugins.json` (see Source repositories above).
 
 Third-party skills keep their original licenses and copyrights; this repo's license does not apply to them. Check each skill's upstream repository for its terms before reusing it.
+
+> Not installable from this repo: the `craft-anything` MCP needs the prebuilt `craft-anything-cli` binary at `~/.local/bin/craft-anything-cli` (https://github.com/storytold/craft-anything), and the `gitkraken` plugin comes from the Claude account's synced plugins. The Windows renderer copies `craft-anything` as is; it only works where that binary exists.

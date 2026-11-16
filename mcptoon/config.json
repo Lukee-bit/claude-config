@@ -177,6 +177,41 @@
         "__HOME__/.claude-tools/bin/semgrep-mcp-run"
       ],
       "args": []
+    },
+    "skillspector": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.local/bin/skillspector",
+        "mcp"
+      ],
+      "args": []
+    },
+    "bla": {
+      "transport": "stdio",
+      "command": [
+        "/opt/homebrew/bin/bla"
+      ],
+      "args": [
+        "mcp"
+      ]
+    },
+    "rea": {
+      "transport": "stdio",
+      "command": [
+        "/opt/homebrew/bin/rea"
+      ],
+      "args": [
+        "mcp"
+      ]
+    },
+    "craft-anything": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.local/bin/craft-anything-cli"
+      ],
+      "args": [
+        "mcp"
+      ]
     }
   }
 }
