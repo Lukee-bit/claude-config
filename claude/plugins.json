@@ -33,9 +33,12 @@
     "candor@candor",
     "caveman@caveman",
     "context-mode@context-mode",
+    "frontend-design@claude-plugins-official",
+    "github@claude-plugins-official",
     "guard-pack@claude-code-hooks",
     "obsidian-wiki@obsidian-wiki",
     "obsidian@obsidian-skills",
+    "playwright@claude-plugins-official",
     "ponytail@ponytail",
     "pr-review-toolkit@claude-plugins-official",
     "superpowers@claude-plugins-official"
