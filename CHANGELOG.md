@@ -4,7 +4,7 @@ Newest first. `config-sync` shows these lines to Claude when the repo moves ahea
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
 ## 2026-11-16 Stack trimmed
-- Removed: free-search, github-direct, GitKraken, claude-guardrails, wcag-accessibility, rea, bla, craft-anything, skillspector, reverse-api-engineer, egm, cli-anything, sessionbridge (and `/migrate-session`), Agent-Fusion (and `openjdk@21`). OpenSpec and spec-kit stay.
+- Removed: free-search, github-direct, the `github` plugin, GitKraken, claude-guardrails, wcag-accessibility, rea, bla, craft-anything, skillspector, reverse-api-engineer, egm, cli-anything, sessionbridge (and `/migrate-session`), Agent-Fusion (and `openjdk@21`). OpenSpec and spec-kit stay.
 - mcptoon footer is off (`mcptoon config set footer off`); the jCodeMunch block in `CLAUDE.md` now uses the real `mcptoon_call` path (`route` takes `task`; `index_folder` needs `allow_state_change`).
 - Action on a machine that has these: uninstall the plugins (`claude-guardrails`, `egm`, `cli-anything`, `sessionbridge`) and their marketplaces, `npm uninstall -g rea-agents bla-agents`, `uv tool uninstall skillspector reverse-api-engineer`, delete the matching skills and `~/.claude-tools/{agent-fusion,craft-anything,src/Agent-Fusion}`, the per-project `.agent/fusion/` folders, remove their entries from `~/.mcptoon/config.json` and `~/.claude.json`, then `./install.sh` and `mcptoon doctor`.
 
@@ -17,7 +17,7 @@ Each entry says what changed and whether anything needs doing beyond the re-run 
 - Action: run the base installer for your OS once (if not installed), then `./install-opencode.sh` or `pwsh ./install-opencode.ps1` and restart OpenCode. Verify with `opencode mcp list` (caveman, gsd, lightpanda, mcptoon) — details and gotchas in `opencode/README.md`.
 
 ## 2026-11-16 more tools
-- Added plugins `frontend-design`, `playwright`, `github`; skills for agent-desktop, agent-device, Expo and React Native, Orca, google-maps-scraper and karpathy-guidelines; npm `agent-desktop`, `agent-device`.
+- Added plugins `frontend-design`, `playwright`; skills for agent-desktop, agent-device, Expo and React Native, Orca, google-maps-scraper and karpathy-guidelines; npm `agent-desktop`, `agent-device`.
 - Action: re-run the installer.
 
 ## 2026-11-15 config-sync: startup hook removed
