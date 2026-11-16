@@ -16,10 +16,6 @@
       "source": "github",
       "repo": "DietrichGebert/ponytail"
     },
-    "sessionbridge": {
-      "source": "github",
-      "repo": "tongtongtju/sessionbridge"
-    },
     "caveman": {
       "source": "github",
       "repo": "JuliusBrussee/caveman"
@@ -28,39 +24,23 @@
       "source": "github",
       "repo": "itsryanlenk/candor"
     },
-    "guardrails": {
-      "source": "github",
-      "repo": "RabihJabr29/claude-guardrails"
-    },
     "claude-code-hooks": {
       "source": "github",
       "repo": "karanb192/claude-code-hooks"
-    },
-    "egm": {
-      "source": "github",
-      "repo": "google/elephant-goldfish-model"
-    },
-    "cli-anything": {
-      "source": "github",
-      "repo": "HKUDS/CLI-Anything"
     }
   },
   "enabled": [
+    "candor@candor",
     "caveman@caveman",
     "context-mode@context-mode",
+    "frontend-design@claude-plugins-official",
+    "github@claude-plugins-official",
+    "guard-pack@claude-code-hooks",
     "obsidian-wiki@obsidian-wiki",
     "obsidian@obsidian-skills",
-    "ponytail@ponytail",
-    "sessionbridge@sessionbridge",
-    "superpowers@claude-plugins-official",
-    "pr-review-toolkit@claude-plugins-official",
-    "candor@candor",
-    "claude-guardrails@guardrails",
-    "guard-pack@claude-code-hooks",
-    "egm@egm",
-    "cli-anything@cli-anything",
-    "frontend-design@claude-plugins-official",
     "playwright@claude-plugins-official",
-    "github@claude-plugins-official"
+    "ponytail@ponytail",
+    "pr-review-toolkit@claude-plugins-official",
+    "superpowers@claude-plugins-official"
   ]
 }

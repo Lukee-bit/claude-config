@@ -18,7 +18,7 @@ Then **restart OpenCode** (config hot-reloads mid-session; a new plugin file nee
 | OpenCode file (under `~/.config/opencode/`) | Source | Notes |
 |---|---|---|
 | `AGENTS.md` | `opencode/AGENTS.md` | V2 loads global `AGENTS.md` only — no `CLAUDE.md` fallback |
-| `commands/*.md` (6) | `opencode/commands/` | `claude/commands` adapted: no `allowed-tools` frontmatter (OpenCode permissions are config-side), lowercase tool names |
+| `commands/*.md` (5) | `opencode/commands/` | `claude/commands` adapted: no `allowed-tools` frontmatter (OpenCode permissions are config-side), lowercase tool names |
 | `plugins/claude-config.js` | `opencode/plugins/claude-config.js` | the bridge plugin (below); auto-discovered loose `.js`, runtime OS-adaptive — no rendering needed |
 | `opencode.json` MCP entries | `opencode/render.py` renders `claude/mcpServers.json` | `mcptoon` + `lightpanda`; **caveman** and **gsd** entries are written by their own native installers |
 | `opencode.json` `plugins[]` dirs | `opencode/render.py` resolves the base install's plugin paths | context-mode (npm global, `tools/npm-global.txt`), ponytail + superpowers (Claude plugin cache, latest installed version) |
@@ -50,7 +50,6 @@ Opt out of the session-start bootstraps with `CLAUDE_CONFIG_OC_BOOTSTRAP=0`.
 
 - `claude/hooks/context-mode-cache-heal.mjs` — Claude plugin cache specific; V2 has no equivalent cache.
 - `claude/hooks/caveman-statusline.sh` — Claude Code statusline only.
-- Real sessionbridge migration (`migrate-session` command is a stub on OpenCode; sessionbridge is Claude ↔ Codex).
 
 ## Verify
 

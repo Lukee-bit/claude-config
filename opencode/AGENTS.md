@@ -17,7 +17,7 @@ jCodeMunch-MCP (behind the mcptoon gateway) indexes repo symbols and relations. 
 
 ## MCP surface
 
-One gateway (mcptoon) fronts the local MCP servers — jcodemunch, context-mode, serena, kwipu, lumen, mcp-obsidian, agent-fusion, semgrep, figcraft, browsers, search, and more: call a server tool as `mcptoon call <server> <tool> '<json>'`, list servers with `mcptoon list`, health with `mcptoon doctor`. Direct MCP servers: caveman (compression), lightpanda (browser). Details: skill `mcptoon`.
+One gateway (mcptoon) fronts the local MCP servers — jcodemunch, context-mode, serena, kwipu, lumen, mcp-obsidian, semgrep, figcraft, browsers, and more: call a server tool as `mcptoon call <server> <tool> '<json>'`, list servers with `mcptoon list`, health with `mcptoon doctor`. Direct MCP servers: caveman (compression), lightpanda (browser). Details: skill `mcptoon`.
 
 ## Browsing
 

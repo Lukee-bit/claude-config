@@ -16,8 +16,8 @@ CLAUDE = HOME / ".claude"
 TOOLS = HOME / ".claude-tools"
 
 BIN_SCRIPTS = ["agent-handoff", "vault-bootstrap", "spec-bootstrap", "index-bootstrap",
-               "agent-fusion-run", "kwipu-mcp", "mcp-obsidian-run", "codegraph-run",
-               "comet-cdp", "comet-chrome-devtools", "comet-playwright", "semgrep-mcp-run", "free-search-mcp-run",
+               "kwipu-mcp", "mcp-obsidian-run", "codegraph-run",
+               "comet-cdp", "comet-chrome-devtools", "comet-playwright", "semgrep-mcp-run",
                "_platform.sh", "obsidian-trust-vault.py", "semgrep-roots-shim.py", "kwipu-build.py", "config-sync"]
 # Third-party skills keep their own licenses; skip app-managed and unknown-origin ones.
 SKILL_SKIP = {"synced", "learned", "codex-transfer"}
@@ -48,8 +48,13 @@ def run(*cmd: str) -> str:
 
 
 def main() -> None:
+    # hand-maintained files that live in dirs this script regenerates
+    keep = {rel: (OUT / rel).read_bytes() for rel in ("launchd/io.lightpanda.serve.plist", "tools/git-sources.txt") if (OUT / rel).exists()}
     for d in ("claude", "bin", "mcptoon", "launchd", "tools", "skills"):
         shutil.rmtree(OUT / d, ignore_errors=True)
+    for rel, data in keep.items():
+        (OUT / rel).parent.mkdir(parents=True, exist_ok=True)
+        (OUT / rel).write_bytes(data)
 
     # Claude Code user config
     for name in ("CLAUDE.md", "RTK.md"):
@@ -58,9 +63,11 @@ def main() -> None:
     st = json.load((CLAUDE / "settings.json").open())
     for ev, groups in list(st.get("hooks", {}).items()):
         for g in groups:
-            g["hooks"] = [h for h in g["hooks"] if "gsd-" not in h.get("command", "")]
+            g["hooks"] = [h for h in g["hooks"] if "gsd-" not in h.get("command", "") and "ORCA_AGENT_HOOK" not in h.get("command", "") and ".orca/" not in h.get("command", "")]
         st["hooks"][ev] = [g for g in groups if g["hooks"]]
     st["hooks"] = {ev: g for ev, g in st["hooks"].items() if g}
+    if str(st.get("theme", "")).startswith("custom:"):  # app-specific theme (Orca)
+        st["theme"] = "dark"
     st["permissions"]["allow"] = [a for a in st["permissions"].get("allow", []) if ".planning" not in a and "STATE.md" not in a]
     if "gsd-" in json.dumps(st.get("statusLine", {})):
         st.pop("statusLine")
@@ -94,7 +101,7 @@ def main() -> None:
     copy_text(HOME / "Library/LaunchAgents/com.caveman.proxy.plist", "launchd/com.caveman.proxy.plist")
 
     # Tool manifests
-    put("tools/brew.txt", "".join(f"{l}\n" for l in run("brew", "list", "--versions", "rtk", "openjdk@21", "ollama", "node", "pnpm", "gh").splitlines()))
+    put("tools/brew.txt", "".join(f"{l}\n" for l in run("brew", "list", "--versions", "rtk", "ollama", "node", "pnpm", "gh").splitlines()))
     put("tools/uv-tools.txt", "".join(l + "\n" for l in run("uv", "tool", "list").splitlines() if l and not l.startswith("-")))
     deps = json.loads(run("npm", "ls", "-g", "--depth=0", "--json") or "{}").get("dependencies", {})
     put("tools/npm-global.txt", "".join(f"{n}@{v.get('version')}\n" for n, v in sorted(deps.items())))

@@ -32,7 +32,6 @@ Optional surfaces after the base install: **Cursor** — `pwsh ./install-cursor.
 - **Caveman proxy route:** `caveman doctor --fix` refuses if `ANTHROPIC_BASE_URL` differs from the route Caveman recorded at setup. `install.ps1` reads that route and runs the proxy on it; do not hand-edit the URL.
 - **Obsidian Restricted mode** is per vault (localStorage key `enable-plugin-<vaultId>`). `bin/obsidian-trust-vault.py` pre-seeds it when `vault-bootstrap` creates a vault, but only while Obsidian is closed; otherwise toggle it once in the UI.
 - **Kwipu:** storage is one global directory shared by all vaults. The first graph build over a large vault takes hours; run `python ~/.claude-tools/bin/kwipu-build.py <vault>` outside MCP (a first build inside a tool call hits mcptoon's 30 s timeout). The venv is created with `UV_LINK_MODE=copy` (hardlinked files fail its path-security check).
-- **Agent-Fusion** at the pinned commit lacks `ReciprocalRankFusion.kt`; `tools/agent-fusion/` carries it and `install.ps1` copies it before building.
 - **Lightpanda** has no official Windows build; the installer uses the unsigned community port `qidiai/lightpanda-windows-port` (portable-v0.2.5). Review it before trusting it.
 - **obsidian-wiki** timezone stays UTC unless `tzdata` is added to its uv tool.
 - Version drift: this port was verified with context-mode 2.2.0, @caveman-ai/cli 4.1.0 and openspec 2.0.0 (see `windows/tools/npm-overrides.txt`); `tools/npm-global.txt` still pins the macOS snapshot.

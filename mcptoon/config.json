@@ -9,13 +9,6 @@
         "jcodemunch-mcp"
       ]
     },
-    "context-mode": {
-      "transport": "stdio",
-      "command": [
-        "/opt/homebrew/bin/context-mode"
-      ],
-      "args": []
-    },
     "fallow": {
       "transport": "stdio",
       "command": "npx",
@@ -81,6 +74,31 @@
       ],
       "args": []
     },
+    "codegraph": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.claude-tools/bin/codegraph-run"
+      ],
+      "args": []
+    },
+    "context7": {
+      "transport": "stdio",
+      "command": [
+        "npx"
+      ],
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@4.4.4"
+      ]
+    },
+    "lightpanda": {
+      "transport": "stdio",
+      "command": [
+        "__HOME__/.local/bin/lightpanda",
+        "mcp"
+      ],
+      "args": []
+    },
     "chrome-devtools": {
       "transport": "stdio",
       "command": [
@@ -105,38 +123,6 @@
         "http://127.0.0.1:9222",
         "--isolated"
       ]
-    },
-    "codegraph": {
-      "transport": "stdio",
-      "command": [
-        "__HOME__/.claude-tools/bin/codegraph-run"
-      ],
-      "args": []
-    },
-    "agent-fusion": {
-      "transport": "stdio",
-      "command": [
-        "__HOME__/.claude-tools/bin/agent-fusion-run"
-      ],
-      "args": []
-    },
-    "context7": {
-      "transport": "stdio",
-      "command": [
-        "npx"
-      ],
-      "args": [
-        "-y",
-        "@upstash/context7-mcp@4.4.4"
-      ]
-    },
-    "lightpanda": {
-      "transport": "stdio",
-      "command": [
-        "__HOME__/.local/bin/lightpanda",
-        "mcp"
-      ],
-      "args": []
     },
     "playwright-comet": {
       "transport": "stdio",
@@ -164,13 +150,6 @@
         "--project-from-cwd"
       ]
     },
-    "free-search": {
-      "transport": "stdio",
-      "command": [
-        "__HOME__/.claude-tools/bin/free-search-mcp-run"
-      ],
-      "args": []
-    },
     "semgrep": {
       "transport": "stdio",
       "command": [
@@ -178,40 +157,13 @@
       ],
       "args": []
     },
-    "skillspector": {
+    "context-mode": {
       "transport": "stdio",
       "command": [
-        "__HOME__/.local/bin/skillspector",
-        "mcp"
+        "/opt/homebrew/bin/context-mode",
+        "server"
       ],
       "args": []
-    },
-    "bla": {
-      "transport": "stdio",
-      "command": [
-        "/opt/homebrew/bin/bla"
-      ],
-      "args": [
-        "mcp"
-      ]
-    },
-    "rea": {
-      "transport": "stdio",
-      "command": [
-        "/opt/homebrew/bin/rea"
-      ],
-      "args": [
-        "mcp"
-      ]
-    },
-    "craft-anything": {
-      "transport": "stdio",
-      "command": [
-        "__HOME__/.local/bin/craft-anything-cli"
-      ],
-      "args": [
-        "mcp"
-      ]
     }
   }
 }
