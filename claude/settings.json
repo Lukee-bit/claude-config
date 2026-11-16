@@ -14,6 +14,44 @@
       "mcp__Claude_Browser__*"
     ]
   },
+  "skillOverrides": {
+    "agent-desktop": "name-only",
+    "agent-device": "name-only",
+    "architecture-decision-records": "name-only",
+    "astryx": "name-only",
+    "banner-design": "name-only",
+    "brand": "name-only",
+    "deploy-to-vercel": "name-only",
+    "design": "name-only",
+    "design-review": "name-only",
+    "design-system": "name-only",
+    "expo-animation": "name-only",
+    "expo-design-system": "name-only",
+    "expo-native-ui": "name-only",
+    "expo-router": "name-only",
+    "fig-parser": "name-only",
+    "figcraft": "name-only",
+    "frontend-design": "name-only",
+    "google-maps-scraper": "name-only",
+    "migrate-radix-to-base": "name-only",
+    "obsidian-tooling": "name-only",
+    "open-pencil": "name-only",
+    "orca-cli": "name-only",
+    "orca-computer-use": "name-only",
+    "orchestration": "name-only",
+    "react-best-practices": "name-only",
+    "react-native-best-practices": "name-only",
+    "react-view-transitions": "name-only",
+    "shadcn": "name-only",
+    "slides": "name-only",
+    "structural-humanizer": "name-only",
+    "ui-styling": "name-only",
+    "ui-ux-pro-max": "name-only",
+    "vercel-cli-with-tokens": "name-only",
+    "vercel-optimize": "name-only",
+    "web-design-guidelines": "name-only",
+    "harness-init": "name-only"
+  },
   "hooks": {
     "PostToolUse": [
       {
@@ -134,14 +172,6 @@
         ]
       },
       {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"__HOME__/.claude/hooks/context-mode-cache-heal.mjs\""
-          }
-        ]
-      },
-      {
         "matcher": "startup|resume",
         "hooks": [
           {
@@ -177,6 +207,15 @@
             "type": "command",
             "command": "'__HOME__/.caveman/bin/caveman-proxy' native-hook claude --adapter '/opt/homebrew/lib/node_modules/@caveman-ai/cli/dist/native-hook-fast.js' --node '/opt/homebrew/bin/node'",
             "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PATH=\"__HOME__/.local/share/uv/tools/obsidian-wiki/bin:$PATH\" bash \"__HOME__/.local/share/uv/tools/obsidian-wiki/lib/python3.12/site-packages/obsidian_wiki/_data/hooks/wiki-session-recap.sh\""
           }
         ]
       }
@@ -278,6 +317,15 @@
             "timeout": 30
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PATH=\"__HOME__/.local/share/uv/tools/obsidian-wiki/bin:$PATH\" bash \"__HOME__/.local/share/uv/tools/obsidian-wiki/lib/python3.12/site-packages/obsidian_wiki/_data/hooks/wiki-prompt-recall.sh\""
+          }
+        ]
       }
     ],
     "PostToolUseFailure": [
@@ -305,14 +353,16 @@
   },
   "enabledPlugins": {
     "context-mode@context-mode": true,
-    "obsidian@obsidian-skills": true,
-    "obsidian-wiki@obsidian-wiki": true,
+    "obsidian@obsidian-skills": false,
+    "obsidian-wiki@obsidian-wiki": false,
     "ponytail@ponytail": true,
     "caveman@caveman": true,
     "superpowers@claude-plugins-official": true,
     "pr-review-toolkit@claude-plugins-official": true,
-    "candor@candor": true,
-    "guard-pack@claude-code-hooks": true
+    "candor@candor": false,
+    "guard-pack@claude-code-hooks": true,
+    "github@synced": false,
+    "gitkraken@synced": false
   },
   "extraKnownMarketplaces": {
     "context-mode": {

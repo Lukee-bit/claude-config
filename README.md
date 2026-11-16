@@ -21,14 +21,38 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Specs | OpenSpec and spec-kit | scaffolded by `bin/spec-bootstrap` |
 | Style | ponytail plugin | smallest-change discipline |
 | Code intelligence | Serena (symbol-level code tools) | via mcptoon |
-| Workflow and review | Superpowers, GSD Core, pr-review-toolkit plugins | GSD is installed by `install.sh` through its own installer (adds hooks, skills, statusline) |
-| Anti-sycophancy | Candor plugin, anti-sycophancy skill plus `UserPromptSubmit` hook | rewrites confirmation-seeking prompts and adds critical-response rules to `CLAUDE.md` |
+| Workflow and review | Superpowers, GSD Core, pr-review-toolkit plugins | GSD is installed by `install.sh` through its own installer (hooks, statusline) in the `core` profile (8 skills); the other GSD skills load on demand from the mcptoon skill catalog |
+| Anti-sycophancy | anti-sycophancy skill plus `UserPromptSubmit` hook; Candor personas (catalog) | rewrites confirmation-seeking prompts and adds critical-response rules to `CLAUDE.md`; the Candor plugin is disabled and its 12 skills load on demand |
+| Skill catalog | mcptoon `skills resolve`, `~/.claude-tools/skill-catalog/` | GSD (full snapshot), Candor, the 40 obsidian-wiki skills and the task-specific user skills in `tools/folded-skills.txt` (set to `name-only` through `skillOverrides`) are indexed there instead of being described natively every session; `wiki-capture`, `wiki-query` and `llm-wiki` stay native |
+| Project memory | `.agent/handoff.md`, `.agent/memory/`, obsidian-wiki hooks (`SessionStart` recap, `UserPromptSubmit` recall, `Stop` capture) | the `CLAUDE.md` policy block tells agents to read the handoff, record durable facts with `obsidian-wiki memory`, and run `/save-handoff` before stopping |
 | Safety and security | claude-code-hooks `guard-pack`, Semgrep's local MCP server | guards block piped remote scripts, `--no-verify`, secret reads, force pushes; Semgrep runs locally through `bin/semgrep-mcp-run` with tracing and metrics off (no account needed) |
-| Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` MCP plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-comet` and `chrome-devtools-comet` attach to `/Applications/Comet.app` on debug port 9223 via `bin/comet-cdp`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
+| Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` reached through mcptoon (no direct MCP entry) plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-comet` and `chrome-devtools-comet` attach to `/Applications/Comet.app` on debug port 9223 via `bin/comet-cdp`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
 | Agent and device control | agent-desktop, agent-device, orca-cli, orca-computer-use, orchestration skills | desktop/mobile GUI automation, Orca worktrees and workers |
 | Mobile and app skills | expo-animation, expo-design-system, expo-native-ui, expo-router, react-native-best-practices | Expo and React Native guidance |
 | Other skills and plugins | google-maps-scraper, karpathy-guidelines skills; frontend-design, playwright plugins | `playwright` stays on the deny list (browser policy) |
 | Design and web | figcraft, open-pencil, fig-mcp, shadcn, playwright, chrome-devtools MCPs plus the design and Vercel skills in `skills/` | |
+
+### Tool roles (one owner each, so nothing fights)
+
+| Job | Owner | Not the owner |
+|---|---|---|
+| Bash output shrinking | RTK hook (`rtk`), then context-mode for anything over about 20 lines | caveman `shrink-hook` only trims what is left; the caveman proxy compresses requests, not tool output |
+| Recovering compressed content | `caveman_retrieve` (caveman MCP stays direct so its results are never re-compressed) | mcptoon (`compress=smart` applies to gateway results only) |
+| Exact string, known file | built-in Grep and Read | |
+| "How does X work", before an edit | `codegraph_explore` | |
+| Symbols, references, refactors | Serena | |
+| Callers, impact, dead code | jCodeMunch (any language), `fallow_*` (JS/TS) | |
+| Semantic and graph search | `lumen_semantic_search`, `kwipu_query_graph` | |
+| Library docs | `context7` | |
+| Browser | Lightpanda through mcptoon, Comet fallback | |
+| Where work stopped | `.agent/handoff.md` (`/save-handoff`, `agent-handoff`) | |
+| Binding project rules | `.agent/memory/` | |
+| User facts, open threads, findings | obsidian-wiki (`memory profile`, `memory todo`, `wiki-capture`) | |
+| Code-structure notes | Serena memories | |
+| Skill discovery | superpowers and GSD core natively, everything else `mcptoon skills resolve` | |
+
+Never run `obsidian-wiki setup` (it reinstalls all 40 skills) or a bare `mcptoon skills index` (it rebuilds from the agent skill folders); index with explicit roots.
+
 
 ### What happens in a new project
 On the first session in a directory, SessionStart hooks run:

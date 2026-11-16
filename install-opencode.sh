@@ -51,4 +51,4 @@ if [ $TOOLS -eq 1 ]; then
   run caveman setup --yes --agents opencode || true
 fi
 
-say "Done. Restart OpenCode (new plugin files need it), then verify: opencode mcp list (caveman, gsd, lightpanda, mcptoon); mcptoon doctor. See opencode/README.md."
+say "Done. Restart OpenCode (new plugin files need it), then verify: opencode mcp list (caveman, gsd, mcptoon); mcptoon doctor. See opencode/README.md."

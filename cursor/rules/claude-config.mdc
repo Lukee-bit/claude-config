@@ -17,7 +17,9 @@ User skills live in `~/.claude/skills` (base install). Cursor loads them; do not
 
 ## Project memory
 
-In repos with `.agent/`: read `.agent/handoff.md` then `.agent/memory/MEMORY.md` before changing anything. Write durable facts one-per-file under `.agent/memory/`. Never commit secrets.
+In repos with `.agent/`: read `.agent/handoff.md` then `.agent/memory/MEMORY.md` before changing anything. Write durable facts one-per-file under `.agent/memory/`. User-stated facts and open threads also go to `obsidian-wiki memory profile set|todo add`. For who-calls/what-breaks questions use Serena, codegraph or jCodeMunch through mcptoon before grep loops. Never commit secrets.
+
+Tool roles: exact string or known file = grep/read; "how does X work" = `codegraph_codegraph_explore`; symbols, references, refactors = Serena; callers, impact, dead code = jCodeMunch (`fallow_*` for JS/TS); semantic search = `lumen_semantic_search`; library docs = `context7`; large output = context-mode `ctx_execute`; browser = `lightpanda_*` through the gateway. Gateway form: `mcptoon_call {name: "<server>_<tool>", arguments}`.
 
 ## Windows note
 

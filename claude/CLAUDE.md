@@ -6,7 +6,7 @@ jCodeMunch-MCP indexes repo symbols and relations. Use where cheaper; built-in t
 - **Small repo:** built-in tools usually cheaper for finding, reading code.
 - Harness requires `Read` before `Edit`/`Write`.
 
-jCodeMunch runs behind mcptoon: call `mcptoon_call` with server `jcodemunch`, tool `order` / `route` / `menu` / `jcodemunch_guide`, and the JSON below as its arguments. Three tools reach every capability.
+jCodeMunch runs behind mcptoon: call `mcptoon_call` with `name` `jcodemunch_order` / `jcodemunch_route` / `jcodemunch_menu` / `jcodemunch_jcodemunch_guide` and the JSON below as `arguments`. Three tools reach every capability.
 
 **Before first jCodeMunch call in session** (skip when task needs none):
 - `order { "action": "resolve_repo", "args": { "path": "<absolute project path>" } }` — confirm project indexed (relative paths resolve against the server's cwd, not yours). If not: `order { "action": "index_folder", "args": { "path": "<absolute project path>" }, "allow_state_change": true }`
@@ -38,12 +38,31 @@ find right skill first — no guessing, no reading whole catalog:
 
     mcptoon skills resolve "<the user request>" --k 5
 
-Read only SKILL.md files it returns. Nothing found: rephrase, retry,
+Native process skills (superpowers, GSD core) are invoked directly; every other skill is found this way. Read only SKILL.md files it returns. Nothing found: rephrase, retry,
 or run `mcptoon skills list` to pick name by eye. Tools behind
 same gateway: `mcptoon manifest` lists them.
+## Tool use and project memory (use these without being asked)
+
+Tools behind mcptoon: `mcptoon_call {name: "<server>_<tool>", arguments}`; `mcptoon_inspect {tool}` shows the schema. `mcptoon select` ranks weakly, so use this map:
+- Exact string or known file: built-in Grep/Read (cheapest).
+- "How does X work", architecture, before an edit: `codegraph_codegraph_explore {query}` first.
+- Symbol lookup, references, rename/refactor: Serena (`serena_initial_instructions` once for the session id, then `serena_serena_repl`).
+- Callers, impact of a change, dead code, any language: jCodeMunch. JS/TS dead code, duplicates, blast radius, architecture, health: `fallow_*`.
+- "Where is the logic that...": `lumen_semantic_search`; knowledge graph: `kwipu_query_graph`.
+- Library or framework docs: `context7_resolve-library-id` then `context7_query-docs`. Security scan: semgrep.
+- Output over about 20 lines (logs, JSON, long files): `ctx_execute`/`ctx_search` and print only the answer.
+
+Project memory (per workspace; lets any harness pick up where another stopped):
+- Session start: read `.agent/handoff.md` and `.agent/memory/MEMORY.md` if present. The obsidian-wiki recap hook also injects vault memory.
+- Before stopping, or when pausing work: run `/save-handoff` (where work stopped, next steps, open decisions).
+- Durable facts the user states about themself or their setup: `obsidian-wiki memory profile set <key> "<value>" --confidence 0.9`. Only what the user said. Unfinished work: `obsidian-wiki memory todo add "<thread>"`; finished: `memory todo done <id>`.
+- Non-obvious bug fixes, gotchas, decisions: `wiki-capture --quick`. Before re-deriving something that may be known: `wiki-query`.
+- Rules that must bind every agent on this project: one fact per file in `.agent/memory/`, indexed in its `MEMORY.md`.
+- One owner per fact: handoff = where work stopped (edit only between its `handoff:narrative` markers); `.agent/memory/` = binding project rules; obsidian-wiki = user facts, open threads, findings; Serena memories = code-structure notes. Never run `obsidian-wiki setup` (reinstalls all 40 skills) or bare `mcptoon skills index` (rebuilds from the agent skill folders): index with explicit roots `~/.local/share/harness-master-controller/skills ~/.claude-tools/skill-catalog`.
+
 ## Browser policy (mandatory, all tools, skills, plugins, MCPs, subagents)
 
-Primary browser = Lightpanda (`lightpanda` MCP; `playwright`/`chrome-devtools` via mcptoon are wired to its CDP server at http://127.0.0.1:9222, daemon `io.lightpanda.serve`). Always use it first for any browsing, scraping, page reading, or automation.
+Primary browser = Lightpanda through the gateway (`mcptoon_call {name: "lightpanda_markdown", arguments: {url}}`; `lightpanda_tree` for structure, `lightpanda_extract` for values, `lightpanda_waitForState {state: networkidle}` when a read looks empty). `playwright`/`chrome-devtools` via mcptoon are wired to its CDP server at http://127.0.0.1:9222, daemon `io.lightpanda.serve`. Always use it first for any browsing, scraping, page reading, or automation.
 Fallback ONLY when Lightpanda cannot do the job (needs real rendering, screenshots, heavy JS, logins): Comet via `playwright-comet` / `chrome-devtools-comet` (mcptoon). They attach to the user's real Comet profile over debug port 9223 (`comet-cdp` starts Comet normally). Never launch Comet through automation flags: that reset the profile once. State why before falling back.
 Never use claude-in-chrome, built-in Claude_Browser, the plugin playwright, or any other browser (denied in settings.json). Skills that name another browser: substitute this policy.
 

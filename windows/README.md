@@ -22,7 +22,7 @@ pwsh ./install.ps1             # apply (-NoTools skips winget/uv/npm/ollama)
 ```
 
 Needs PowerShell 7, Git for Windows (Git Bash runs the scripts), Node, uv and Python 3 first.
-Existing files are backed up as `*.bak-YYYYMMDD`. After it finishes: restart Claude Code, run `mcptoon doctor` (21 servers OK).
+Existing files are backed up as `*.bak-YYYYMMDD`. After it finishes: restart Claude Code, run `mcptoon doctor` (0 issues; 19 servers). The installer also snapshots GSD into `~/.claude-tools/skill-catalog`, trims it to the `core` profile, links Candor, obsidian-wiki and `tools/folded-skills.txt` skills there with directory junctions, and registers the obsidian-wiki hooks (see CHANGELOG 2026-11-16).
 
 Optional surfaces after the base install: **Cursor** — `pwsh ./install-cursor.ps1` (see `cursor/README.md`); **OpenCode** — `pwsh ./install-opencode.ps1`.
 

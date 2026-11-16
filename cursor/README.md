@@ -47,6 +47,6 @@ Needs the base install first (`~/.claude-tools/config-repo`). Never runs the Ope
 
 ## Not ported (on purpose)
 
-- Caveman as a **top-level** Cursor MCP (Claude keeps `caveman` + `lightpanda` beside mcptoon in `~/.claude.json`). Lightpanda is already one of the servers behind mcptoon. Caveman CLI/proxy remain Claude-side.
+- Caveman as a **top-level** Cursor MCP (Claude keeps `caveman` beside mcptoon in `~/.claude.json`). Lightpanda is one of the servers behind mcptoon. Caveman CLI/proxy remain Claude-side.
 - Rewriting Orca / other third-party `~/.cursor/hooks.json` entries — render merges, never wipes.
 - Duplicating skills into `~/.cursor/skills` (avoids Mac/Windows cloud-sync path conflicts).

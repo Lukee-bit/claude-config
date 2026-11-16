@@ -68,8 +68,13 @@ if (-not $DryRun) {
 foreach ($f in (Get-ChildItem claude/commands, claude/hooks -File)) { Place $f.FullName "$HOME/.claude/$($f.Directory.Name)/$($f.Name)" }
 Run { New-Item -ItemType Directory -Force "$HOME/.claude/skills" | Out-Null; Copy-Item skills/* "$HOME/.claude/skills/" -Recurse -Force } 'copy skills/ -> ~/.claude/skills'
 
-Say 'GSD Core (adds its hooks, skills and statusline to ~/.claude)'
-Run { npx -y '@opengsd/gsd-core@latest' --claude --global } 'npx @opengsd/gsd-core --claude --global'
+Say 'GSD Core (full install is snapshotted into the mcptoon skill catalog, then trimmed to the core profile)'
+Run { npx -y '@opengsd/gsd-core@latest' --claude --global --profile=full } 'npx @opengsd/gsd-core --claude --global --profile=full'
+Run {
+  $gc = "$HOME/.claude-tools/skill-catalog/gsd"; New-Item -ItemType Directory -Force $gc | Out-Null
+  foreach ($d in (Get-ChildItem "$HOME/.claude/skills" -Directory -Filter 'gsd-*')) { Copy-Item $d.FullName "$gc/$($d.Name)" -Recurse -Force }
+} 'snapshot ~/.claude/skills/gsd-* -> ~/.claude-tools/skill-catalog/gsd'
+Run { npx -y '@opengsd/gsd-core@latest' --claude --global --profile=core } 'npx @opengsd/gsd-core --claude --global --profile=core'
 
 Say 'Helper scripts and mcptoon'
 foreach ($f in (Get-ChildItem bin -File)) { Place $f.FullName "$HOME/.claude-tools/bin/$($f.Name)" }
@@ -80,7 +85,7 @@ if (-not $DryRun) {
   Copy-Item "$Tmp/mcptoon.json" "$HOME/.mcptoon/config.json" -Force
 }
 
-Say 'MCP servers in ~/.claude.json (mcptoon, caveman, lightpanda)'
+Say 'MCP servers in ~/.claude.json (mcptoon, caveman)'
 if (-not $DryRun) {
   Render mcpservers "$Tmp/mcps.json"
   python -c "import json,os,sys; p=os.path.expanduser('~/.claude.json'); c=json.load(open(p,encoding='utf-8')) if os.path.exists(p) else {}; n=json.load(open(sys.argv[1],encoding='utf-8')); c.setdefault('mcpServers',{}).update(n); json.dump(c,open(p,'w',encoding='utf-8'),indent=2); print('  merged:',', '.join(n))" "$Tmp/mcps.json"
@@ -115,6 +120,21 @@ if ($HaveClaude) {
   foreach ($m in $pj.marketplaces.PSObject.Properties) { Run { claude plugin marketplace add $m.Value.repo } "claude plugin marketplace add $($m.Value.repo)" }
   foreach ($p in $pj.enabled) { Run { claude plugin install $p } "claude plugin install $p" }
 }
+
+Say 'Skill catalog (mcptoon) and project memory (obsidian-wiki)'
+Run {
+  $C = "$HOME/.claude-tools/skill-catalog"; New-Item -ItemType Directory -Force "$C/user" | Out-Null
+  function Link($link, $target) { if ((Test-Path $target) -and -not (Test-Path $link)) { New-Item -ItemType Junction -Path $link -Target $target | Out-Null } }
+  Link "$C/candor" "$HOME/.claude/plugins/marketplaces/candor/plugins/candor/skills"
+  Link "$C/obsidian-skills" "$HOME/.claude/plugins/marketplaces/obsidian-skills/skills"
+  $owDir = "$HOME/.local/share/uv/tools/obsidian-wiki/Lib/site-packages/obsidian_wiki/_data/skills"
+  if (Test-Path $owDir) { Link "$C/obsidian-wiki" $owDir; foreach ($s in 'llm-wiki', 'wiki-capture', 'wiki-query') { Link "$HOME/.claude/skills/$s" "$owDir/$s" } }
+  $root = "$HOME/.local/share/harness-master-controller/skills"
+  foreach ($s in (Get-Content tools/folded-skills.txt | Where-Object { $_ })) { if (-not (Test-Path "$root/$s")) { Link "$C/user/$s" "$HOME/.claude/skills/$s" } }
+  $roots = @($C); if (Test-Path $root) { $roots = @($root, $C) }
+  if (Get-Command mcptoon -ErrorAction SilentlyContinue) { mcptoon skills index @roots }
+  if (Get-Command obsidian-wiki -ErrorAction SilentlyContinue) { obsidian-wiki hooks install; obsidian-wiki hooks install --only UserPromptSubmit }
+} 'link candor, obsidian-wiki and folded user skills into ~/.claude-tools/skill-catalog, index them, register the obsidian-wiki hooks'
 
 Say 'Services (scheduled tasks, rendered from launchd/*.plist)'
 function Register-Service($plist, $listen) {
