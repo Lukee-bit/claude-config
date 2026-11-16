@@ -49,7 +49,7 @@ def run(*cmd: str) -> str:
 
 def main() -> None:
     # hand-maintained files that live in dirs this script regenerates
-    keep = {rel: (OUT / rel).read_bytes() for rel in ("launchd/io.lightpanda.serve.plist", "tools/git-sources.txt") if (OUT / rel).exists()}
+    keep = {rel: (OUT / rel).read_bytes() for rel in ("launchd/io.lightpanda.serve.plist", "tools/git-sources.txt", "tools/folded-skills.txt") if (OUT / rel).exists()}
     for d in ("claude", "bin", "mcptoon", "launchd", "tools", "skills"):
         shutil.rmtree(OUT / d, ignore_errors=True)
     for rel, data in keep.items():
@@ -79,7 +79,7 @@ def main() -> None:
             copy_text(f, f"claude/{d}/{f.name}", 0o755 if f.suffix in (".sh", ".mjs") else None)
     # allowlist: ~/.claude.json also holds servers with auth headers (never export those)
     mcp = {k: v for k, v in json.load((HOME / ".claude.json").open()).get("mcpServers", {}).items()
-           if k in ("mcptoon", "caveman", "lightpanda")}
+           if k in ("mcptoon", "caveman")}
     put("claude/mcpServers.json", json.dumps(mcp, indent=2) + "\n")
 
     # Plugins: marketplaces + which are enabled (installed from source by install.sh)

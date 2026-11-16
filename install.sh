@@ -45,8 +45,13 @@ place claude/settings.json "$HOME/.claude/settings.json"
 for f in claude/commands/* claude/hooks/*; do place "$f" "$HOME/.claude/${f#claude/}"; done
 if [ $DRY -eq 0 ]; then mkdir -p "$HOME/.claude/skills"; cp -R skills/. "$HOME/.claude/skills/"; else echo "  would copy skills/ -> ~/.claude/skills"; fi
 
-say "GSD Core (adds its hooks, skills and statusline to ~/.claude)"
-run npx -y @opengsd/gsd-core@latest --claude --global || true
+say "GSD Core (full install is snapshotted into the mcptoon skill catalog, then trimmed to the core profile)"
+run npx -y @opengsd/gsd-core@latest --claude --global --profile=full || true
+if [ $DRY -eq 0 ]; then
+  mkdir -p "$HOME/.claude-tools/skill-catalog/gsd"
+  for d in "$HOME"/.claude/skills/gsd-*/; do [ -d "$d" ] && { rm -rf "$HOME/.claude-tools/skill-catalog/gsd/$(basename "$d")"; cp -R "$d" "$HOME/.claude-tools/skill-catalog/gsd/$(basename "$d")"; }; done
+fi
+run npx -y @opengsd/gsd-core@latest --claude --global --profile=core || true
 
 say "Helper scripts and mcptoon"
 for f in bin/*; do place "$f" "$HOME/.claude-tools/bin/$(basename "$f")"; done
@@ -96,6 +101,24 @@ import json
 print("\n".join(json.load(open("claude/plugins.json"))["enabled"]))
 PY
 fi
+
+say "Skill catalog (mcptoon) and project memory (obsidian-wiki)"
+if [ $DRY -eq 0 ]; then
+  C="$HOME/.claude-tools/skill-catalog"; mkdir -p "$C"
+  CS="$HOME/.claude/plugins/marketplaces/candor/plugins/candor/skills"; [ -d "$CS" ] && ln -sfn "$CS" "$C/candor"
+  OS="$HOME/.claude/plugins/marketplaces/obsidian-skills/skills"; [ -d "$OS" ] && ln -sfn "$OS" "$C/obsidian-skills"
+  mkdir -p "$C/user"; while read -r s; do [ -n "$s" ] && [ -d "$HOME/.claude/skills/$s" ] && [ ! -d "$HOME/.local/share/harness-master-controller/skills/$s" ] && ln -sfn "$HOME/.claude/skills/$s" "$C/user/$s"; done < tools/folded-skills.txt
+  OW="$(ls -d "$HOME"/.local/share/uv/tools/obsidian-wiki/lib/python*/site-packages/obsidian_wiki/_data/skills 2>/dev/null | head -1)"
+  if [ -n "$OW" ]; then
+    ln -sfn "$OW" "$C/obsidian-wiki"
+    for s in llm-wiki wiki-capture wiki-query; do ln -sfn "$OW/$s" "$HOME/.claude/skills/$s"; done
+  fi
+  roots="$C"; [ -d "$HOME/.local/share/harness-master-controller/skills" ] && roots="$HOME/.local/share/harness-master-controller/skills $C"
+  command -v mcptoon >/dev/null && { mcptoon skills index $roots || true; }
+  if command -v obsidian-wiki >/dev/null; then
+    obsidian-wiki hooks install || true; obsidian-wiki hooks install --only UserPromptSubmit || true
+  fi
+else echo "  would link candor + obsidian-wiki skills into ~/.claude-tools/skill-catalog, index them, register the obsidian-wiki recap/recall hooks"; fi
 
 say "Caveman proxy (launchd)"
 place launchd/com.caveman.proxy.plist "$HOME/Library/LaunchAgents/com.caveman.proxy.plist"

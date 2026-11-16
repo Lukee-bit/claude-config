@@ -29,6 +29,8 @@ Use Lightpanda first (CDP `127.0.0.1:9222`). Fallback: Comet on `127.0.0.1:9223`
 2. Hard rules live in `.agent/memory/` — obey them before anything else.
 3. Record durable facts one-per-file in `.agent/memory/`, index them in `MEMORY.md`; update the handoff before stopping. Never write inside `map/`.
 4. Layout: `.agent/memory/` agent memory; `.agent/graphs/` graph/diagram sources; the repo root is also the Obsidian vault.
+5. Durable facts the user states: `obsidian-wiki memory profile set <key> "<value>"`; open threads: `obsidian-wiki memory todo add|done`; non-obvious fixes: `wiki-capture --quick`. Relationship questions about code (who calls X, what breaks): Serena, codegraph or jCodeMunch through the gateway before grep loops.
+6. Tool roles: exact string or known file = grep/read; "how does X work" = `codegraph_codegraph_explore`; symbols, references, refactors = Serena; callers, impact, dead code = jCodeMunch (`fallow_*` for JS/TS); semantic search = `lumen_semantic_search`; library docs = `context7`; large output = context-mode `ctx_execute`; browser = `lightpanda_*` through the gateway. Gateway form: `mcptoon_call {name: "<server>_<tool>", arguments}`.
 
 ## Anti-sycophancy
 

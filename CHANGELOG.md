@@ -3,8 +3,19 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-16 Final fold: lightpanda, task skills, obsidian-skills; tool roles
+- Lightpanda is reached only through mcptoon (the direct MCP entry is gone from `~/.claude.json`, `claude/mcpServers.json` and the OpenCode render). The 36 task-specific user skills in `tools/folded-skills.txt` are `name-only` in `skillOverrides` and indexed from `~/.claude-tools/skill-catalog/user`. The `obsidian-skills` plugin is disabled (its skills are in the catalog).
+- `CLAUDE.md` now carries a tool-role map and the real `mcptoon_call {name, arguments}` form; README has a tool-roles table.
+- Action: `./install.sh`, then disable `obsidian@obsidian-skills`, remove `mcpServers.lightpanda` from `~/.claude.json` and copy the `skillOverrides` block from `claude/settings.json` if your settings are not managed by the installer; restart Claude Code. Never run `obsidian-wiki setup` or a bare `mcptoon skills index`.
+
+## 2026-11-16 Skills folded into the mcptoon catalog, project memory switched on
+- GSD runs in the `core` profile (8 skills); the full set is snapshotted to `~/.claude-tools/skill-catalog/gsd`. The Candor and obsidian-wiki plugins are disabled (`install.sh` no longer installs them); their skills are indexed from `~/.claude-tools/skill-catalog/{candor,obsidian-wiki}`. `wiki-capture`, `wiki-query` and `llm-wiki` are symlinked into `~/.claude/skills`. Agents find the rest with `mcptoon skills resolve`.
+- obsidian-wiki `SessionStart` recap and `UserPromptSubmit` recall hooks are registered next to the existing `Stop` capture. `CLAUDE.md` has a new block telling agents to use Serena, codegraph or jCodeMunch for code relationships and to keep per-project memory (handoff, `obsidian-wiki memory`, `wiki-capture`).
+- Removed the context-mode v1 `cache-heal` hook and its data dir.
+- Action: `./install.sh` (re-runs the GSD profile, relinks the catalog, registers the hooks). A machine that has Candor or obsidian-wiki enabled: disable both plugins with `claude plugin disable`, then restart Claude Code. Roll GSD back with `npx @opengsd/gsd-core@latest --claude --global --profile=full`.
+
 ## 2026-11-16 Stack trimmed
-- Removed: free-search, github-direct, GitKraken, claude-guardrails, wcag-accessibility, rea, bla, craft-anything, skillspector, reverse-api-engineer, egm, cli-anything, sessionbridge (and `/migrate-session`), Agent-Fusion (and `openjdk@21`). OpenSpec and spec-kit stay.
+- Removed: free-search, github-direct, the `github` plugin, GitKraken, claude-guardrails, wcag-accessibility, rea, bla, craft-anything, skillspector, reverse-api-engineer, egm, cli-anything, sessionbridge (and `/migrate-session`), Agent-Fusion (and `openjdk@21`). OpenSpec and spec-kit stay.
 - mcptoon footer is off (`mcptoon config set footer off`); the jCodeMunch block in `CLAUDE.md` now uses the real `mcptoon_call` path (`route` takes `task`; `index_folder` needs `allow_state_change`).
 - Action on a machine that has these: uninstall the plugins (`claude-guardrails`, `egm`, `cli-anything`, `sessionbridge`) and their marketplaces, `npm uninstall -g rea-agents bla-agents`, `uv tool uninstall skillspector reverse-api-engineer`, delete the matching skills and `~/.claude-tools/{agent-fusion,craft-anything,src/Agent-Fusion}`, the per-project `.agent/fusion/` folders, remove their entries from `~/.mcptoon/config.json` and `~/.claude.json`, then `./install.sh` and `mcptoon doctor`.
 
@@ -17,7 +28,7 @@ Each entry says what changed and whether anything needs doing beyond the re-run 
 - Action: run the base installer for your OS once (if not installed), then `./install-opencode.sh` or `pwsh ./install-opencode.ps1` and restart OpenCode. Verify with `opencode mcp list` (caveman, gsd, lightpanda, mcptoon) — details and gotchas in `opencode/README.md`.
 
 ## 2026-11-16 more tools
-- Added plugins `frontend-design`, `playwright`, `github`; skills for agent-desktop, agent-device, Expo and React Native, Orca, google-maps-scraper and karpathy-guidelines; npm `agent-desktop`, `agent-device`.
+- Added plugins `frontend-design`, `playwright`; skills for agent-desktop, agent-device, Expo and React Native, Orca, google-maps-scraper and karpathy-guidelines; npm `agent-desktop`, `agent-device`.
 - Action: re-run the installer.
 
 ## 2026-11-15 config-sync: startup hook removed

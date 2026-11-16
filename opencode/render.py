@@ -9,7 +9,8 @@ anything it does not own — model, provider routes (caveman), the gsd MCP
 entry, permissions — is preserved untouched.
 
 Owned keys:
-  mcp.mcptoon, mcp.lightpanda   (caveman and gsd write their own MCP entries)
+  mcp.mcptoon   (caveman and gsd write their own MCP entries; lightpanda is reached
+  through mcptoon, so a leftover mcp.lightpanda from an older render is removed)
   plugins[] entries for context-mode, ponytail and superpowers (id-aware: an
   existing entry for the same plugin id is replaced, not duplicated)
 
@@ -28,7 +29,7 @@ HOME = Path.home()
 IS_WIN = sys.platform == "win32"
 OC = HOME / ".config" / "opencode"
 
-MCP_SERVERS = ("mcptoon", "lightpanda")  # rendered from claude/mcpServers.json
+MCP_SERVERS = ("mcptoon",)  # rendered from claude/mcpServers.json
 # Scalar, on purpose: installed OpenCode 2.x rejects the timeout *object*
 # ({startup,catalog,execution}) that the current website schema documents —
 # the server silently vanishes from `opencode mcp list` with a
@@ -123,6 +124,7 @@ def main():
     mcp_cfg = cfg.setdefault("mcp", {})
     target = mcp_cfg["servers"] if isinstance(mcp_cfg.get("servers"), dict) else mcp_cfg
     target.update(mcp)
+    target.pop("lightpanda", None)  # now behind mcptoon; a direct entry only costs tokens
 
     incoming = set(PLUGIN_ORDER)
     kept = [p for p in cfg.get("plugins", []) if plugin_id(p) not in incoming]
