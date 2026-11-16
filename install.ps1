@@ -96,13 +96,6 @@ foreach ($l in Lines tools/git-sources.txt) {
 if (-not $DryRun) {
   $kw = "$HOME/.claude-tools/Kwipu"
   if ((Test-Path $kw) -and -not (Test-Path "$kw/.venv/Scripts/python.exe")) { uv venv "$kw/.venv" --python 3.13; uv pip install --python "$kw/.venv/Scripts/python.exe" -r "$kw/requirements.txt" }
-  $af = "$HOME/.claude-tools/src/Agent-Fusion"; $jar = "$HOME/.claude-tools/agent-fusion/orchestrator-0.1.0-all.jar"
-  if ((Test-Path $af) -and -not (Test-Path $jar)) {
-    $rrf = "$af/src/main/kotlin/com/orchestrator/context/search/ReciprocalRankFusion.kt"   # missing upstream at the pinned commit
-    if (-not (Test-Path $rrf)) { Copy-Item tools/agent-fusion/ReciprocalRankFusion.kt $rrf }
-    Push-Location $af; try { ./gradlew.bat shadowJar } finally { Pop-Location }
-    New-Item -ItemType Directory -Force (Split-Path $jar) | Out-Null; Copy-Item "$af/build/libs/orchestrator-0.1.0-all.jar" $jar
-  }
 }
 
 Say 'Obsidian Local REST API plugin (copied into each vault by bin/vault-bootstrap)'

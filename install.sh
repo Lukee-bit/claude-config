@@ -27,13 +27,13 @@ command -v claude >/dev/null || echo "note: 'claude' CLI not found; plugin steps
 
 if [ $TOOLS -eq 1 ]; then
   say "Homebrew packages"
-  run brew install rtk openjdk@21 ollama node pnpm gh
+  run brew install rtk ollama node pnpm gh
   say "uv tools"
   for t in jcodemunch-mcp mcp-obsidian mcptoon obsidian-wiki specify-cli; do run uv tool install "$t" || true; done
   run uv tool install -p 3.13 serena-agent || true
   say "npm globals"
   while read -r pkg; do [ -n "$pkg" ] && [ "${pkg%%@*}" != "npm" ] && run npm install -g "$pkg"; done < tools/npm-global.txt
-  say "Other tools (manual, see README): lumen, Kwipu, Agent-Fusion jar"
+  say "Other tools (manual, see README): lumen, Kwipu"
   say "Ollama models"
   while read -r m; do [ -n "$m" ] && run ollama pull "$m"; done < tools/ollama-models.txt
 fi
@@ -105,4 +105,4 @@ echo "  launchctl bootstrap gui/\$(id -u) ~/Library/LaunchAgents/com.caveman.pro
 mkdir -p "$HOME/.claude-tools"
 if [ $DRY -eq 0 ]; then pwd > "$HOME/.claude-tools/config-repo"; git rev-parse HEAD > "$HOME/.claude-tools/.config-rev" 2>/dev/null || true; fi
 
-say "Done. Next steps are in README.md (Agent-Fusion jar, Kwipu, lumen, Obsidian, restart Claude Code)."
+say "Done. Next steps are in README.md (Kwipu, lumen, Obsidian, restart Claude Code)."

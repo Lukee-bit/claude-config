@@ -13,18 +13,17 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Shrink bash output | RTK | `rtk hook claude` rewrites noisy command output |
 | Shrink requests and replies | Caveman (plugin, CLI, local proxy on `127.0.0.1:8788`, caveman-blocks) | compresses input and output, terse style |
 | Keep raw data out of context | context-mode (plugin) | sandboxed execution plus search index |
-| Hide tool schemas | mcptoon | one gateway in front of 15 MCP servers (314 tools behind a handful of gateway tools) |
+| Hide tool schemas | mcptoon | one gateway in front of 19 MCP servers (418 tools behind a handful of gateway tools) |
 | Project memory and handoff | agent-handoff (`bin/agent-handoff`) | writes `.agent/` and a managed block in `AGENTS.md` on session start, logs edits, writes a summary at session end |
 | Obsidian vault in every project | `bin/vault-bootstrap`, Obsidian plugin, obsidian-wiki, mcp-obsidian | creates `.obsidian/`, `Home.md`, registers the vault |
 | Code lookup | jCodeMunch (symbols), lumen (semantic search), codegraph (graph), fallow (static analysis) | all via mcptoon |
-| Knowledge and context server | kwipu (vault Q&A on local Ollama), Agent-Fusion (per-project indexer on a local JVM) | via mcptoon |
+| Knowledge and context server | kwipu (vault Q&A on local Ollama) | via mcptoon |
 | Specs | OpenSpec and spec-kit | scaffolded by `bin/spec-bootstrap` |
 | Style | ponytail plugin | smallest-change discipline |
-| Other harness sessions | sessionbridge plugin | Claude to Codex session moves |
-| Code intelligence and web search | Serena (symbol-level code tools), free-search-mcp (no-API-key web search) | both via mcptoon; `bin/free-search-mcp-run` pins `free-search-mcp==0.18.0` and sends its browser work to Lightpanda first, then Comet (no Chromium download needed) |
+| Code intelligence | Serena (symbol-level code tools) | via mcptoon |
 | Workflow and review | Superpowers, GSD Core, pr-review-toolkit plugins | GSD is installed by `install.sh` through its own installer (adds hooks, skills, statusline) |
 | Anti-sycophancy | Candor plugin, anti-sycophancy skill plus `UserPromptSubmit` hook | rewrites confirmation-seeking prompts and adds critical-response rules to `CLAUDE.md` |
-| Safety and security | claude-guardrails, claude-code-hooks `guard-pack`, Semgrep's local MCP server | guards block piped remote scripts, `--no-verify`, secret reads, force pushes; Semgrep runs locally through `bin/semgrep-mcp-run` with tracing and metrics off (no account needed) |
+| Safety and security | claude-code-hooks `guard-pack`, Semgrep's local MCP server | guards block piped remote scripts, `--no-verify`, secret reads, force pushes; Semgrep runs locally through `bin/semgrep-mcp-run` with tracing and metrics off (no account needed) |
 | Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` MCP plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-comet` and `chrome-devtools-comet` attach to `/Applications/Comet.app` on debug port 9223 via `bin/comet-cdp`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
 | Design and web | figcraft, open-pencil, fig-mcp, shadcn, playwright, chrome-devtools MCPs plus the design and Vercel skills in `skills/` | |
 
@@ -32,7 +31,7 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 On the first session in a directory, SessionStart hooks run:
 1. `vault-bootstrap` makes it an Obsidian vault (skips `$HOME`, system folders and `~/Projects` itself).
 2. `spec-bootstrap` runs `specify init` and `openspec init`.
-3. `index-bootstrap` builds the codegraph index in the background and starts Agent-Fusion for that project.
+3. `index-bootstrap` builds the codegraph index in the background.
 4. `agent-handoff init` creates `.agent/` (handoff, memory), `AGENTS.md`, `.mcp.json` and a managed `.gitignore` block, then prints the last handoff.
 
 Opt out per project by touching `.agent-handoff-off`, `.spec-bootstrap-off` or `.index-bootstrap-off`.
@@ -55,12 +54,11 @@ git clone <this repo> claude-config && cd claude-config
 
 Then, by hand:
 1. `caveman setup`, then load the proxy: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.caveman.proxy.plist`. `settings.json` points `ANTHROPIC_BASE_URL` at `127.0.0.1:8788`; if the proxy is not running, Claude Code cannot reach the API. Remove that env var to bypass it.
-2. **Agent-Fusion:** `git clone https://github.com/krokozyab/Agent-Fusion ~/.claude-tools/src/Agent-Fusion`, build `./gradlew shadowJar`, copy `build/libs/orchestrator-0.1.0-all.jar` to `~/.claude-tools/agent-fusion/`. Needs `openjdk@21`.
-3. **Kwipu:** `git clone https://github.com/benmaster82/Kwipu ~/.claude-tools/Kwipu`, create its `.venv` and install its requirements.
-4. **lumen:** install the `lumen` binary (version 0.0.42) from https://github.com/ory/lumen and put it on your PATH (`~/.local/bin/lumen`).
-5. **figcraft:** install the FigCraft desktop app from https://github.com/storytold/figcraft/releases (macOS `.dmg`, drag to `/Applications`); the MCP server expects its CLI at `~/.artcraft/bin/figcraft-cli`.
-6. **Obsidian:** install the app from https://obsidian.md. Open it once so `obsidian-local-rest-api` creates its key; `bin/vault-bootstrap` seeds the key from `~/.claude-tools/obsidian.env`, which is generated on first run and never committed.
-7. Restart Claude Code, run `mcptoon doctor` (all servers OK) and `/context`.
+2. **Kwipu:** `git clone https://github.com/benmaster82/Kwipu ~/.claude-tools/Kwipu`, create its `.venv` and install its requirements.
+3. **lumen:** install the `lumen` binary (version 0.0.42) from https://github.com/ory/lumen and put it on your PATH (`~/.local/bin/lumen`).
+4. **figcraft:** install the FigCraft desktop app from https://github.com/storytold/figcraft/releases (macOS `.dmg`, drag to `/Applications`); the MCP server expects its CLI at `~/.artcraft/bin/figcraft-cli`.
+5. **Obsidian:** install the app from https://obsidian.md. Open it once so `obsidian-local-rest-api` creates its key; `bin/vault-bootstrap` seeds the key from `~/.claude-tools/obsidian.env`, which is generated on first run and never committed.
+6. Restart Claude Code, run `mcptoon doctor` (all servers OK) and `/context`.
 
 ## Layout
 
@@ -78,7 +76,6 @@ export.py          re-snapshot this machine into the repo
 ```
 
 ## Known limits
-- Agent-Fusion holds about 4 GB of RAM per active project while running and takes about 2.5 minutes to index a repo the first time. Its HTTP port opens only after that index finishes. `bin/agent-fusion-run` turns off `git_intent_links` (it failed on every file and stalled startup) and refuses to watch `$HOME`.
 - The Caveman proxy is a single point of failure for every request; savings are not measured here.
 - OpenSpec and spec-kit overlap; both are kept on purpose.
 - `claude/settings.json` contains Caveman's generated hooks with absolute Homebrew paths. Re-run `caveman setup` if Node lives elsewhere.
@@ -87,13 +84,11 @@ export.py          re-snapshot this machine into the repo
 
 - Serena runs in its `claude-code` context, so through mcptoon it exposes `initial_instructions` and `serena_repl`; the symbol tools are called through the repl. Only `guard-pack` from claude-code-hooks is installed (it bundles the seven guard hooks); the other catalog plugins are not. Guard plugins block edits to hook and settings files by design: disable one for a session if you need to change them. Perplexity MCP and Semgrep Guardian were dropped because they need paid accounts.
 
-- free-search-mcp only knows how to launch its own Chromium, so `bin/free-search-mcp-run` swaps that one call for a CDP connection (Lightpanda 9222, then Comet 9223 through `comet-cdp`). Lightpanda gets a fresh isolated context; Comet reuses its real profile. A few sites with incomplete certificate chains (example.com) fail its plain-HTTP path and fall back to the browser.
-
 ## Keeping it current
 Run `python3 export.py` after changing the stack, review `git diff`, commit. The script scans its output for secret-like strings and stops if it finds any. Never add `~/.claude.json`, transcripts, `obsidian.env` or `.env` files.
 
 ## Source repositories
-Upstream repo for every tool in the stack. `install.sh` installs the Homebrew packages (rtk, ollama, gh, openjdk@21) through `brew`; their sites are https://www.rtk-ai.app/ and https://ollama.com/. Links were taken from package metadata, `plugins.json`, the local clones and `gh repo view`.
+Upstream repo for every tool in the stack. `install.sh` installs the Homebrew packages (rtk, ollama, gh) through `brew`; their sites are https://www.rtk-ai.app/ and https://ollama.com/. Links were taken from package metadata, `plugins.json`, the local clones and `gh repo view`.
 
 | Tool | Source |
 |---|---|
@@ -111,25 +106,21 @@ Upstream repo for every tool in the stack. `install.sh` installs the Homebrew pa
 | codegraph | https://github.com/colbymchenry/codegraph |
 | fallow | https://github.com/fallow-rs/fallow |
 | Kwipu | https://github.com/benmaster82/Kwipu |
-| Agent-Fusion | https://github.com/krokozyab/Agent-Fusion |
 | OpenSpec | https://github.com/Fission-AI/OpenSpec |
 | spec-kit | https://github.com/github/spec-kit |
 | ponytail | https://github.com/DietrichGebert/ponytail |
-| sessionbridge | https://github.com/tongtongtju/sessionbridge |
 | figcraft | https://github.com/storytold/figcraft |
 | open-pencil | https://github.com/open-pencil/open-pencil |
 | fig-mcp | https://github.com/bilalba/fig-mcp |
 | shadcn MCP | https://github.com/shadcn-ui/ui |
 | Lightpanda | https://github.com/lightpanda-io/browser |
 | Serena | https://github.com/oraios/serena |
-| free-search-mcp | https://github.com/sweetcornna/free-search-mcp |
 | Superpowers | https://github.com/obra/superpowers |
 | GSD Core | https://github.com/open-gsd/gsd-core |
 | Candor | https://github.com/itsryanlenk/candor |
 | anti-sycophancy | https://github.com/0xcjl/anti-sycophancy |
 | pr-review-toolkit | https://github.com/anthropics/claude-plugins-official/tree/main/plugins/pr-review-toolkit |
 | Semgrep (local MCP) | https://github.com/semgrep/semgrep |
-| claude-guardrails | https://github.com/RabihJabr29/claude-guardrails |
 | claude-code-hooks | https://github.com/karanb192/claude-code-hooks |
 | playwright MCP | https://github.com/microsoft/playwright-mcp |
 | chrome-devtools MCP | https://github.com/ChromeDevTools/chrome-devtools-mcp |
@@ -150,7 +141,6 @@ Each folder in `skills/` with its upstream repo. Every repo below was confirmed 
 | architecture-decision-records | https://github.com/affaan-m/ECC |
 | humanizer, structural-humanizer | https://github.com/NulightJens/humanizer-stack (humanizer is based on https://github.com/blader/humanizer) |
 | frontend-design | https://github.com/anthropics/skills |
-| wcag-accessibility | https://github.com/mrKanoh/wcag-accessibility-audit-skill |
 | design-review | https://github.com/AslanMazhidov/design-review-skill |
 | fig-parser | https://github.com/sunyui/figma-parser |
 | figcraft | https://github.com/storytold/figcraft (skill pack: https://github.com/Vinciux99/artcraft-claude-skills, not tree-checked) |

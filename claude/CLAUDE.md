@@ -6,14 +6,14 @@ jCodeMunch-MCP indexes repo symbols and relations. Use where cheaper; built-in t
 - **Small repo:** built-in tools usually cheaper for finding, reading code.
 - Harness requires `Read` before `Edit`/`Write`.
 
-Server runs **front door** surface: three tools reach every jCodeMunch capability, so tool list small, catalogue fetched only when needed.
+jCodeMunch runs behind mcptoon: call `mcptoon_call` with server `jcodemunch`, tool `order` / `route` / `menu` / `jcodemunch_guide`, and the JSON below as its arguments. Three tools reach every capability.
 
 **Before first jCodeMunch call in session** (skip when task needs none):
-- `order { "action": "resolve_repo", "args": { "path": "." } }` — confirm project indexed. If not: `order { "action": "index_folder", "args": { "path": "." } }`
+- `order { "action": "resolve_repo", "args": { "path": "<absolute project path>" } }` — confirm project indexed (relative paths resolve against the server's cwd, not yours). If not: `order { "action": "index_folder", "args": { "path": "<absolute project path>" }, "allow_state_change": true }`
 
 **Then, for task index suits:**
 - Know what want → `order { "action": "<name>", "args": { ... } }`
-- Know goal, not tool → `route { "query": "your task in a sentence" }` picks action, shapes arguments
+- Know goal, not tool → `route { "task": "your task in a sentence" }` picks action, shapes arguments
 - See what exists → `menu { "query": "what you are trying to do" }` returns matching actions with example arguments
 - Whole catalogue, usage rules → `jcodemunch_guide`
 
@@ -45,7 +45,6 @@ same gateway: `mcptoon manifest` lists them.
 
 Primary browser = Lightpanda (`lightpanda` MCP; `playwright`/`chrome-devtools` via mcptoon are wired to its CDP server at http://127.0.0.1:9222, daemon `io.lightpanda.serve`). Always use it first for any browsing, scraping, page reading, or automation.
 Fallback ONLY when Lightpanda cannot do the job (needs real rendering, screenshots, heavy JS, logins): Comet via `playwright-comet` / `chrome-devtools-comet` (mcptoon). They attach to the user's real Comet profile over debug port 9223 (`comet-cdp` starts Comet normally). Never launch Comet through automation flags: that reset the profile once. State why before falling back.
-The `free-search` MCP follows the same order (its launcher `free-search-mcp-run` tries Lightpanda, then Comet).
 Never use claude-in-chrome, built-in Claude_Browser, the plugin playwright, or any other browser (denied in settings.json). Skills that name another browser: substitute this policy.
 
 

@@ -16,10 +16,6 @@
       "source": "github",
       "repo": "DietrichGebert/ponytail"
     },
-    "sessionbridge": {
-      "source": "github",
-      "repo": "tongtongtju/sessionbridge"
-    },
     "caveman": {
       "source": "github",
       "repo": "JuliusBrussee/caveman"
@@ -28,26 +24,20 @@
       "source": "github",
       "repo": "itsryanlenk/candor"
     },
-    "guardrails": {
-      "source": "github",
-      "repo": "RabihJabr29/claude-guardrails"
-    },
     "claude-code-hooks": {
       "source": "github",
       "repo": "karanb192/claude-code-hooks"
     }
   },
   "enabled": [
+    "candor@candor",
     "caveman@caveman",
     "context-mode@context-mode",
+    "guard-pack@claude-code-hooks",
     "obsidian-wiki@obsidian-wiki",
     "obsidian@obsidian-skills",
     "ponytail@ponytail",
-    "sessionbridge@sessionbridge",
-    "superpowers@claude-plugins-official",
     "pr-review-toolkit@claude-plugins-official",
-    "candor@candor",
-    "claude-guardrails@guardrails",
-    "guard-pack@claude-code-hooks"
+    "superpowers@claude-plugins-official"
   ]
 }

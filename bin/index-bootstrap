@@ -23,6 +23,4 @@ if [ -d "$dir/.codegraph" ]; then
 else
   ( nohup codegraph init -y "$dir" </dev/null >/dev/null 2>&1 & )
 fi
-# agent-fusion: pre-start per-project server (cold JVM start exceeds mcptoon's 30s call timeout)
-( CLAUDE_PROJECT_DIR="$dir" nohup "$HOME/.claude-tools/bin/agent-fusion-run" </dev/null >/dev/null 2>&1 & )
 exit 0

@@ -14,9 +14,11 @@
     "env": {}
   },
   "lightpanda": {
+    "type": "stdio",
     "command": "__HOME__/.local/bin/lightpanda",
     "args": [
       "mcp"
-    ]
+    ],
+    "env": {}
   }
 }
