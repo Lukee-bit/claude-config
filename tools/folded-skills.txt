@@ -18,7 +18,6 @@ frontend-design
 google-maps-scraper
 migrate-radix-to-base
 obsidian-tooling
-open-pencil
 orca-cli
 orca-computer-use
 orchestration

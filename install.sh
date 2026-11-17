@@ -79,6 +79,15 @@ if [ $DRY -eq 0 ] && [ ! -x "$HOME/.local/bin/lightpanda" ]; then
   chmod +x "$HOME/.local/share/lightpanda/$LP"; xattr -d com.apple.quarantine "$HOME/.local/share/lightpanda/$LP" 2>/dev/null || true
   ln -sf "$HOME/.local/share/lightpanda/$LP" "$HOME/.local/bin/lightpanda"
 else echo "  would install lightpanda 1.0.3 from GitHub releases (or already present)"; fi
+say "FigCraft CLI + MCP server (design; the app itself is a manual download from the figcraft releases page)"
+if [ $DRY -eq 0 ] && [ ! -x "$HOME/.artcraft/bin/figcraft-cli" ]; then
+  FT=$(mktemp -d); mkdir -p "$HOME/.artcraft/bin"
+  gh release download --repo storytold/figcraft -p 'figcraft-cli-*-macos-universal.zip' -D "$FT" --clobber \
+    && unzip -oq "$FT"/figcraft-cli-*.zip -d "$FT" \
+    && cp "$(find "$FT" -name figcraft-cli -type f | head -1)" "$HOME/.artcraft/bin/figcraft-cli" \
+    && chmod 755 "$HOME/.artcraft/bin/figcraft-cli" && xattr -dr com.apple.quarantine "$HOME/.artcraft/bin/figcraft-cli" 2>/dev/null || true
+  rm -rf "$FT"
+else echo "  would install figcraft-cli (latest release) to ~/.artcraft/bin (or already present)"; fi
 place launchd/io.lightpanda.serve.plist "$HOME/Library/LaunchAgents/io.lightpanda.serve.plist"
 echo "  start the CDP daemon: launchctl bootstrap gui/\$(id -u) ~/Library/LaunchAgents/io.lightpanda.serve.plist"
 D="$HOME/Library/Application Support/Claude/claude_desktop_config.json"

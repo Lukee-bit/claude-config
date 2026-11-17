@@ -6,7 +6,10 @@
   },
   "permissions": {
     "allow": [
-      "Bash(set -o pipefail)"
+      "Bash(set -o pipefail)",
+      "mcp__mcptoon",
+      "mcp__caveman",
+      "mcp__plugin_context-mode_context-mode"
     ],
     "deny": [
       "mcp__claude-in-chrome__*",
@@ -35,7 +38,6 @@
     "google-maps-scraper": "name-only",
     "migrate-radix-to-base": "name-only",
     "obsidian-tooling": "name-only",
-    "open-pencil": "name-only",
     "orca-cli": "name-only",
     "orca-computer-use": "name-only",
     "orchestration": "name-only",
