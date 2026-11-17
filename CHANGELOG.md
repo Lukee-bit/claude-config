@@ -3,6 +3,10 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-17 OpenPencil replaced by FigCraft
+- Removed the `open-pencil` gateway server, its skill and the `@open-pencil/*` npm packages. Design work goes through `figcraft` (CLI + MCP, updated to 0.18.1) and the existing `fig-mcp` / `fig-parser` for Figma `.fig` files. `install.sh` now fetches `figcraft-cli` into `~/.artcraft/bin`.
+- Action: `mcptoon remove open-pencil`; `npm uninstall -g @open-pencil/cli @open-pencil/mcp`; delete `~/.claude/skills/open-pencil`; drop `open-pencil` from `skillOverrides` in your Claude settings.
+
 ## 2026-11-16 Final fold: lightpanda, task skills, obsidian-skills; tool roles
 - Lightpanda is reached only through mcptoon (the direct MCP entry is gone from `~/.claude.json`, `claude/mcpServers.json` and the OpenCode render). The 36 task-specific user skills in `tools/folded-skills.txt` are `name-only` in `skillOverrides` and indexed from `~/.claude-tools/skill-catalog/user`. The `obsidian-skills` plugin is disabled (its skills are in the catalog).
 - `CLAUDE.md` now carries a tool-role map and the real `mcptoon_call {name, arguments}` form; README has a tool-roles table.

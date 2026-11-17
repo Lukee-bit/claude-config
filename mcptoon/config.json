@@ -60,13 +60,6 @@
         "mcp"
       ]
     },
-    "open-pencil": {
-      "transport": "stdio",
-      "command": [
-        "/opt/homebrew/bin/openpencil-mcp"
-      ],
-      "args": []
-    },
     "fig-mcp": {
       "transport": "stdio",
       "command": [

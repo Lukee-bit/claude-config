@@ -30,7 +30,7 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Agent and device control | agent-desktop, agent-device, orca-cli, orca-computer-use, orchestration skills | desktop/mobile GUI automation, Orca worktrees and workers |
 | Mobile and app skills | expo-animation, expo-design-system, expo-native-ui, expo-router, react-native-best-practices | Expo and React Native guidance |
 | Other skills and plugins | google-maps-scraper, karpathy-guidelines skills; frontend-design, playwright plugins | `playwright` stays on the deny list (browser policy) |
-| Design and web | figcraft, open-pencil, fig-mcp, shadcn, playwright, chrome-devtools MCPs plus the design and Vercel skills in `skills/` | |
+| Design and web | figcraft (CLI + MCP, for real Figma files and FigCraft), fig-mcp, shadcn, playwright, chrome-devtools MCPs plus the design and Vercel skills in `skills/` | |
 
 ### Tool roles (one owner each, so nothing fights)
 
@@ -137,7 +137,6 @@ Upstream repo for every tool in the stack. `install.sh` installs the Homebrew pa
 | spec-kit | https://github.com/github/spec-kit |
 | ponytail | https://github.com/DietrichGebert/ponytail |
 | figcraft | https://github.com/storytold/figcraft |
-| open-pencil | https://github.com/open-pencil/open-pencil |
 | fig-mcp | https://github.com/bilalba/fig-mcp |
 | shadcn MCP | https://github.com/shadcn-ui/ui |
 | Lightpanda | https://github.com/lightpanda-io/browser |
@@ -163,7 +162,6 @@ Each folder in `skills/` with its upstream repo. Every repo below was confirmed 
 | composition-patterns, react-best-practices, react-native-skills, react-view-transitions, web-design-guidelines, writing-guidelines, deploy-to-vercel, vercel-cli-with-tokens, vercel-optimize | https://github.com/vercel-labs/agent-skills |
 | banner-design, brand, design, design-system, slides, ui-styling, ui-ux-pro-max | https://github.com/nextlevelbuilder/ui-ux-pro-max-skill (`.claude/skills/`) |
 | shadcn, migrate-radix-to-base | https://github.com/shadcn-ui/ui (`skills/`) |
-| open-pencil | https://github.com/open-pencil/open-pencil (`skills/open-pencil`) |
 | harness-init, vault-context, vault-discover, obsidian-tooling | https://github.com/nickyeolk/agentic_doc_harness (`.claude/skills/`) |
 | architecture-decision-records | https://github.com/affaan-m/ECC |
 | humanizer, structural-humanizer | https://github.com/NulightJens/humanizer-stack (humanizer is based on https://github.com/blader/humanizer) |
