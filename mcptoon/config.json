@@ -117,20 +117,6 @@
         "--isolated"
       ]
     },
-    "playwright-comet": {
-      "transport": "stdio",
-      "command": [
-        "__HOME__/.claude-tools/bin/comet-playwright"
-      ],
-      "args": []
-    },
-    "chrome-devtools-comet": {
-      "transport": "stdio",
-      "command": [
-        "__HOME__/.claude-tools/bin/comet-chrome-devtools"
-      ],
-      "args": []
-    },
     "serena": {
       "transport": "stdio",
       "command": [
@@ -157,6 +143,29 @@
         "server"
       ],
       "args": []
+    },
+    "playwright-fallback": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "@playwright/mcp@0.0.85",
+        "--browser",
+        "chrome"
+      ]
+    },
+    "chrome-devtools-fallback": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "chrome-devtools-mcp@1.10.1",
+        "--no-usage-statistics"
+      ]
     }
   }
 }
