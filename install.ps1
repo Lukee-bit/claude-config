@@ -109,7 +109,7 @@ if (-not (Test-Path "$pl/main.js")) {
   Run { New-Item -ItemType Directory -Force $pl | Out-Null; foreach ($a in 'main.js', 'manifest.json', 'styles.css') { gh release download -R coddingtonbear/obsidian-local-rest-api -p $a -D $pl --clobber } } 'download obsidian-local-rest-api release assets'
 }
 
-Say 'Lightpanda (primary browser; unsigned community Windows port, Comet is the fallback)'
+Say 'Lightpanda (primary browser; unsigned community Windows port, Chrome is the fallback)'
 if (-not (Test-Path "$HOME/.local/bin/lightpanda.exe")) {
   Run { $z = Join-Path $Tmp 'lp.zip'; gh release download portable-v0.2.5 -R qidiai/lightpanda-windows-port -p 'lightpanda-portable-windows-x64.zip' -O $z --clobber; Expand-Archive $z "$Tmp/lp" -Force; New-Item -ItemType Directory -Force "$HOME/.local/bin" | Out-Null; Copy-Item (Get-ChildItem "$Tmp/lp" -Recurse -Filter 'lightpanda*.exe' | Select-Object -First 1).FullName "$HOME/.local/bin/lightpanda.exe" -Force } 'download lightpanda portable-v0.2.5'
 }
@@ -167,4 +167,4 @@ if (-not $DryRun) {
   (Get-Location).Path -replace '\', '/' | Set-Content "$HOME/.claude-tools/config-repo" -Encoding ascii
   (git rev-parse HEAD) | Set-Content "$HOME/.claude-tools/.config-rev" -Encoding ascii
 }
-Say 'Done. Remaining by hand: Comet (debug port via bin/comet-cdp), figcraft app, open Obsidian once per vault, restart Claude Code, run `mcptoon doctor`. See windows/README.md.'
+Say 'Done. Remaining by hand: figcraft app, open Obsidian once per vault, restart Claude Code, run `mcptoon doctor`. See windows/README.md.'

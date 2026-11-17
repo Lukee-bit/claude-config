@@ -3,6 +3,11 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-17 Standard Chrome fallback on main; Comet moves to the `comet` branch
+- The fallback browser (when Lightpanda cannot do the job) is now Chrome through `playwright-fallback` and `chrome-devtools-fallback`: stock Playwright MCP and Chrome DevTools MCP, each launching its own Chrome with its own profile. Needs only Chrome installed. The `bin/comet-*` helpers and the `*-comet` servers are gone from main.
+- Comet users: `git checkout comet` (main plus a fallback that attaches to your real Comet profile on port 9223). The server names are the same on both branches, so `CLAUDE.md` does not differ.
+- Action: `mcptoon remove playwright-comet chrome-devtools-comet`, re-run `./install.sh`, and update `~/.claude/CLAUDE.md` browser policy from `claude/CLAUDE.md`. Restart Claude Code.
+
 ## 2026-11-17 OpenPencil replaced by FigCraft
 - Removed the `open-pencil` gateway server, its skill and the `@open-pencil/*` npm packages. Design work goes through `figcraft` (CLI + MCP, updated to 0.18.1) and the existing `fig-mcp` / `fig-parser` for Figma `.fig` files. `install.sh` now fetches `figcraft-cli` into `~/.artcraft/bin`.
 - Action: `mcptoon remove open-pencil`; `npm uninstall -g @open-pencil/cli @open-pencil/mcp`; delete `~/.claude/skills/open-pencil`; drop `open-pencil` from `skillOverrides` in your Claude settings.

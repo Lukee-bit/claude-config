@@ -71,7 +71,7 @@ print("  merged:", ", ".join(new))
 PY
 else echo "  would merge claude/mcpServers.json into ~/.claude.json"; fi
 
-say "Lightpanda (primary browser, Comet is the fallback)"
+say "Lightpanda (primary browser, Chrome is the fallback)"
 if [ $DRY -eq 0 ] && [ ! -x "$HOME/.local/bin/lightpanda" ]; then
   case "$(uname -m)" in arm64) LP=lightpanda-aarch64-macos;; *) LP=lightpanda-x86_64-macos;; esac
   mkdir -p "$HOME/.local/share/lightpanda" "$HOME/.local/bin"
