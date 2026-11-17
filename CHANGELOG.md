@@ -3,6 +3,9 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-17 comet branch
+- Main plus the Comet fallback: `playwright-fallback` / `chrome-devtools-fallback` attach to the real Comet profile (port 9223) via `bin/comet-*`. Merge main into this branch after each main change: `git merge origin/main`.
+
 ## 2026-11-17 Standard Chrome fallback on main; Comet moves to the `comet` branch
 - The fallback browser (when Lightpanda cannot do the job) is now Chrome through `playwright-fallback` and `chrome-devtools-fallback`: stock Playwright MCP and Chrome DevTools MCP, each launching its own Chrome with its own profile. Needs only Chrome installed. The `bin/comet-*` helpers and the `*-comet` servers are gone from main.
 - Comet users: `git checkout comet` (main plus a fallback that attaches to your real Comet profile on port 9223). The server names are the same on both branches, so `CLAUDE.md` does not differ.

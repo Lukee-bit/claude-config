@@ -26,7 +26,7 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Skill catalog | mcptoon `skills resolve`, `~/.claude-tools/skill-catalog/` | GSD (full snapshot), Candor, the 40 obsidian-wiki skills and the task-specific user skills in `tools/folded-skills.txt` (set to `name-only` through `skillOverrides`) are indexed there instead of being described natively every session; `wiki-capture`, `wiki-query` and `llm-wiki` stay native |
 | Project memory | `.agent/handoff.md`, `.agent/memory/`, obsidian-wiki hooks (`SessionStart` recap, `UserPromptSubmit` recall, `Stop` capture) | the `CLAUDE.md` policy block tells agents to read the handoff, record durable facts with `obsidian-wiki memory`, and run `/save-handoff` before stopping |
 | Safety and security | claude-code-hooks `guard-pack`, Semgrep's local MCP server | guards block piped remote scripts, `--no-verify`, secret reads, force pushes; Semgrep runs locally through `bin/semgrep-mcp-run` with tracing and metrics off (no account needed) |
-| Browser | Lightpanda (primary), Chrome (fallback) | `lightpanda` reached through mcptoon (no direct MCP entry) plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-fallback` and `chrome-devtools-fallback` launch their own Chrome (needs Chrome installed). Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
+| Browser | Lightpanda (primary), Comet (fallback) | `lightpanda` reached through mcptoon (no direct MCP entry) plus a CDP daemon on `127.0.0.1:9222`; `playwright` and `chrome-devtools` attach to it; `playwright-fallback` and `chrome-devtools-fallback` attach to `/Applications/Comet.app` on debug port 9223 via `bin/comet-cdp`. Other browsers are denied in `settings.json`; policy text is in `claude/CLAUDE.md` |
 | Agent and device control | agent-desktop, agent-device, orca-cli, orca-computer-use, orchestration skills | desktop/mobile GUI automation, Orca worktrees and workers |
 | Mobile and app skills | expo-animation, expo-design-system, expo-native-ui, expo-router, react-native-best-practices | Expo and React Native guidance |
 | Other skills and plugins | google-maps-scraper, karpathy-guidelines skills; frontend-design, playwright plugins | `playwright` stays on the deny list (browser policy) |
@@ -44,7 +44,7 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Callers, impact, dead code | jCodeMunch (any language), `fallow_*` (JS/TS) | |
 | Semantic and graph search | `lumen_semantic_search`, `kwipu_query_graph` | |
 | Library docs | `context7` | |
-| Browser | Lightpanda through mcptoon, Chrome fallback | |
+| Browser | Lightpanda through mcptoon, Comet fallback | |
 | Where work stopped | `.agent/handoff.md` (`/save-handoff`, `agent-handoff`) | |
 | Binding project rules | `.agent/memory/` | |
 | User facts, open threads, findings | obsidian-wiki (`memory profile`, `memory todo`, `wiki-capture`) | |
@@ -107,7 +107,7 @@ export.py          re-snapshot this machine into the repo
 - OpenSpec and spec-kit overlap; both are kept on purpose.
 - `claude/settings.json` contains Caveman's generated hooks with absolute Homebrew paths. Re-run `caveman setup` if Node lives elsewhere.
 
-- Browser policy: Lightpanda is the primary browser. `playwright` needs `--isolated` against it (otherwise "No page on the STARTUP session"). The Chrome fallback (`playwright-fallback`, `chrome-devtools-fallback`) starts its own Chrome window with a separate profile. Comet users: use the `comet` branch (main plus a fallback that attaches to your real Comet profile). Claude Desktop's own browser setting cannot be pointed at Lightpanda; the deny rules cover Claude Code only. `lightpanda mcp` and CDP attach were tested; screenshots and logged-in pages need the Chrome fallback.
+- Browser policy: Lightpanda is the primary browser. `playwright` needs `--isolated` against it (otherwise "No page on the STARTUP session"). This is the `comet` branch: main plus a fallback that attaches to Comet on debug port 9223; if Comet is already open without that port, quit it (Cmd+Q) and the next fallback call relaunches it normally. Launching Comet via automation (`--userDataDir`) once wiped its extensions and sign-in, so do not do that. Claude Desktop's own browser setting cannot be pointed at Lightpanda; the deny rules cover Claude Code only. `lightpanda mcp` and CDP attach were tested; screenshots and logged-in pages need the Comet fallback.
 
 - Serena runs in its `claude-code` context, so through mcptoon it exposes `initial_instructions` and `serena_repl`; the symbol tools are called through the repl. Only `guard-pack` from claude-code-hooks is installed (it bundles the seven guard hooks); the other catalog plugins are not. Guard plugins block edits to hook and settings files by design: disable one for a session if you need to change them. Perplexity MCP and Semgrep Guardian were dropped because they need paid accounts.
 

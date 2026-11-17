@@ -63,7 +63,7 @@ Project memory (per workspace; lets any harness pick up where another stopped):
 ## Browser policy (mandatory, all tools, skills, plugins, MCPs, subagents)
 
 Primary browser = Lightpanda through the gateway (`mcptoon_call {name: "lightpanda_markdown", arguments: {url}}`; `lightpanda_tree` for structure, `lightpanda_extract` for values, `lightpanda_waitForState {state: networkidle}` when a read looks empty). `playwright`/`chrome-devtools` via mcptoon are wired to its CDP server at http://127.0.0.1:9222, daemon `io.lightpanda.serve`. Always use it first for any browsing, scraping, page reading, or automation.
-Fallback ONLY when Lightpanda cannot do the job (needs real rendering, screenshots, heavy JS, logins): Chrome via `playwright-fallback` / `chrome-devtools-fallback` (mcptoon). Each launches its own Chrome window with its own profile, so logins made there persist but your everyday profile is untouched. State why before falling back.
+Fallback ONLY when Lightpanda cannot do the job (needs real rendering, screenshots, heavy JS, logins): Comet via `playwright-fallback` / `chrome-devtools-fallback` (mcptoon). They attach to the user's real Comet profile over debug port 9223 (`comet-cdp` starts Comet normally). Never launch Comet through automation flags: that reset the profile once. State why before falling back.
 Never use claude-in-chrome, built-in Claude_Browser, the plugin playwright, or any other browser (denied in settings.json). Skills that name another browser: substitute this policy.
 
 

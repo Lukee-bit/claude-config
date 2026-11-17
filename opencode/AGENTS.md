@@ -21,7 +21,7 @@ One gateway (mcptoon) fronts the local MCP servers — jcodemunch, context-mode,
 
 ## Browsing
 
-Use Lightpanda first (CDP `127.0.0.1:9222`). Fallback: the `playwright-fallback` / `chrome-devtools-fallback` servers (their own Chrome). Prefer `127.0.0.1` over `localhost` on this machine: local interception may answer `localhost` with "500 Request Blocked".
+Use Lightpanda first (CDP `127.0.0.1:9222`). Fallback: Comet on `127.0.0.1:9223` — never launch Comet through an automation-created profile. Prefer `127.0.0.1` over `localhost` on this machine: local interception may answer `localhost` with "500 Request Blocked".
 
 ## Project memory and handoff (projects with `.agent/`)
 
@@ -39,5 +39,5 @@ Confirmation-seeking statements ("X is right, isn't it?") become open questions 
 ## Hygiene
 
 - Never commit secrets; memory files can contain pasted text — scan before pushing.
-- Prefer the `~/.claude-tools/bin/` helpers over ad-hoc reimplementation (`config-sync`, `agent-handoff`, …).
+- Prefer the `~/.claude-tools/bin/` helpers over ad-hoc reimplementation (`config-sync`, `agent-handoff`, `comet-cdp`, …).
 - Keep Ollama pinned (repo pin: `tools/brew.txt` / `tools/ollama-models.txt`).
