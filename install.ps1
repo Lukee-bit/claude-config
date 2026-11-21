@@ -43,7 +43,12 @@ $env:UV_LINK_MODE = 'copy'   # hardlinked venv files trip Kwipu's path-security 
 
 if (-not $NoTools) {
   Say 'winget packages'
-  foreach ($p in Lines windows/tools/winget.txt) { Run { winget install -e --id $p --accept-source-agreements --accept-package-agreements --silent } "winget install $p" }
+  # Skip what is present: PowerShell cannot reinstall itself while running in it, and re-running winget on installed packages only adds noise.
+  foreach ($p in Lines windows/tools/winget.txt) {
+    if ($p -eq 'Microsoft.PowerShell') { continue }
+    winget list -e --id $p *> $null; if ($LASTEXITCODE -eq 0) { Write-Host "  present: $p"; continue }
+    Run { winget install -e --id $p --accept-source-agreements --accept-package-agreements --silent } "winget install $p"
+  }
   Sync-Path
   Say 'uv tools'
   foreach ($t in 'jcodemunch-mcp', 'mcp-obsidian', 'mcptoon', 'obsidian-wiki', 'specify-cli', 'semgrep') { Run { uv tool install $t } "uv tool install $t" }

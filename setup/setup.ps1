@@ -138,19 +138,19 @@ if ($chosen -contains 'opencode') {
 
 # ---- 7. verify ---------------------------------------------------------------------------------------------
 $rows = @()
+function Retry($attempts, [scriptblock]$test) { for ($i = 1; $i -le $attempts; $i++) { if (& $test) { return $true }; if ($i -lt $attempts) { Start-Sleep -Seconds 8 } }; return $false }
 function Row($what, $ok, $detail = '') { $script:rows += [pscustomobject]@{ Check = $what; Result = $(if ($ok) { 'PASS' } else { 'FAIL' }); Detail = $detail } }
 if ($DryRun) { Write-Host "`nDry run finished. Nothing was changed." -ForegroundColor Yellow; try { Stop-Transcript | Out-Null } catch { }; exit 0 }
 Say 'Verifying'
-if (Have mcptoon) { $o = (mcptoon doctor 2>&1 | Out-String); Row 'mcptoon gateway (doctor)' ($o -match ', 0 issue') ($o -split "`n" | Where-Object { $_ -match 'issue' } | Select-Object -First 1) } else { Row 'mcptoon gateway (doctor)' $false 'mcptoon not on PATH' }
+if (Have mcptoon) { $script:o = ''; Row 'mcptoon gateway (doctor)' (Retry 4 { $script:o = (mcptoon doctor 2>&1 | Out-String); $script:o -match ', 0 issue' }) ($script:o -split "`n" | Where-Object { $_ -match 'issue' } | Select-Object -First 1) } else { Row 'mcptoon gateway (doctor)' $false 'mcptoon not on PATH' }
 if ($chosen -contains 'claude') {
-  $o = (claude mcp list 2>&1 | Out-String)
-  Row 'Claude Code: mcptoon + caveman connected' (($o -match 'mcptoon:.*Connected') -and ($o -match 'caveman:.*Connected') -and ($o -notmatch 'Conflicting scopes')) ''
+  Row 'Claude Code: mcptoon + caveman connected' (Retry 3 { $o = (claude mcp list 2>&1 | Out-String); ($o -match 'mcptoon:.*Connected') -and ($o -match 'caveman:.*Connected') -and ($o -notmatch 'Conflicting scopes') }) ''
   Row 'Claude Code: settings hold no leftover placeholder' (-not (Select-String -Path "$HOME/.claude/settings.json" -Pattern '__HOME__' -Quiet)) ''
 }
 if ($chosen -contains 'opencode') {
-  foreach ($s in 'caveman', 'gsd', 'mcptoon') { try { opencode api POST "/api/experimental/mcp/$s/connect" 2>&1 | Out-Null } catch { } }
-  $o = (opencode mcp list 2>&1 | Out-String)
-  Row 'OpenCode: caveman, gsd, mcptoon connected' (($o -match 'caveman\s+connected') -and ($o -match 'gsd\s+connected') -and ($o -match 'mcptoon\s+connected')) ''
+  Row 'OpenCode: caveman, gsd, mcptoon connected' (Retry 4 {
+    foreach ($s in 'caveman', 'gsd', 'mcptoon') { try { opencode api POST "/api/experimental/mcp/$s/connect" 2>&1 | Out-Null } catch { } }
+    $o = (opencode mcp list 2>&1 | Out-String); ($o -match 'caveman\s+connected') -and ($o -match 'gsd\s+connected') -and ($o -match 'mcptoon\s+connected') }) ''
 }
 if ($chosen -contains 'cursor') {
   $ag = (Get-Command agent, cursor-agent -ErrorAction SilentlyContinue | Select-Object -First 1).Source
