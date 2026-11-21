@@ -164,7 +164,7 @@ if ((Get-Command caveman -ErrorAction SilentlyContinue) -and -not $DryRun) {
 
 if (-not $DryRun) {
   New-Item -ItemType Directory -Force "$HOME/.claude-tools" | Out-Null
-  (Get-Location).Path -replace '\', '/' | Set-Content "$HOME/.claude-tools/config-repo" -Encoding ascii
+  (Get-Location).Path -replace '\\', '/' | Set-Content "$HOME/.claude-tools/config-repo" -Encoding ascii
   (git rev-parse HEAD) | Set-Content "$HOME/.claude-tools/.config-rev" -Encoding ascii
 }
 Say 'Done. Remaining by hand: Comet (debug port via bin/comet-cdp), figcraft app, open Obsidian once per vault, restart Claude Code, run `mcptoon doctor`. See windows/README.md.'
