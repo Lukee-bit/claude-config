@@ -110,7 +110,8 @@ def render_mcpservers(args):
     for srv in cfg.values():
         c = srv["command"]
         if c == f"{h}/.local/share/uv/tools/mcptoon/bin/python":
-            srv["command"] = f"{h}/{UV_TOOLS_WIN}/mcptoon/Scripts/python.exe"
+            # Same endpoint as the repo's project .mcp.json, else Claude reports "defined in multiple scopes".
+            srv["command"], srv["args"] = "mcptoon", ["serve"]
         elif c.startswith(f"{h}/.") and "." not in c.rsplit("/", 1)[-1]:
             srv["command"] = c + ".exe"
     Path(args.out).write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")

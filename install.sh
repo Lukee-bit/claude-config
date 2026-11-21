@@ -115,7 +115,7 @@ say "Skill catalog (mcptoon) and project memory (obsidian-wiki)"
 if [ $DRY -eq 0 ]; then
   C="$HOME/.claude-tools/skill-catalog"; mkdir -p "$C"
   CS="$HOME/.claude/plugins/marketplaces/candor/plugins/candor/skills"; [ -d "$CS" ] && ln -sfn "$CS" "$C/candor"
-  OS="$HOME/.claude/plugins/marketplaces/obsidian-skills/skills"; [ -d "$OS" ] && ln -sfn "$OS" "$C/obsidian-skills"
+  OS="$HOME/.claude/plugins/marketplaces/obsidian-skills/plugins/obsidian/skills"; [ -d "$OS" ] || OS="$HOME/.claude/plugins/marketplaces/obsidian-skills/skills"; [ -d "$OS" ] && ln -sfn "$OS" "$C/obsidian-skills"
   mkdir -p "$C/user"; while read -r s; do [ -n "$s" ] && [ -d "$HOME/.claude/skills/$s" ] && [ ! -d "$HOME/.local/share/harness-master-controller/skills/$s" ] && ln -sfn "$HOME/.claude/skills/$s" "$C/user/$s"; done < tools/folded-skills.txt
   OW="$(ls -d "$HOME"/.local/share/uv/tools/obsidian-wiki/lib/python*/site-packages/obsidian_wiki/_data/skills 2>/dev/null | head -1)"
   if [ -n "$OW" ]; then
