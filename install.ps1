@@ -126,7 +126,7 @@ Run {
   $C = "$HOME/.claude-tools/skill-catalog"; New-Item -ItemType Directory -Force "$C/user" | Out-Null
   function Link($link, $target) { if ((Test-Path $target) -and -not (Test-Path $link)) { New-Item -ItemType Junction -Path $link -Target $target | Out-Null } }
   Link "$C/candor" "$HOME/.claude/plugins/marketplaces/candor/plugins/candor/skills"
-  Link "$C/obsidian-skills" "$HOME/.claude/plugins/marketplaces/obsidian-skills/skills"
+  $os = "$HOME/.claude/plugins/marketplaces/obsidian-skills"; Link "$C/obsidian-skills" $(if (Test-Path "$os/plugins/obsidian/skills") { "$os/plugins/obsidian/skills" } else { "$os/skills" })
   $owDir = "$HOME/.local/share/uv/tools/obsidian-wiki/Lib/site-packages/obsidian_wiki/_data/skills"
   if (Test-Path $owDir) { Link "$C/obsidian-wiki" $owDir; foreach ($s in 'llm-wiki', 'wiki-capture', 'wiki-query') { Link "$HOME/.claude/skills/$s" "$owDir/$s" } }
   $root = "$HOME/.local/share/harness-master-controller/skills"

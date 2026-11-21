@@ -5,6 +5,9 @@ Each entry says what changed and whether anything needs doing beyond the re-run 
 
 ## 2026-11-17 comet branch
 - Main plus the Comet fallback: `playwright-fallback` / `chrome-devtools-fallback` attach to the real Comet profile (port 9223) via `bin/comet-*`. Merge main into this branch after each main change: `git merge origin/main`.
+## 2026-11-21 Windows: mcptoon scope, obsidian-skills catalog link
+- `windows/render.py` writes the user-scope `mcptoon` entry as `mcptoon serve`, the same endpoint as the repo's project-scope MCP file, so Claude no longer warns "defined in multiple scopes". The installers link the `obsidian-skills` catalog from its new upstream path `plugins/obsidian/skills` (old path still works).
+- Action: re-run `pwsh ./install.ps1`, or set `mcpServers.mcptoon` in `~/.claude.json` to `{"command":"mcptoon","args":["serve"]}`. Then `mcptoon skills index ~/.local/share/harness-master-controller/skills ~/.claude-tools/skill-catalog`.
 ## 2026-11-21 Windows: JDK dropped; Cursor and OpenCode get GSD core
 - `windows/tools/winget.txt` no longer lists Temurin 21 (only Agent-Fusion used it, and Agent-Fusion is gone). `install-cursor.*` and `install-opencode.*` now install GSD in the `core` profile, matching Claude, so the full GSD set is not duplicated next to `~/.claude/skills`.
 - Action: `winget uninstall -e --id EclipseAdoptium.Temurin.21.JDK` if you installed it for Agent-Fusion; re-run `install-cursor` and `install-opencode`.
