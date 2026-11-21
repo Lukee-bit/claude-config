@@ -3,6 +3,11 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-21 Project memory, context and notes are in the repo
+- Committed for harness handoff: `.agent/` (handoff, memory, MCP server list), the Obsidian vault files (`AGENTS.md`, `CLAUDE.md`, `Home.md`, `Notes.md`, `index.md`, `hot.md`, `_meta/`, `_raw/`, `.obsidian/` config), `.specify/`, `openspec/`, `.serena/project.yml`, `.mcp.json` and the project `.claude/` commands and skills. A fork's agent starts at `.agent/handoff.md`.
+- Still ignored: `.env`, `.obsidian/plugins/` (API key), `.codegraph/` (rebuild with `codegraph init -y`), `.claude/settings.local.json`, `.serena/project.local.yml`, caches. `.agent/mcp-servers.json` uses `$HOME` in paths.
+- Action: none. In a new clone, import the server list with `mcptoon import --file .agent/mcp-servers.json --write` and fix paths.
+
 ## 2026-11-17 comet branch stays in sync automatically
 - `.github/workflows/sync-comet.yml` merges every push to main into `comet` (the only deviation is the fallback browser). A merge conflict fails the run and leaves `comet` untouched; resolve it by hand. Nothing to do on machines.
 
