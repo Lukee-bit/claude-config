@@ -15,6 +15,8 @@ where Windows needs a different *package* (`windows/tools/`).
 
 ## Install
 
+**Double-click `Install.cmd`** in the repo root. It installs the prerequisites with winget, detects Claude Code, Cursor and OpenCode, asks which to set up (Enter = all detected) and verifies the result. Details and the scripted form (`pwsh ./setup/setup.ps1 -All -Yes`) are in the top-level README. The commands below are the underlying installer.
+
 ```powershell
 git clone <this repo> claude-config; cd claude-config
 pwsh ./install.ps1 -DryRun     # read what it will do

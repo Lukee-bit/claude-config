@@ -71,7 +71,20 @@ Opt out per project by touching `.agent-handoff-off`, `.spec-bootstrap-off` or `
 
 > **Cursor / Cursor Code:** see [`cursor/README.md`](cursor/README.md) and `install-cursor.sh` (macOS) / `install-cursor.ps1` (Windows 11). Wires the same mcptoon gateway + skills into Cursor IDE and Cursor Code CLI; run the base installer for your OS first.
 
-## Restore on a new Mac
+## Install (one double-click)
+
+Download or clone this repo, then double-click:
+
+| Your computer | Double-click |
+|---|---|
+| Windows 10/11 | `Install.cmd` |
+| macOS | `Install.command` (first time: right-click, Open) |
+
+It installs what is missing (Git, Node, uv, Python, and on a Mac Homebrew), finds which of **Claude Code, Cursor and OpenCode** are on the machine, and asks what to set up. Press Enter for the recommended choice, all detected harnesses. A harness that is missing can be installed from the same menu. When it finishes it checks the result (MCP gateway, each harness, the browser service) and prints PASS or FAIL for each check. Re-running it is safe: nothing is duplicated and replaced files are kept as `*.bak-YYYYMMDD`. A full log is written to `~/.claude-tools/install-<date>.log`.
+
+Without a menu (scripts and agents): `pwsh ./setup/setup.ps1 -All -Yes` on Windows, `./setup/setup.sh --all --yes` on a Mac; `-Only claude,cursor,opencode` (`--only` on a Mac) names the harnesses and installs any that is missing. A ZIP download (no `.git`) is turned into a checkout of this branch so `config-sync` updates work.
+
+## Restore on a new Mac (advanced: the installer the one-click setup runs)
 
 ```bash
 git clone <this repo> claude-config && cd claude-config
@@ -79,8 +92,8 @@ git clone <this repo> claude-config && cd claude-config
 ./install.sh               # apply (add --no-tools to skip package installs)
 ```
 
-Then, by hand:
-1. `caveman setup`, then load the proxy: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.caveman.proxy.plist`. `settings.json` points `ANTHROPIC_BASE_URL` at `127.0.0.1:8788`; if the proxy is not running, Claude Code cannot reach the API. Remove that env var to bypass it.
+Kwipu, lumen, Caveman and the launchd services are set up by the installer itself. Only the apps remain by hand:
+1. (done by the installer) `caveman setup`, then load the proxy: `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.caveman.proxy.plist`. `settings.json` points `ANTHROPIC_BASE_URL` at `127.0.0.1:8788`; if the proxy is not running, Claude Code cannot reach the API. Remove that env var to bypass it.
 2. **Kwipu:** `git clone https://github.com/benmaster82/Kwipu ~/.claude-tools/Kwipu`, create its `.venv` and install its requirements.
 3. **lumen:** install the `lumen` binary (version 0.0.42) from https://github.com/ory/lumen and put it on your PATH (`~/.local/bin/lumen`).
 4. **figcraft:** install the FigCraft desktop app from https://github.com/storytold/figcraft/releases (macOS `.dmg`, drag to `/Applications`); the MCP server expects its CLI at `~/.artcraft/bin/figcraft-cli`.
