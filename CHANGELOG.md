@@ -5,6 +5,10 @@ Each entry says what changed and whether anything needs doing beyond the re-run 
 
 ## 2026-11-17 comet branch
 - Main plus the Comet fallback: `playwright-fallback` / `chrome-devtools-fallback` attach to the real Comet profile (port 9223) via `bin/comet-*`. Merge main into this branch after each main change: `git merge origin/main`.
+## 2026-11-21 One-click installer
+- `Install.cmd` (Windows) and `Install.command` (macOS) detect the OS and which of Claude Code, Cursor and OpenCode are installed, install missing prerequisites and (on request) missing harnesses, run the installers for the harnesses you pick and verify the result. `setup/setup.ps1` / `setup/setup.sh` hold the logic and take `-All -Yes` / `--all --yes` for agents. A ZIP download becomes a git checkout of the branch in `.config-branch`.
+- Installers no longer need `gh login` (plain HTTPS downloads), install rtk (Windows), lumen, Kwipu, the Obsidian REST plugin and Caveman's proxy service on both OSes, take `-Harnesses` / `--harnesses`, reload the OpenCode service and approve mcptoon in the Cursor CLI.
+- Action: none. Re-run `Install.cmd` / `Install.command` to pick this up; `config-sync apply` works too.
 ## 2026-11-21 Windows: mcptoon scope, obsidian-skills catalog link
 - `windows/render.py` writes the user-scope `mcptoon` entry as `mcptoon serve`, the same endpoint as the repo's project-scope MCP file, so Claude no longer warns "defined in multiple scopes". The installers link the `obsidian-skills` catalog from its new upstream path `plugins/obsidian/skills` (old path still works).
 - Action: re-run `pwsh ./install.ps1`, or set `mcpServers.mcptoon` in `~/.claude.json` to `{"command":"mcptoon","args":["serve"]}`. Then `mcptoon skills index ~/.local/share/harness-master-controller/skills ~/.claude-tools/skill-catalog`.
