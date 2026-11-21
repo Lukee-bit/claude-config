@@ -30,7 +30,7 @@ if ($LASTEXITCODE) { throw 'cursor/render.py failed' }
 
 if (-not $NoTools) {
   Say 'GSD Core (Cursor hooks / commands)'
-  Run { npx -y '@opengsd/gsd-core@latest' --cursor --global } 'npx @opengsd/gsd-core --cursor --global'
+  Run { npx -y '@opengsd/gsd-core@latest' --cursor --global --profile=core } 'npx @opengsd/gsd-core --cursor --global'
   if (-not $DryRun) {
     python cursor/render.py
     if ($LASTEXITCODE) { throw 'cursor/render.py (post-GSD) failed' }

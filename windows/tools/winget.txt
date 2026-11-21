@@ -5,6 +5,5 @@ astral-sh.uv
 Python.Python.3.13
 Ollama.Ollama
 GitHub.cli
-EclipseAdoptium.Temurin.21.JDK
 Microsoft.PowerShell
 Obsidian.Obsidian
