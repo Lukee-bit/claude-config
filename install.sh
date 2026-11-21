@@ -102,22 +102,6 @@ print("  merged:", ", ".join(new))
 PY
 else echo "  would merge claude/mcpServers.json into ~/.claude.json"; fi
 
-say "Third-party repos built from source (tools/git-sources.txt)"
-while read -r name url rev; do
-  [ -z "$name" ] && continue; case "$name" in \#*) continue;; esac
-  if [ "$name" = Kwipu ]; then dir="$HOME/.claude-tools/Kwipu"; else dir="$HOME/.claude-tools/src/$name"; fi
-  if [ -d "$dir" ]; then echo "  $name present"; continue; fi
-  if [ $DRY -eq 1 ]; then echo "  would clone $name @ $rev"; continue; fi
-  mkdir -p "$(dirname "$dir")" && git clone -q "$url" "$dir" && git -C "$dir" checkout -q "$rev"
-done < tools/git-sources.txt
-if [ $DRY -eq 0 ] && [ -d "$HOME/.claude-tools/Kwipu" ] && [ ! -x "$HOME/.claude-tools/Kwipu/.venv/bin/python" ]; then
-  UV_LINK_MODE=copy uv venv "$HOME/.claude-tools/Kwipu/.venv" --python 3.13 && UV_LINK_MODE=copy uv pip install --python "$HOME/.claude-tools/Kwipu/.venv/bin/python" -r "$HOME/.claude-tools/Kwipu/requirements.txt"
-fi
-say "Obsidian Local REST API plugin (copied into each vault by bin/vault-bootstrap)"
-PLG="$HOME/.claude-tools/obsidian-plugins/obsidian-local-rest-api"
-if [ $DRY -eq 0 ] && [ ! -f "$PLG/main.js" ]; then
-  mkdir -p "$PLG"; for a in main.js manifest.json styles.css; do fetch "https://github.com/coddingtonbear/obsidian-local-rest-api/releases/latest/download/$a" "$PLG/$a"; done
-else echo "  would download the plugin (or already present)"; fi
 say "Lightpanda (primary browser, Chrome is the fallback)"
 if [ $DRY -eq 0 ] && [ ! -x "$HOME/.local/bin/lightpanda" ]; then
   case "$(uname -m)" in arm64) LP=lightpanda-aarch64-macos;; *) LP=lightpanda-x86_64-macos;; esac
@@ -149,6 +133,22 @@ json.dump(d, open(p, "w"), indent=2)
 PY
 else echo "  would add lightpanda to Claude Desktop config"; fi
 
+say "Third-party repos built from source (tools/git-sources.txt)"
+while read -r name url rev; do
+  [ -z "$name" ] && continue; case "$name" in \#*) continue;; esac
+  if [ "$name" = Kwipu ]; then dir="$HOME/.claude-tools/Kwipu"; else dir="$HOME/.claude-tools/src/$name"; fi
+  if [ -d "$dir" ]; then echo "  $name present"; continue; fi
+  if [ $DRY -eq 1 ]; then echo "  would clone $name @ $rev"; continue; fi
+  mkdir -p "$(dirname "$dir")" && git clone -q "$url" "$dir" && git -C "$dir" checkout -q "$rev"
+done < tools/git-sources.txt
+if [ $DRY -eq 0 ] && [ -d "$HOME/.claude-tools/Kwipu" ] && [ ! -x "$HOME/.claude-tools/Kwipu/.venv/bin/python" ]; then
+  UV_LINK_MODE=copy uv venv "$HOME/.claude-tools/Kwipu/.venv" --python 3.13 && UV_LINK_MODE=copy uv pip install --python "$HOME/.claude-tools/Kwipu/.venv/bin/python" -r "$HOME/.claude-tools/Kwipu/requirements.txt"
+fi
+say "Obsidian Local REST API plugin (copied into each vault by bin/vault-bootstrap)"
+PLG="$HOME/.claude-tools/obsidian-plugins/obsidian-local-rest-api"
+if [ $DRY -eq 0 ] && [ ! -f "$PLG/main.js" ]; then
+  mkdir -p "$PLG"; for a in main.js manifest.json styles.css; do fetch "https://github.com/coddingtonbear/obsidian-local-rest-api/releases/latest/download/$a" "$PLG/$a"; done
+else echo "  would download the plugin (or already present)"; fi
 say "Plugins"
 if command -v claude >/dev/null; then
 python3 - <<'PY' | while read -r repo; do run claude plugin marketplace add "$repo" || true; done
