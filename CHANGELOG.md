@@ -3,6 +3,9 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-21 Docs: Luke's claude-config
+- The project is now named Luke's claude-config. The README opens with what the project is and why (one double-click install, three harnesses from one source, token savings, repo-resident memory, guardrails, auto-update) and its numbers are corrected (18 MCP servers, 280 tools). Headings of the Windows, Cursor and OpenCode READMEs follow. The repository URL, folder name and install paths are unchanged.
+- Action: none.
 ## 2026-11-21 One-click installer
 - `Install.cmd` (Windows) and `Install.command` (macOS) detect the OS and which of Claude Code, Cursor and OpenCode are installed, install missing prerequisites and (on request) missing harnesses, run the installers for the harnesses you pick and verify the result. `setup/setup.ps1` / `setup/setup.sh` hold the logic and take `-All -Yes` / `--all --yes` for agents. A ZIP download becomes a git checkout of the branch in `.config-branch`.
 - Installers no longer need `gh login` (plain HTTPS downloads), install rtk (Windows), lumen, Kwipu, the Obsidian REST plugin and Caveman's proxy service on both OSes, take `-Harnesses` / `--harnesses`, reload the OpenCode service and approve mcptoon in the Cursor CLI.

@@ -1,4 +1,4 @@
-# claude-config - agent instructions
+# Luke's claude-config - agent instructions
 
 <!-- >>> agent-handoff (managed) -->
 ## Agent handoff (managed - do not edit between the markers)

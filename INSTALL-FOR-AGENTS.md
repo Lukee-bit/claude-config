@@ -1,5 +1,7 @@
 # Instructions for a coding agent (Claude Code, Claude, Codex, ...)
 
+This is Luke's claude-config: a tuned, token-lean agent environment for Claude Code, Cursor and OpenCode.
+
 If a user gives you this repository's link, use it as the source of their setup. Do this in order.
 
 0. **Fastest path:** `pwsh ./setup/setup.ps1 -All -Yes` (Windows) or `./setup/setup.sh --all --yes` (macOS). It installs the prerequisites, configures every harness already on the machine (`-Only claude,cursor,opencode` to name them and install missing ones) and prints a PASS/FAIL table. Humans just double-click `Install.cmd` / `Install.command`. Add `-DryRun` / `--dry-run` first to show what it would do. If every check passes, skip step 1.
