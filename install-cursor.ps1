@@ -37,4 +37,9 @@ if (-not $NoTools) {
   }
 }
 
+# Cursor Code CLI leaves a new MCP server at "needs approval" until it is enabled.
+$agent = (Get-Command agent, cursor-agent -ErrorAction SilentlyContinue | Select-Object -First 1).Source
+if (-not $agent -and (Test-Path "$env:LOCALAPPDATA/cursor-agent/agent.cmd")) { $agent = "$env:LOCALAPPDATA/cursor-agent/agent.cmd" }
+if ($agent -and -not $DryRun) { & $agent mcp enable mcptoon 2>&1 | Out-Null; Write-Host '  Cursor Code CLI: mcptoon approved' }
+
 Say 'Done. Fully quit and restart Cursor IDE + Cursor Code CLI, then verify: mcptoon doctor; MCP list shows mcptoon; no .sh Open-with dialogs. See cursor/README.md.'

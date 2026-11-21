@@ -2,6 +2,7 @@
 
 If a user gives you this repository's link, use it as the source of their setup. Do this in order.
 
+0. **Fastest path:** `pwsh ./setup/setup.ps1 -All -Yes` (Windows) or `./setup/setup.sh --all --yes` (macOS). It installs the prerequisites, configures every harness already on the machine (`-Only claude,cursor,opencode` to name them and install missing ones) and prints a PASS/FAIL table. Humans just double-click `Install.cmd` / `Install.command`. Add `-DryRun` / `--dry-run` first to show what it would do. If every check passes, skip step 1.
 1. **First install on this machine** (no `~/.claude-tools/config-repo` file): clone the repo, read `README.md` (macOS) or `windows/README.md` (Windows), then run the installer for the OS with `--dry-run` / `-DryRun` first and show the user what it would do:
    - macOS: `./install.sh --dry-run`, then `./install.sh`
    - Windows 11 (PowerShell 7): `pwsh ./install.ps1 -DryRun`, then `pwsh ./install.ps1`
