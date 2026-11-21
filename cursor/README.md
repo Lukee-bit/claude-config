@@ -1,4 +1,4 @@
-# Cursor / Cursor Code port
+# Luke's claude-config for Cursor / Cursor Code
 
 One source of truth: the base install (`install.sh` / `install.ps1`) still owns tools, skills, plugins, `~/.mcptoon/config.json` and `~/.claude-tools/bin/`. This surface only wires **Cursor IDE** and **Cursor Code CLI** to that stack. Remove a server from `mcptoon/` (or the base install) and it is gone for Cursor too — nothing in `cursor/` lists MCP servers of its own except the gateway entry.
 

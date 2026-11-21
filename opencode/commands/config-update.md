@@ -2,7 +2,7 @@
 description: Update this machine to the latest claude-config (reads CHANGELOG, applies, verifies)
 ---
 
-Bring this machine up to date with its claude-config repo.
+Bring this machine up to date with its Luke's claude-config repo.
 
 1. Run `~/.claude-tools/bin/config-sync status`. If it says up to date, stop and say so.
 2. Show the user the pending CHANGELOG lines and wait for their OK. Anything marked as manual or destructive needs an explicit yes.

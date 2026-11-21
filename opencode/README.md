@@ -1,4 +1,4 @@
-# OpenCode V2 port
+# Luke's claude-config for OpenCode V2
 
 One source of truth: the OpenCode surface renders from what the repo already defines — `claude/mcpServers.json` (MCP entries), `claude/commands/` (adapted to OpenCode tool names), `claude/plugins.json` (which plugin dirs to expose), `skills/` and `bin/` (used as-is). `opencode/` holds only what OpenCode needs in its own shape. Remove it there and it is gone on macOS and Windows.
 

@@ -1,4 +1,4 @@
-# claude-config — global instructions for OpenCode
+# Luke's claude-config — global instructions for OpenCode
 
 This machine runs the claude-config stack (source of truth: the repo recorded in `~/.claude-tools/config-repo`). Same rules as the Claude Code side; only the surface differs.
 
