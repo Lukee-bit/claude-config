@@ -36,11 +36,12 @@ Say 'Prerequisites'
 $prereq = @(
   @{ cmd = 'git'; id = 'Git.Git' }, @{ cmd = 'node'; id = 'OpenJS.NodeJS' },
   @{ cmd = 'uv'; id = 'astral-sh.uv' }, @{ cmd = 'python'; id = 'Python.Python.3.13' })
+$pending = $false
 foreach ($p in $prereq) {
   $ok = if ($p.cmd -eq 'python') { Real-Python } else { Have $p.cmd }
   if ($ok) { Note "ok: $($p.cmd)"; continue }
   if (-not (Have winget)) { throw "winget is missing. Install 'App Installer' from the Microsoft Store, then run this again." }
-  if ($DryRun) { Note "would: winget install $($p.id)"; continue }
+  if ($DryRun) { Note "would: winget install $($p.id)"; $pending = $true; continue }
   Note "installing $($p.id) ..."
   winget install -e --id $p.id --accept-source-agreements --accept-package-agreements --silent | Out-Null
   Sync-Path
@@ -119,6 +120,7 @@ foreach ($k in $toInstall) {
 }
 
 # ---- 6. run the installers ---------------------------------------------------------------------------------
+if ($DryRun -and $pending) { Write-Host "`nDry run: the installers need the prerequisites above first, so they are not previewed. Nothing was changed." -ForegroundColor Yellow; try { Stop-Transcript | Out-Null } catch { }; exit 0 }
 $csv = $chosen -join ','
 $flags = @(); if ($DryRun) { $flags += '-DryRun' }; if ($NoTools) { $flags += '-NoTools' }
 Say 'Base install (tools, MCP gateway, skills, plugins, services)'

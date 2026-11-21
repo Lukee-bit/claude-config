@@ -9,7 +9,7 @@
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
 ROOT="$PWD"
-ALL=0; YES=0; ONLY=""; DRY=0; NOTOOLS=0
+ALL=0; YES=0; ONLY=""; DRY=0; NOTOOLS=0; PENDING=0
 while [ $# -gt 0 ]; do case "$1" in
   --all) ALL=1;; --yes|-y) YES=1;; --dry-run) DRY=1;; --no-tools) NOTOOLS=1;;
   --only) ONLY="${2:?--only needs a list}"; shift;; --only=*) ONLY="${1#*=}";;
@@ -31,7 +31,7 @@ brew_env
 # ---- 1. prerequisites
 say "Prerequisites"
 if ! have brew; then
-  if [ $DRY -eq 1 ]; then note "would: install Homebrew"; else
+  if [ $DRY -eq 1 ]; then note "would: install Homebrew"; PENDING=1; else
     note "installing Homebrew (it may ask for your password) ..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || { echo "Homebrew install failed."; exit 1; }
     brew_env
@@ -40,7 +40,7 @@ fi
 for pair in git:git node:node uv:uv python3:python@3.13 curl:curl; do
   cmd="${pair%%:*}"; pkg="${pair#*:}"
   if have "$cmd" && { [ "$cmd" != git ] || xcode-select -p >/dev/null 2>&1; }; then note "ok: $cmd"; continue; fi
-  if [ $DRY -eq 1 ]; then note "would: brew install $pkg"; continue; fi
+  if [ $DRY -eq 1 ]; then note "would: brew install $pkg"; PENDING=1; continue; fi
   note "installing $pkg ..."; brew install "$pkg" || { echo "brew install $pkg failed."; exit 1; }
 done
 hash -r
@@ -106,6 +106,7 @@ for k in $TO_INSTALL; do
 done
 
 # ---- 6. run the installers
+[ $DRY -eq 1 ] && [ $PENDING -eq 1 ] && { echo; echo "Dry run: the installers need the prerequisites above first, so they are not previewed. Nothing was changed."; exit 0; }
 CSV="$(echo $CHOSEN | tr ' ' ',')"
 FLAGS=(); [ $DRY -eq 1 ] && FLAGS+=(--dry-run); [ $NOTOOLS -eq 1 ] && FLAGS+=(--no-tools)
 say "Base install (tools, MCP gateway, skills, plugins, services)"
