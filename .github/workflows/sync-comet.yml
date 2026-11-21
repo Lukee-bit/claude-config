@@ -25,5 +25,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # comet and main both prepend entries to CHANGELOG.md, so a text merge always conflicts; keep both sides.
+          echo 'CHANGELOG.md merge=union' >> .git/info/attributes
           git merge --no-edit -m "Merge main into comet" origin/main
           git push origin comet
