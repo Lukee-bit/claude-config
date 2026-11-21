@@ -1,0 +1,162 @@
+{
+  "mcpServers": {
+    "jcodemunch": {
+      "transport": "stdio",
+      "command": [
+        "uvx"
+      ],
+      "args": [
+        "jcodemunch-mcp"
+      ]
+    },
+    "fallow": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": [
+        "--yes",
+        "--package",
+        "fallow",
+        "fallow-mcp"
+      ]
+    },
+    "kwipu": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.claude-tools/bin/kwipu-mcp"
+      ],
+      "args": []
+    },
+    "mcp-obsidian": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.claude-tools/bin/mcp-obsidian-run"
+      ],
+      "args": []
+    },
+    "lumen": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.local/bin/lumen",
+        "stdio"
+      ],
+      "args": []
+    },
+    "figcraft": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.artcraft/bin/figcraft-cli",
+        "mcp"
+      ],
+      "args": []
+    },
+    "shadcn": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ]
+    },
+    "fig-mcp": {
+      "transport": "stdio",
+      "command": [
+        "/opt/homebrew/bin/fig-mcp"
+      ],
+      "args": []
+    },
+    "codegraph": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.claude-tools/bin/codegraph-run"
+      ],
+      "args": []
+    },
+    "context7": {
+      "transport": "stdio",
+      "command": [
+        "npx"
+      ],
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@4.4.4"
+      ]
+    },
+    "lightpanda": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.local/bin/lightpanda",
+        "mcp"
+      ],
+      "args": []
+    },
+    "chrome-devtools": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "chrome-devtools-mcp@1.10.1",
+        "--browserUrl",
+        "http://127.0.0.1:9222"
+      ]
+    },
+    "playwright": {
+      "transport": "stdio",
+      "command": [
+        "npx",
+        "-y"
+      ],
+      "args": [
+        "@playwright/mcp@0.0.85",
+        "--cdp-endpoint",
+        "http://127.0.0.1:9222",
+        "--isolated"
+      ]
+    },
+    "serena": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.local/bin/serena",
+        "start-mcp-server"
+      ],
+      "args": [
+        "--context",
+        "claude-code",
+        "--project-from-cwd"
+      ]
+    },
+    "semgrep": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.claude-tools/bin/semgrep-mcp-run"
+      ],
+      "args": []
+    },
+    "context-mode": {
+      "transport": "stdio",
+      "command": [
+        "/opt/homebrew/bin/context-mode",
+        "server"
+      ],
+      "args": []
+    },
+    "playwright-fallback": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.claude-tools/bin/comet-playwright"
+      ],
+      "args": []
+    },
+    "chrome-devtools-fallback": {
+      "transport": "stdio",
+      "command": [
+        "$HOME/.claude-tools/bin/comet-chrome-devtools"
+      ],
+      "args": []
+    }
+  }
+}
