@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: comet
+          # Deploy key on the ruleset bypass list; GITHUB_TOKEN cannot push to comet.
+          ssh-key: ${{ secrets.COMET_SYNC_KEY }}
           fetch-depth: 0
       - name: Merge main into comet
         run: |
