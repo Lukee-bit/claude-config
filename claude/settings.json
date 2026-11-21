@@ -419,5 +419,6 @@
     }
   },
   "autoCompactWindow": 400000,
-  "theme": "dark"
+  "theme": "dark",
+  "model": "opusplan"
 }
