@@ -1,0 +1,429 @@
+---
+title: Wiki Index
+generated_by: obsidian-wiki memory index
+---
+
+# Wiki Index
+
+## Skills
+
+- [[skills/vercel-optimize/references/support-topics/use-cache-date-stamp-isr-write-amplifier]] — 'use cache' keys on argument identity and prerender output. A new Date(), Date.now(), or Math.random() baked into the cached output forces a fresh ISR write on every regeneration even when the data is
+- [[skills/composition-patterns/rules/_sections]] — This file defines all sections, their ordering, impact levels, and descriptions.
+- [[skills/react-best-practices/rules/_sections]] — This file defines all sections, their ordering, impact levels, and descriptions.
+- [[skills/react-native-skills/rules/_sections]] — This file defines all sections, their ordering, impact levels, and descriptions.
+- [[skills/vercel-optimize/references/playbooks/ai-application]] — LLM-backed apps, agents, code-sandbox tools, RAG pipelines. Cost shape is dominated by per-token AI Gateway spend and Sandbox active-compute time, not edge requests or function duration. Many AI custo
+- [[skills/react-native-best-practices/references/bundle-analyze-app]] — Measure iOS and Android app download/install sizes using Ruler, App Store Connect, and Emerge Tools. ( #app-size #ruler #emerge-tools #thinning)
+- [[skills/react-native-best-practices/references/bundle-analyze-js]] — Use source-map-explorer and Expo Atlas to visualize what's in your JavaScript bundle. ( #bundle #analysis #source-map-explorer #expo-atlas)
+- [[skills/react-native-best-practices/references/native-android-16kb-alignment]] — [developer.android.com/guide/practices/page-sizes]: https://developer.android.com/guide/practices/page-sizes ( #android #native #16kb #alignment #page-size #google-play #third-party)
+- [[skills/react-best-practices/rules/rendering-animate-svg-wrapper]] — Many browsers don't have hardware acceleration for CSS3 animations on SVG elements. Wrap SVG in a <div> and animate the wrapper instead. ( #rendering #svg #css #animation #performance)
+- [[skills/react-native-skills/rules/animation-gpu-properties]] — Avoid animating width, height, top, left, margin, or padding. These trigger layout recalculation on every frame. Instead, use transform (scale, translate) and opacity which run on the GPU without trig ( #animation #performance #reanimated #transform #opacity)
+- [[skills/vercel-optimize/references/playbooks/api-service]] — Headless API backend. No UI routes. Often consumed by mobile apps, partner integrations, or other Vercel projects via rewrites.
+- [[skills/brand/references/approval-checklist]] — Comprehensive checklist for reviewing marketing assets before approval.
+- [[skills/brand/references/asset-organization]] — Guidelines for organizing marketing assets in a structured, searchable system.
+- [[skills/vercel-optimize/references/support-topics/astro-edge-middleware-scope]] — Astro middleware can run at the edge for broad request sets. If middleware volume is high, prove which paths actually need interception.
+- [[skills/vercel-optimize/references/support-topics/astro-output-mode-and-isr]] — Astro defaults to static output; server output makes pages render on demand unless route-level prerendering changes that. First decide whether the hot route truly needs SSR.
+- [[skills/react-native-best-practices/references/js-atomic-state]] — Use atomic state libraries (Jotai, Zustand) to reduce unnecessary re-renders without manual memoization. ( #state #jotai #zustand #re-renders #context)
+- [[skills/humanizer/ATTRIBUTION]] — This repository packages material from several upstream sources. Each is listed
+- [[skills/expo-design-system/references/audit]] — Measure how far an existing Expo app has drifted from a single visual source of truth, then document or extend components with a consistent template.
+- [[skills/react-best-practices/rules/server-auth-actions]] — Server Actions (functions with "use server") are exposed as public endpoints, just like API routes. Always verify authentication and authorization inside each Server Action—do not rely solely on middl ( #server #server-actions #authentication #security #authorization)
+- [[skills/vercel-optimize/references/support-topics/auth-preserving-parallelization]] — Parallelizing awaits is safe only when it does not move private data access ahead of the auth, ownership, tenant, or permission check protecting that data.
+- [[skills/react-native-best-practices/references/bundle-barrel-exports]] — Refactor barrel imports (index files) to reduce bundle size and improve startup time. ( #bundle #imports #barrel #tree-shaking)
+- [[skills/react-best-practices/rules/bundle-barrel-imports]] — Import directly from source files instead of barrel files to avoid loading thousands of unused modules. Barrel files are entry points that re-export multiple modules (e.g., index.js that does export   ( #bundle #imports #tree-shaking #barrel-files #performance)
+- [[skills/composition-patterns/rules/architecture-avoid-boolean-props]] — Don't add boolean props like isThread, isEditing, isDMThread to customize ( #composition #props #architecture)
+- [[skills/react-best-practices/rules/server-dedup-props]] — RSC→client serialization deduplicates by object reference, not value. Same reference = serialized once; new reference = serialized again. Do transformations (.toSorted(), .filter(), .map()) in client, ( #server #rsc #serialization #props #client-components)
+- [[skills/react-native-skills/rules/list-performance-inline-objects]] — Don't create new objects inside renderItem to pass as props. Inline objects ( #lists #performance #flatlist #virtualization #memo)
+- [[skills/react-best-practices/rules/js-batch-dom-css]] — Avoid interleaving style writes with layout reads. When you read a layout property (like offsetWidth, getBoundingClientRect(), or getComputedStyle()) between style changes, the browser is forced to tr ( #javascript #dom #css #performance #reflow #layout-thrashing)
+- [[skills/react-best-practices/rules/server-no-shared-module-state]] — For React Server Components and client components rendered during SSR, avoid using mutable module-level variables to share request-scoped data. Server renders can run concurrently in the same process. ( #server #rsc #ssr #concurrency #security #state)
+- [[skills/banner-design/references/banner-sizes-and-styles]] — 1. Minimalist — White space dominant, single focal element, 1-2 colors, clean sans-serif
+- [[skills/design/references/banner-sizes-and-styles]] — 1. Minimalist — White space dominant, single focal element, 1-2 colors, clean sans-serif
+- [[skills/shadcn/rules/base-vs-radix]] — API differences between base and radix. Check the base field from npx shadcn@latest info.
+- [[skills/agent-device/references/bootstrap-install]] — Open this file when you still need to choose the right target, start the right session, install or relaunch the app, or pin automation to one device before interacting. This is the deterministic setup
+- [[skills/vercel-optimize/references/support-topics/bot-protection-product-guardrails]] — Bot Protection recommendations must be grounded in observed automated traffic or meaningful edge-request scale.
+- [[skills/react-native-best-practices/references/js-bottomsheet]] — Optimize @gorhom/bottom-sheet for smooth 60 FPS by keeping gesture/scroll-driven state on the UI thread. ( #bottom-sheet #gorhom #re-renders #shared-values #gestures #context #scrollable #modal #keyboard)
+- [[skills/brand/references/brand-guideline-template]] — Use this template to create comprehensive brand guidelines for any project.
+- [[skills/brand/templates/brand-guidelines-starter]] — Text on white background: 7.2:1 contrast ratio (AAA)
+- [[skills/react-best-practices/rules/js-index-maps]] — Multiple .find() calls by the same key should use a Map. ( #javascript #map #indexing #optimization #performance)
+- [[skills/vercel-optimize/references/support-topics/build-minutes-monorepo-fanout]] — Build Minutes climbs when commits rebuild unchanged work. Common causes: TURBOFORCE, cache: false, missing outputs, or disabled build-skip settings.
+- [[skills/vercel-optimize/references/support-topics/cache-components-static-shell-boundaries]] — On Next.js 16 with Cache Components, avoid older segment-config advice. The right question is whether the route can keep a static shell while dynamic data moves behind explicit cached or runtime bound
+- [[skills/vercel-optimize/references/support-topics/cache-components-suspense-dedupe-pitfall]] — Default 'use cache' does not dedupe identical calls across separate <Suspense> boundaries on the same render. Each boundary re-invokes the cached function, multiplying function-duration and ISR write 
+- [[skills/react-best-practices/rules/js-cache-property-access]] — Cache object property lookups in hot paths. ( #javascript #loops #optimization #caching)
+- [[skills/react-best-practices/rules/js-cache-function-results]] — Use a module-level Map to cache function results when the same function is called repeatedly with the same inputs during render. ( #javascript #cache #memoization #performance)
+- [[skills/react-best-practices/rules/js-cache-storage]] — localStorage, sessionStorage, and document.cookie are synchronous and expensive. Cache reads in memory. ( #javascript #localStorage #storage #caching #performance)
+- [[skills/react-best-practices/rules/rerender-derived-state-no-effect]] — If a value can be computed from current props/state, do not store it in state or update it in an effect. Derive it during render to avoid extra renders and state drift. Do not set state in effects sol ( #rerender #derived-state #useEffect #state)
+- [[skills/vercel-optimize/references/candidates]] — <!-- THIS FILE IS GENERATED by scripts/build-docs.mjs. Do not edit by hand. -->
+- [[skills/ui-styling/references/canvas-design-system]] — Visual design philosophy, systematic composition, and sophisticated visual communication.
+- [[skills/vercel-optimize/references/support-topics/cdn-cache-auth-safety]] — Treat edge caching as a safety question first. The route must be a public, cacheable GET path before a shared-cache recommendation is allowed.
+- [[skills/shadcn/rules/chat]] — Components for conversation and chat UI. Compose these instead of hand-rolling
+- [[skills/react-best-practices/rules/async-cheap-condition-before-await]] — When a branch uses await for a flag or remote value and also requires a cheap synchronous condition (local props, request metadata, already-loaded state), evaluate the cheap condition first. Otherwise ( #async #await #feature-flags #short-circuit #conditional)
+- [[skills/design/references/cip-deliverable-guide]] — Vector format (SVG, AI, EPS)
+- [[skills/design/references/cip-design]] — Corporate Identity Program design with 50+ deliverables, 20 styles, 20 industries. Generate mockups with Gemini Nano Banana (Flash/Pro).
+- [[skills/design/references/cip-prompt-engineering]] — Professional corporate identity mockup photograph showing [DELIVERABLE] for brand '[BRANDNAME]', [STYLE] design style, using colors [COLORS], [TYPOGRAPHY] typography, logo placement: [PLACEMENT], [MAT
+- [[skills/design/references/cip-style-guide]] — Industries: Finance, Legal, Consulting, Tech
+- [[skills/migrate-radix-to-base/class-mapping]] — Apply these across ALL class strings (className, cva definitions, cn calls),
+- [[skills/shadcn/cli]] — Configuration is read from components.json.
+- [[skills/vercel-optimize/references/support-topics/cold-start-initialization-bundle]] — Cold-start candidates need a code-path check, not only a project-setting check. First prove whether cold requests are paying for imports, module-scope setup, runtime choice, or dependency weight.
+- [[skills/brand/references/color-palette-management]] — Guidelines for defining, extracting, and enforcing brand colors.
+- [[skills/react-best-practices/rules/js-combine-iterations]] — Multiple .filter() or .map() calls iterate the array multiple times. Combine into one loop. ( #javascript #arrays #loops #performance)
+- [[skills/agent-desktop/references/commands-interaction]] — Commands that change UI state. Run agent-desktop <command> --help for flags.
+- [[skills/agent-desktop/references/commands-observation]] — Commands that read UI state and never change it. Run agent-desktop <command> --help for flags.
+- [[skills/agent-desktop/references/commands-system]] — App lifecycle, windows, notifications, clipboard, wait, batch, sessions, health. Run agent-desktop <command> --help for flags.
+- [[skills/design-system/references/component-specs]] — Detailed specs for core components with states and variants.
+- [[skills/design-system/references/component-tokens]] — Component-specific tokens referencing semantic layer.
+- [[skills/shadcn/rules/composition]] — Items always inside their Group component
+- [[skills/react-native-best-practices/references/js-concurrent-react]] — Use useDeferredValue and useTransition to improve perceived performance by prioritizing critical updates. ( #useDeferredValue #useTransition #suspense #concurrent)
+- [[skills/react-best-practices/rules/bundle-conditional]] — Load large data or modules only when a feature is activated. ( #bundle #conditional-loading #lazy-loading)
+- [[skills/brand/references/consistency-checklist]] — [ ] Correct logo version used
+- [[skills/migrate-radix-to-base/consumer-props]] — The shadcn wrapper NAMES survive a radix -> base-ui migration, but these props
+- [[skills/vercel-optimize/references/playbooks/content-site]] — Documentation, blogs, knowledge bases, marketing-adjacent content with mostly static pages. Authoring may be headless-CMS-driven or markdown-in-repo.
+- [[skills/vercel-optimize/CONTRIBUTING]] — Keep changes small, metric-grounded, and fixture-tested. Runtime code lives in skills/vercel-optimize; tests and fixtures live in packages/vercel-optimize-tests so installed skills stay small.
+- [[skills/expo-native-ui/references/controls]] — Native iOS controls provide built-in haptics, accessibility, and platform-appropriate styling.
+- [[skills/agent-device/references/coordinate-system]] — Open this file only when you must use raw coordinates instead of selectors or @ref targeting.
+- [[skills/humanizer/references/copy-tells]] — Surface tells that appear in public-facing copy specifically: landing pages, marketing
+- [[skills/slides/references/copywriting-formulas]] — 25 formulas for persuasive slide copy.
+- [[skills/vercel-optimize/references/support-topics/core-web-vitals-client-bottlenecks]] — Core Web Vitals candidates need metric-specific investigation. LCP, INP, and CLS usually have different causes and fixes.
+- [[skills/slides/references/create]] — Invoke slides skill to create persuasive HTML slides using design tokens, Chart.js, and the slide knowledge database.
+- [[skills/composition-patterns/rules/patterns-explicit-variants]] — Instead of one component with many boolean props, create explicit variant ( #composition #variants #architecture)
+- [[skills/vercel-optimize/references/support-topics/external-api-critical-path-platform]] — External API candidates are actionable only when the slow hostname is on a customer route's critical path. Prove the route waits on it before suggesting a cache, payload, or post-response change.
+- [[skills/react-best-practices/rules/server-cache-lru]] — React.cache() only works within one request. For data shared across sequential requests (user clicks button A then button B), use an LRU cache. ( #server #cache #lru #cross-request)
+- [[skills/react-best-practices/rules/rendering-content-visibility]] — Apply content-visibility: auto to defer off-screen rendering. ( #rendering #css #content-visibility #long-lists)
+- [[skills/react-view-transitions/references/css-recipes]] — Ready-to-use CSS for <ViewTransition> props. Copy into your global stylesheet.
+- [[skills/shadcn/customization]] — Components reference semantic CSS variable tokens. Change the variables to change every component.
+- [[skills/vercel-optimize/references/data-collection]] — What the skill collects in Step 1, where each signal comes from, and how it degrades when a capability is missing.
+- [[skills/vercel-optimize/references/support-topics/database-egress-pooling-region]] — Only recommend database or region changes when source and metrics both point to downstream I/O rather than in-process compute.
+- [[skills/agent-device/references/debugging]] — Open this file when the task turns into failure triage, logs, network inspection, permission prompts, setup trouble, or unstable session behavior.
+- [[skills/composition-patterns/rules/state-decouple-implementation]] — The provider component should be the only place that knows how state is managed. ( #composition #state #architecture)
+- [[skills/react-best-practices/rules/client-event-listeners]] — Use useSWRSubscription() to share global event listeners across component instances. ( #client #swr #event-listeners #subscription)
+- [[skills/react-best-practices/rules/async-defer-await]] — Move await operations into the branches where they're actually used to avoid blocking code paths that don't need them. ( #async #await #conditional #optimization)
+- [[skills/react-best-practices/rules/bundle-defer-third-party]] — Analytics, logging, and error tracking don't block user interaction. Load them after hydration. ( #bundle #third-party #analytics #defer)
+- [[skills/react-best-practices/rules/js-request-idle-callback]] — Use requestIdleCallback() to schedule non-critical work during browser idle periods. This keeps the main thread free for user interactions and animations, reducing jank and improving perceived perform ( #javascript #performance #idle #scheduling #analytics)
+- [[skills/react-best-practices/rules/rerender-defer-reads]] — Don't subscribe to dynamic state (searchParams, localStorage) if you only read it inside callbacks. ( #rerender #searchParams #localStorage #optimization)
+- [[skills/composition-patterns/rules/state-context-interface]] — Define a generic interface for your component context with three parts: ( #composition #context #state #typescript #dependency-injection)
+- [[skills/react-best-practices/rules/async-dependencies]] — For operations with partial dependencies, use better-all to maximize parallelism. It automatically starts each task at the earliest possible moment. ( #async #parallelization #dependencies #better-all)
+- [[skills/anti-sycophancy/docs/DESIGN]] — The core insight from [ArXiv 2602.23971](https://arxiv.org/abs/2602.23971) is that LLM sycophancy is a structural side effect of RLHF alignment, not a personality trait. Models are trained to be helpf
+- [[skills/open-pencil/references/design-authoring]] — <!-- Generated from design-jsx reference and renderer metadata. Do not edit; run bun run generate:authoring-reference. -->
+- [[skills/design/references/design-routing]] — When to use each design sub-skill.
+- [[skills/shadcn/design-system]] — Build a new app from a preset, install every component, restyle it from a DESIGN.md, then render a design system page.
+- [[skills/shadcn/design-system-page]] — What goes on a design system page, and how to show it. Distilled from Primer, Carbon, Atlassian, GitLab Pajamas, Cloudscape, Twilio Paste, Salesforce Lightning, Material 3, Evergreen and Orbit, and fr
+- [[skills/anti-sycophancy/docs/DESIGN.zh-CN]] — [ArXiv 2602.23971](https://arxiv.org/abs/2602.23971) 的核心发现是：LLM 的谄媚是 RLHF 对齐的结构性副作用，而非性格特征。模型被训练为"有帮助"——而"有帮助"在 RLHF 的语境下与"用户满意度"相关——进而与"验证用户"相关。
+- [[skills/react-native-skills/rules/react-compiler-destructure-functions]] — This rule is only applicable if you are using the React Compiler. ( #rerender #hooks #performance #react-compiler)
+- [[skills/react-native-best-practices/references/bundle-library-size]] — Evaluate third-party library size impact before adding to your project. ( #dependencies #bundlephobia #library-size)
+- [[skills/react-native-best-practices/references/bundle-hermes-mmap]] — Disable Android JS bundle compression to enable Hermes memory mapping for faster startup on React Native 0.78 and earlier. ( #android #hermes #mmap #tti #startup)
+- [[skills/migrate-radix-to-base/disclosure]] — Scope: accordion, collapsible, tabs, toggle, toggle-group, toolbar.
+- [[skills/migrate-radix-to-base/display-misc]] — Sources: radix-ui/website data/primitives/docs/components/.mdx (full inline prop tables) and base-ui.com /react/components/{progress,scroll-area,separator,avatar,toast,form,field,fieldset}.md (fetched
+- [[skills/react-best-practices/rules/advanced-effect-event-deps]] — Effect Event functions do not have a stable identity. Their identity intentionally changes on every render. Do not include the function returned by useEffectEvent in a useEffect dependency array. Keep ( #advanced #hooks #useEffectEvent #dependencies #effects)
+- [[skills/react-best-practices/rules/rerender-simple-expression-in-memo]] — When an expression is simple (few logical or arithmetical operators) and has a primitive result type (boolean, number, string), do not wrap it in useMemo. ( #rerender #useMemo #optimization)
+- [[skills/vercel-optimize/references/doctrine]] — The four non-negotiable rules that shape every action this skill takes. If a future change conflicts with one of these, the change is wrong.
+- [[skills/react-best-practices/rules/rerender-no-inline-components]] — Defining a component inside another component creates a new component type on every render. React sees a different component each time and fully remounts it, destroying all state and DOM. ( #rerender #components #remount #performance)
+- [[skills/vercel-optimize/references/support-topics/route-error-durable-offload]] — Timeout-heavy routes often need a job boundary, not a higher limit. Workflow fits durable multi-step work that can continue after the response; return a run ID instead of waiting on returnValue.
+- [[skills/react-best-practices/rules/bundle-dynamic-imports]] — Use next/dynamic to lazy-load large components not needed on initial render. ( #bundle #dynamic-import #code-splitting #next-dynamic)
+- [[skills/vercel-optimize/references/support-topics/dynamic-rendering-traps]] — Rendering candidates are only actionable when the dynamic behavior is accidental. First prove that the route can be static, ISR, or partially static.
+- [[skills/react-best-practices/rules/js-length-check-first]] — When comparing arrays with expensive operations (sorting, deep equality, serialization), check lengths first. If lengths differ, the arrays cannot be equal. ( #javascript #arrays #performance #optimization #comparison)
+- [[skills/react-best-practices/rules/js-early-exit]] — Return early when result is determined to skip unnecessary processing. ( #javascript #functions #optimization #early-return)
+- [[skills/vercel-optimize/references/playbooks/ecommerce]] — Storefronts with cart, checkout, product catalogs. Often Stripe-integrated. Traffic skews toward catalog browsing (cacheable) and checkout (uncacheable).
+- [[skills/unslop/references/effects]] — Code treatments that turn an image into something made for this page. They are optional. Use one only when it fits the character in the direction, on the main visual only, and never as decoration on o
+- [[skills/agent-device/references/exploration]] — Open this file when the app or screen is already running and you need to discover the UI, choose targets, read state, wait for conditions, or perform normal interactions.
+- [[skills/fig-parser/references/export-formats]] — Complete guide to Figma export options, formats, and optimization strategies for different use cases.
+- [[skills/vercel-optimize/references/support-topics/external-api-critical-path]] — For external API candidates, identify the customer route that waits on the slow hostname and whether the call is on the critical path.
+- [[skills/react-best-practices/rules/rerender-memo-with-default-value]] — When memoized component has a default value for some non-primitive optional parameter, such as an array, function, or object, calling the component without that parameter results in broken memoization ( #rerender #memo #optimization)
+- [[skills/react-best-practices/rules/rerender-memo]] — Extract expensive work into memoized components to enable early returns before computation. ( #rerender #memo #useMemo #optimization)
+- [[skills/vercel-optimize/references/support-topics/fast-data-transfer-payloads]] — When uncached routes carry high bandwidth, check payload shape before recommending only cache headers. Fast Data Transfer includes the bytes transferred by requests and responses; compare compressed r
+- [[skills/react-native-best-practices/references/native-turbo-modules]] — Build performant Turbo Modules using modern languages and background threading. ( #turbo-modules #native #swift #kotlin #c++)
+- [[skills/fig-parser/references/figma-api-reference]] — Complete reference for Figma REST API endpoints and Plugin API capabilities.
+- [[skills/vercel-optimize/references/support-topics/fluid-compute-caveats]] — Fluid compute is a project-level lever. Use it when the setting is off and metrics show cold-start or warm-instance reuse pressure. Fluid can handle multiple invocations in one function instance; avoi
+- [[skills/migrate-radix-to-base/form-controls]] — Scope: select, checkbox, radio-group, switch, slider.
+- [[skills/expo-router/references/form-sheet]] — This skill covers implementing form sheets with footers using Expo Router's Stack navigator and react-native-screens.
+- [[skills/shadcn/rules/forms]] — Forms use FieldGroup + Field
+- [[skills/vercel-optimize/references/support-topics/function-duration-io-and-after]] — When wall-clock latency is much higher than CPU time, check critical-path awaits before blaming rendering or compute.
+- [[skills/vercel-optimize/references/support-topics/function-invocation-reduction]] — For slow routes, prove duplicated in-request work in the listed files before recommending consolidation or memoization.
+- [[skills/vercel-optimize/references/support-topics/function-region-misconfiguration-ttfb]] — A single function region is pinned. Per-region TTFB data is unavailable today (evidence.dataGap); treat as an audit prompt — validate the pinned region against user geo and data-source location before
+- [[skills/structural-humanizer/references/genre-calibration]] — The six audits do not apply with equal force everywhere. A course lesson must state
+- [[skills/expo-native-ui/references/gradients]] — Use CSS gradients with the experimentalbackgroundImage style property.
+- [[skills/react-native-best-practices/references/js-animations-reanimated]] — Use React Native Reanimated for smooth 60+ FPS animations. ( #reanimated #animations #worklets #ui-thread)
+- [[skills/react-native-best-practices/references/js-lists-flatlist-flashlist]] — Replace ScrollView with FlatList, FlashList, or Legend List for performant large list rendering. ( #lists #flatlist #flashlist #legend-list #scrollview #virtualization)
+- [[skills/react-native-skills/rules/list-performance-callbacks]] — When passing callback functions to list items, create a single instance of the ( #tag1 #tag2)
+- [[skills/react-native-skills/rules/js-hoist-intl]] — Don't create Intl.DateTimeFormat, Intl.NumberFormat, or ( #javascript #intl #optimization #memoization)
+- [[skills/react-best-practices/rules/js-hoist-regexp]] — Don't create RegExp inside render. Hoist to module scope or memoize with useMemo(). ( #javascript #regexp #optimization #memoization)
+- [[skills/react-best-practices/rules/server-hoist-static-io]] — When loading static assets (fonts, logos, images, config files) in route handlers or server functions, hoist the I/O operation to module level. Module-level code runs once when the module is first imp ( #server #io #performance #next.js #route-handlers #og-image)
+- [[skills/react-best-practices/rules/rendering-hoist-jsx]] — Extract static JSX outside components to avoid re-creation. ( #rendering #jsx #static #optimization)
+- [[skills/slides/references/html-template]] — Complete HTML structure with navigation, tokens, and Chart.js integration.
+- [[skills/react-native-best-practices/references/js-memory-leaks]] — Find and fix JavaScript memory leaks using the React Native DevTools Memory tab, with agent-device react-devtools for related component context. ( #memory #leaks #profiling #cleanup)
+- [[skills/react-native-best-practices/references/native-memory-leaks]] — Find native memory leaks using Xcode Leaks and Android Studio Memory Profiler. ( #memory #leaks #xcode #instruments #profiler)
+- [[skills/design/references/icon-design]] — AI-powered SVG icon generation using Gemini 3.1 Pro Preview. 15 styles, 12 categories, multi-size export.
+- [[skills/expo-native-ui/references/icons]] — Use SF Symbols on iOS for native feel. SF Symbols are an Apple asset and never render on Android - every icon needs a Material counterpart (see "Android: Material Icons" below). Never use FontAwesome 
+- [[skills/shadcn/rules/icons]] — Always use the project's configured iconLibrary for imports. Check the iconLibrary field from project context: lucide → lucide-react, tabler → @tabler/icons-react, etc. Never assume lucide-react.
+- [[skills/vercel-optimize/references/support-topics/image-optimization-cost-control]] — Image recommendations should distinguish real user-facing image work from wasteful transformations.
+- [[skills/react-view-transitions/references/implementation]] — Follow these steps in order when adding view transitions to an app. Each step builds on the previous one.
+- [[skills/react-native-skills/rules/imports-design-system-folder]] — Re-export dependencies from a design system folder. App code imports from there, ( #imports #architecture #design-system)
+- [[skills/react-best-practices/rules/advanced-init-once]] — Do not put app-wide initialization that must run once per app load inside useEffect([]) of a component. Components can remount and effects will re-run. Use a module-level guard or top-level init in th ( #initialization #useEffect #app-startup #side-effects)
+- [[skills/anti-sycophancy/docs/INSTALL]] — Claude Code (version with hook support) — for Layer 1
+- [[skills/react-native-skills/rules/monorepo-native-deps-in-app]] — In a monorepo, packages with native code must be installed in the native app's ( #monorepo #native #autolinking #installation)
+- [[skills/anti-sycophancy/docs/INSTALL.zh-CN]] — Claude Code（支持 hook 的版本）— 用于 Layer 1
+- [[skills/vercel-optimize/references/support-topics/isr-revalidation-static-generation]] — For ISR over-revalidation, the goal is to reduce unnecessary regeneration work without making content stale beyond the product’s tolerance.
+- [[skills/react-native-skills/rules/list-performance-item-expensive]] — List items should be as inexpensive as possible to render. Minimize hooks, avoid ( #lists #performance #virtualization #hooks)
+- [[skills/slides/references/layout-patterns]] — 25 slide layouts with CSS structures and animation classes.
+- [[skills/composition-patterns/rules/state-lift-state]] — Move state management into dedicated provider components. This allows sibling ( #composition #state #context #providers)
+- [[skills/react-native-skills/rules/fonts-config-plugin]] — Use the expo-font config plugin to embed fonts at build time instead of ( #fonts #expo #performance #config-plugin)
+- [[skills/design/references/logo-color-psychology]] — Psychology: Trust, stability, professionalism, calm
+- [[skills/design/references/logo-design]] — AI-powered logo design with 55+ styles, 30 color palettes, 25 industry guides. Gemini Nano Banana is the default provider; Atlas Cloud and MuAPI are also available as explicit opt-in providers.
+- [[skills/design/references/logo-prompt-engineering]] — Professional logo design for [brand/industry]:
+- [[skills/design/references/logo-style-guide]] — Text-only logo using custom typography.
+- [[skills/brand/references/logo-usage-rules]] — Guidelines for proper logo implementation across all marketing materials.
+- [[skills/agent-device/references/macos-desktop]] — Open this file only when --platform macos is involved or the task needs frontmost-app, desktop, or menubar surfaces.
+- [[skills/vercel-optimize/references/playbooks/marketing]] — Landing pages, lead-capture forms, A/B-tested variants, region-routed homepages. Traffic is bursty (campaigns drive spikes). Bot traffic can be substantial.
+- [[skills/shadcn/mcp]] — The CLI includes an MCP server that lets AI assistants search, browse, view, and install items from registries.
+- [[skills/react-native-best-practices/references/js-measure-fps]] — Monitor and measure JavaScript frame rate to quantify app smoothness and identify performance regressions. ( #fps #performance #monitoring #flashlight)
+- [[skills/react-native-best-practices/references/native-measure-tti]] — Set up performance markers to measure app startup time and track TTI improvements. ( #tti #startup #performance #markers)
+- [[skills/react-native-skills/rules/ui-measure-views]] — Use both useLayoutEffect (synchronous) and onLayout (for updates). The sync ( #layout #measurement #onLayout #useLayoutEffect)
+- [[skills/expo-native-ui/references/media]] — Hide navigation headers when there's a full screen camera
+- [[skills/migrate-radix-to-base/menus]] — Sources: radix-ui.com primitives docs (dropdown-menu, context-menu, menubar, navigation-menu) and base-ui.com /react/components/{menu,context-menu,menubar,navigation-menu}.md, fetched 2026-07-02.
+- [[skills/brand/references/messaging-framework]] — Mission (Why we exist)
+- [[skills/vercel-optimize/references/support-topics/middleware-proxy-edge-cost]] — Middleware recommendations should reduce unnecessary interception, not remove required request handling.
+- [[skills/react-best-practices/rules/server-serialization]] — The React Server/Client boundary serializes all object properties into strings and embeds them in the HTML response and subsequent RSC requests. This serialized data directly impacts page weight and l ( #server #rsc #serialization #props)
+- [[skills/react-native-skills/rules/react-state-minimize]] — Use the fewest state variables possible. If a value can be computed from existing state or props, derive it during render instead of storing it in state. Redundant state causes unnecessary re-renders  ( #state #derived-state #hooks #optimization)
+- [[skills/react-native-skills/rules/ui-styling]] — Follow these styling patterns for cleaner, more consistent React Native code. ( #styling #css #layout #shadows #gradients)
+- [[skills/react-best-practices/rules/rerender-dependencies]] — Specify primitive dependencies instead of objects to minimize effect re-runs. ( #rerender #useEffect #dependencies #optimization)
+- [[skills/react-native-best-practices/references/bundle-native-assets]] — Configure platform-specific asset delivery to reduce app download size. ( #assets #images #asset-catalog #app-thinning)
+- [[skills/react-native-best-practices/references/native-memory-patterns]] — Understand memory management patterns in C++, Swift, and Kotlin for React Native native modules. ( #memory #c++ #swift #kotlin #arc #smart-pointers)
+- [[skills/react-native-best-practices/references/native-sdks-over-polyfills]] — Replace web polyfills and JS navigators with native React Native implementations for better performance. ( #polyfills #intl #crypto #navigation #native)
+- [[skills/expo-design-system/references/native-slop]] — Recurring mistakes in generated React Native apps, with names, observable tells, and preferred replacements. Use these as review prompts: explain what harms the task, readability, or platform behavior
+- [[skills/react-native-skills/rules/scroll-position-no-state]] — Never store scroll position in useState. Scroll events fire rapidly—state ( #scroll #performance #reanimated #useRef)
+- [[skills/react-native-skills/rules/rendering-no-falsy-and]] — Never use {value && <Component />} when value could be an empty string or ( #rendering #conditional #jsx #crash)
+- [[skills/vercel-optimize/references/support-topics/nextjs-version-cache-semantics]] — On Next.js 15+, match the fix to the cache primitive already in use.
+- [[skills/vercel-optimize/references/support-topics/next-fetch-revalidate-floor]] — Next.js fetch options can set the route's effective cache floor. Low revalidate, revalidate: 0, or cache: 'no-store' can explain uncached traffic and excessive ISR work.
+- [[skills/vercel-optimize/references/support-topics/next-font-cls-self-hosting]] — For poor CLS, check fonts only when the route actually loads external font CSS or swaps text after render.
+- [[skills/vercel-optimize/references/support-topics/next-heavy-ui-lazy-load-boundaries]] — Heavy above-the-fold or rarely used UI can hurt LCP and INP when it ships too much JavaScript on first load. Look for concrete route-local UI, not generic bundle advice.
+- [[skills/vercel-optimize/references/support-topics/next-image-lcp-preload-sizes]] — For poor LCP, identify whether the LCP element is an image before touching unrelated JavaScript. Hero images need correct sizing, priority behavior, and source-cache hygiene.
+- [[skills/vercel-optimize/references/support-topics/next-route-handler-get-cache-defaults]] — On Next.js 15+, GET Route Handlers are dynamic by default. For hot public GET handlers, verify whether uncached behavior is intentional before recommending cache headers or route config.
+- [[skills/vercel-optimize/references/support-topics/next-script-third-party-strategy]] — Third-party scripts are only actionable when they line up with the poor metric and route. For LCP or INP, prove a specific script blocks critical rendering, hydration, or interaction.
+- [[skills/react-view-transitions/references/nextjs]] — <ViewTransition> works in the App Router with no configuration. The bundled React channel includes it, and Next.js navigations run in React Transitions. Do not add the old experimental.viewTransition 
+- [[skills/vercel-optimize/references/support-topics/not-found-catchall-request-waste]] — High-volume 404 or catch-all traffic is often request waste. First determine whether the traffic is legacy URLs, bots, broken links, or a real product route.
+- [[skills/vercel-optimize/references/support-topics/nuxt-route-rules-cache-isr]] — For Nuxt on Vercel, route-level caching usually belongs in routeRules. Match the lever to the route: prerender for static pages, ISR for shared content, and SSR for request-specific views.
+- [[skills/vercel-optimize/references/support-topics/observability-events-cost-attribution]] — Observability Events is the metered SKU under Observability Plus. When the current bill shows a large Observability Events share, event volume is the lever. Reduce upstream: lift cache hit rate, narro
+- [[skills/vercel-optimize/references/observability-plus]] — Use this file only when signals.observabilityPlusBlocker is set. Do not silently continue into scanner-only mode unless the user chooses that path.
+- [[skills/react-native-skills/rules/list-performance-function-references]] — Don't map or filter data before passing to virtualized lists. Virtualization ( #lists #performance #flatlist #virtualization)
+- [[skills/react-best-practices/rules/rendering-svg-precision]] — Reduce SVG coordinate precision to decrease file size. The optimal precision depends on the viewBox size, but in general reducing precision should be considered. ( #rendering #svg #optimization #svgo)
+- [[skills/migrate-radix-to-base/overlays]] — Components covered: dialog, alert-dialog, popover, tooltip, hover-card (Base UI: preview-card).
+- [[skills/react-best-practices/rules/server-parallel-fetching]] — React Server Components execute sequentially within a tree. Restructure with composition to parallelize data fetching. ( #server #rsc #parallel-fetching #composition)
+- [[skills/react-best-practices/rules/server-parallel-nested-fetching]] — When fetching nested data in parallel, chain dependent fetches within each item's promise so a slow item doesn't block the rest. ( #server #rsc #parallel-fetching #promise-chaining)
+- [[skills/react-native-skills/rules/list-performance-item-memo]] — When possible, pass only primitive values (strings, numbers, booleans) as props ( #lists #performance #memo #primitives)
+- [[skills/react-view-transitions/references/patterns]] — Use the official [React <ViewTransition> reference](https://react.dev/reference/react/ViewTransition) for API mechanics. This file collects reusable implementation patterns and failure modes from prod
+- [[skills/react-best-practices/rules/server-cache-react]] — Use React.cache() for server-side request deduplication. Authentication and database queries benefit most. ( #server #cache #react-cache #deduplication)
+- [[skills/humanizer/docs/PIPELINE]] — Two passes, in order. They do different jobs and neither substitutes for the other.
+- [[skills/react-native-best-practices/references/native-platform-setup]] — Navigate iOS and Android tooling, dependency management, and build systems in React Native. ( #ios #android #xcode #gradle #cocoapods)
+- [[skills/vercel-optimize/references/support-topics/post-response-work-waituntil]] — For stacks without Next.js after(), check whether non-critical work can run after the response instead of extending user-visible latency.
+- [[skills/react-native-best-practices/POWER]] — Before applying performance optimizations, ensure:
+- [[skills/composition-patterns/rules/patterns-children-over-render-props]] — Use children for composition instead of renderX props. Children are more ( #composition #children #render-props)
+- [[skills/react-best-practices/rules/bundle-analyzable-paths]] — Build tools work best when import and file-system paths are obvious at build time. If you hide the real path inside a variable or compose it too dynamically, the tool either has to include a broad set ( #bundle #nextjs #vite #webpack #rollup #esbuild #path)
+- [[skills/react-native-skills/rules/animation-derived-value]] — When deriving a shared value from another, use useDerivedValue instead of ( #animation #reanimated #derived-value)
+- [[skills/react-best-practices/rules/bundle-preload]] — Preload heavy bundles before they're needed to reduce perceived latency. ( #bundle #preload #user-intent #hover)
+- [[skills/react-best-practices/rules/rendering-hydration-no-flicker]] — When rendering content that depends on client-side storage (localStorage, cookies), avoid both SSR breakage and post-hydration flickering by injecting a synchronous script that updates the DOM before  ( #rendering #ssr #hydration #localStorage #flicker)
+- [[skills/react-best-practices/rules/async-api-routes]] — In API routes and Server Actions, start independent operations immediately, even if you don't await them yet. ( #api-routes #server-actions #waterfalls #parallelization)
+- [[skills/design-system/references/primitive-tokens]] — Raw design values - foundation of the design system.
+- [[skills/ui-ux-pro-max/references/pro-rules]] — Load this file before final delivery of native/mobile app UI (iOS/Android/React Native/Flutter), or when the user reports the UI "doesn't look professional" and the cause isn't obvious from the priori
+- [[skills/react-native-best-practices/references/native-profiling]] — Use Xcode Instruments and Android Studio Profiler to identify native performance bottlenecks. ( #xcode #instruments #android-studio #profiler)
+- [[skills/react-native-best-practices/references/js-profile-react]] — Identify unnecessary re-renders and performance bottlenecks in React Native apps using React Native DevTools through agent-device react-devtools. ( #profiling #devtools #re-renders #flamegraph)
+- [[skills/react-best-practices/rules/async-parallel]] — When async operations have no interdependencies, execute them concurrently using Promise.all(). ( #async #parallelization #promises #waterfalls)
+- [[skills/react-best-practices/rules/rerender-move-effect-to-event]] — If a side effect is triggered by a specific user action (submit, click, drag), run it in that event handler. Do not model the action as state + effect; it makes effects re-run on unrelated changes and ( #rerender #useEffect #events #side-effects #dependencies)
+- [[skills/ui-ux-pro-max/references/quick-reference]] — Load this file when doing a UI review/audit pass, or when you need the full checklist for a category beyond the priority table in SKILL.md. Each rule is also present verbatim in data/ux-guidelines.csv
+- [[skills/react-native-best-practices/references/bundle-r8-android]] — Enable R8 for Android to shrink, optimize, and obfuscate native code. ( #android #r8 #proguard #minify #shrink)
+- [[skills/composition-patterns/rules/react19-no-forwardref]] — In React 19, ref is now a regular prop (no forwardRef wrapper needed), and use() replaces useContext(). ( #react19 #refs #context #hooks)
+- [[skills/react-native-best-practices/references/js-react-compiler]] — Set up React Compiler to automatically memoize components and eliminate unnecessary re-renders. ( #memoization #react-compiler #memo #useMemo #useCallback)
+- [[skills/anti-sycophancy/README]] — A three-layer sycophancy defense system for AI coding assistants, based on [ArXiv 2602.23971](https://arxiv.org/abs/2602.23971) "Ask Don't Tell".
+- [[skills/composition-patterns/README]] — A structured repository for React composition patterns that scale. These
+- [[skills/fig-parser/README]] — Parse local Figma .fig binary files offline and export assets via Figma REST API. Extracts design data, node trees, images, typography, gradients, effects, and icon metadata. Includes integrated icon 
+- [[skills/react-best-practices/README]] — A structured repository for creating and maintaining React Best Practices optimized for agents and LLMs.
+- [[skills/react-native-skills/README]] — A structured repository for creating and maintaining React Native Best Practices
+- [[skills/react-view-transitions/README]] — An agent skill for implementing smooth, native-feeling animations using React's View Transition API.
+- [[skills/vercel-optimize/README]] — Optimize cost and performance for supported projects on Vercel.
+- [[skills/vercel-optimize/references/playbooks/README]] — Application-profile-specific advice that shapes how recommendations are phrased and ordered. Playbooks never invent claims — every rec still traces to a verified candidate or finding. They tell the re
+- [[skills/vercel-optimize/references/support-topics/README]] — Support topics are small, candidate-scoped investigation guardrails injected into sub-agent briefs.
+- [[skills/anti-sycophancy/README.zh-CN]] — 三层谄媚防御系统，基于 [ArXiv 2602.23971](https://arxiv.org/abs/2602.23971) "Ask Don't Tell" 研究。
+- [[skills/expo-animation/RECIPES]] — Ready-to-build implementations for the cases that come up most in a React Native app. Start from the recipe, then adapt.
+- [[skills/vercel-optimize/references/recommendations]] — How recommendations are shaped, written, sanitized, and graded.
+- [[skills/unslop/references/refs]] — Finished screens by Damir Sokolovsky ([@heydamir](https://x.com/heydamir)). Look at them before the Visuals pass. Take their qualities, never their subject, palette or layout, so every product still g
+- [[skills/shadcn/registry]] — Use this reference when the user wants to create, fix, publish, or reason about
+- [[skills/vercel-optimize/references/support-topics/use-cache-remote-shared-origin-data]] — For Next 16 candidates, check whether shared origin data or reusable route-handler work belongs in remote cache. Default 'use cache' is not cross-request on Vercel. Use 'use cache: remote' or generate
+- [[skills/react-native-best-practices/references/bundle-code-splitting]] — Harden remote JavaScript chunk loading when a React Native app already uses Re.Pack or has an explicit remote-code-loading requirement. ( #code-splitting #lazy-loading #chunks #release-artifacts #remote-code)
+- [[skills/agent-device/references/remote-tenancy]] — Open this file for remote daemon HTTP flows, including --remote-config launches, that let an agent running in a Linux sandbox talk to another agent-device instance on a remote macOS host in order to c
+- [[skills/vercel-optimize/references/support-topics/route-error-runtime-limits]] — Route error candidates are reliability findings with cost impact. Determine whether the failures are app exceptions, timeouts, payload limits, or deployment-specific regressions.
+- [[skills/expo-router/references/route-structure]] — Routes belong in the app directory
+- [[skills/composition-patterns/rules/_template]] — Brief explanation of the rule and why it matters. ( #composition #components)
+- [[skills/react-best-practices/rules/_template]] — Brief explanation of the rule and why it matters. This should be clear and concise, explaining the performance implications. ( #tag1 #tag2)
+- [[skills/react-native-skills/rules/_template]] — Brief explanation of the rule and why it matters. This should be clear and concise, explaining the performance implications. ( #tag1 #tag2)
+- [[skills/vercel-optimize/references/support-topics/runtime-cache-reusable-data]] — Runtime Cache is only useful when the same server-side result is reused across requests. Treat it as a measured alternative when CDN response caching is unsafe or incomplete.
+- [[skills/vercel-optimize/references/playbooks/saas]] — Multi-tenant applications with authenticated dashboards, settings, billing. Auth-gated by default. Traffic skews toward function duration (per-user data fetches) over edge requests.
+- [[skills/vercel-optimize/references/scanner-patterns]] — <!-- THIS FILE IS GENERATED by scripts/build-docs.mjs. Do not edit by hand. -->
+- [[skills/vercel-optimize/references/scoring]] — This reference covers everything that happens after recommendations are drafted: quality floor, impact framing, sort order, the customer-facing report template, and the playbook selection matrix.
+- [[skills/expo-router/references/search]] — Add a search bar to the stack header with headerSearchBarOptions:
+- [[skills/design-system/references/semantic-tokens]] — Purpose-based aliases referencing primitive tokens.
+- [[skills/ui-styling/references/shadcn-accessibility]] — ARIA patterns, keyboard navigation, screen reader support, and accessible component usage.
+- [[skills/ui-styling/references/shadcn-components]] — Complete catalog of shadcn/ui components with usage patterns and installation.
+- [[skills/ui-styling/references/shadcn-theming]] — Theme configuration, CSS variables, dark mode, and component customization.
+- [[skills/unslop/references/signs]] — Go through every group and note each sign you find with where it lives. Each line pairs the sign with its fix.
+- [[skills/agent-desktop/SKILL]] — agent-desktop is a CLI that reads and operates desktop apps through the OS accessibility tree. Every command prints one JSON envelope (ok, data or error). It is a tool, not an agent: the observe, act  ( #computer-use #desktop-automation #accessibility #ai-agent #gui-automation #cli)
+- [[skills/agent-device/SKILL]] — Use this skill as a router with mandatory defaults. Read this file first. For normal device tasks, always load references/bootstrap-install.md and references/exploration.md before acting. Use bootstra
+- [[skills/anti-sycophancy/SKILL]] — 中文: 防御谄媚, 批判模式, 挑战假设, 反谄媚, 请先指出问题, 先泼冷水
+- [[skills/architecture-decision-records/SKILL]] — Capture architectural decisions as they happen during coding sessions. Instead of decisions living only in Slack threads, PR comments, or someone's memory, this skill produces structured ADR documents
+- [[skills/banner-design/SKILL]] — Design banners across social, ads, web, and print formats. Generate multiple art direction options with CSS-built, user-supplied, or optionally generated visual elements. This skill handles banner des
+- [[skills/brand/SKILL]] — Brand identity, voice, messaging, asset management, and consistency frameworks.
+- [[skills/composition-patterns/SKILL]] — Composition patterns for building flexible, maintainable React components. Avoid
+- [[skills/deploy-to-vercel/SKILL]] — Deploy any project to Vercel. Always deploy as preview (not production) unless the user explicitly asks for production.
+- [[skills/design-review/SKILL]] — Turns Claude into a design reviewer that sees the result instead of guessing from the code.
+- [[skills/design-system/SKILL]] — Token architecture, component specifications, systematic design, slide generation.
+- [[skills/design/SKILL]] — Unified design skill: brand, tokens, UI, logo, CIP, slides, banners, social photos, icons.
+- [[skills/expo-animation/SKILL]] — This skill was created in collaboration with [Emil Kowalski](https://github.com/emilkowalski) and can also be found in the [emilkowalski/skills](https://github.com/emilkowalski/skills) repository, alo
+- [[skills/expo-design-system/SKILL]] — Make every screen in an app draw from one visual source of truth: a token theme and a small set of reusable components. This skill defines where tokens live, what they cover, how reusable components a
+- [[skills/expo-native-ui/SKILL]] — For routes, links, stacks, tabs, modals, sheets, and headers, use the expo-router skill. For any motion — entering/exiting, gestures, springs, keyboard-driven UI — use the expo-animation skill.
+- [[skills/expo-router/SKILL]] — Navigation and routing for Expo Router apps. For screen styling, colors, controls, media, and visual effects, use the expo-native-ui skill; for motion and gestures, use expo-animation.
+- [[skills/fig-parser/SKILL]] — Parse local .fig binary files without a Figma account or API access. Extract complete design data including layout, typography, colors, images, icons, gradients, effects, and auto-layout properties. G
+- [[skills/figcraft/SKILL]] — FigCraft (ArtCraft suite, storytold/figcraft) is a clean-room, open-source Rust reimplementation of Figma Design: frames and sections, auto layout (including wrap and grid), components/variants/instan
+- [[skills/frontend-design/SKILL]] — Approach this as the design lead at a design studio known for giving every client a distinct visual identity that is not mistaken for anyone else's. This client has already rejected proposals that fel
+- [[skills/google-maps-scraper/SKILL]] — Turn a business type and a location into clean lead rows with the kit's own script,
+- [[skills/harness-init/SKILL]] — One-time setup that builds the full Claude + Obsidian agentic harness from a raw or partially-structured vault. After completion, run /vault-discover to begin building the wikilink graph.
+- [[skills/humanizer/SKILL]] — You are a writing editor that identifies and removes signs of AI-generated text to make writing sound more natural and human. This guide is based on Wikipedia's "Signs of AI writing" page, maintained 
+- [[skills/karpathy-guidelines/SKILL]] — Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
+- [[skills/mcptoon/SKILL]] — Before you run any mcptoon … command below, check that the CLI is actually on
+- [[skills/migrate-radix-to-base/SKILL]] — You migrate shadcn wrappers, hand-rolled radix compositions, and their
+- [[skills/obsidian-tooling/SKILL]] — Installs and configures Obsidian community plugins so the harness can use Obsidian's existing infrastructure for embeddings instead of building its own.
+- [[skills/open-pencil/SKILL]] — OpenPencil provides a CLI and MCP server for .fig design files and the running OpenPencil editor.
+- [[skills/orca-cli/SKILL]] — This discovery stub loads the version-matched guide from the Orca executable used for this session.
+- [[skills/orca-computer-use/SKILL]] — This discovery stub loads the version-matched guide from the Orca executable used for this session.
+- [[skills/orchestration/SKILL]] — This discovery stub loads the version-matched guide from the Orca executable used for this session.
+- [[skills/react-best-practices/SKILL]] — Comprehensive performance optimization guide for React and Next.js applications, maintained by Vercel. Contains 70 rules across 8 categories, prioritized by impact to guide automated refactoring and c
+- [[skills/react-native-best-practices/SKILL]] — Performance optimization guide for React Native applications, covering JavaScript/React, Native (iOS/Android), and bundling optimizations. Based on Callstack's "Ultimate Guide to React Native Optimiza
+- [[skills/react-native-skills/SKILL]] — Comprehensive best practices for React Native and Expo applications. Contains
+- [[skills/react-view-transitions/SKILL]] — Animate between UI states using the browser's native document.startViewTransition. Declare what with <ViewTransition>, trigger when with startTransition / useDeferredValue / Suspense, control how with
+- [[skills/shadcn/SKILL]] — A framework for building ui, components and design systems. Components are added as source code to the user's project via the CLI.
+- [[skills/slides/SKILL]] — Strategic HTML presentation design with data visualization.
+- [[skills/structural-humanizer/SKILL]] — Read this first. The humanizer skill fixes words: "delve", em dashes, rule of three,
+- [[skills/ui-styling/SKILL]] — Comprehensive skill for creating beautiful, accessible user interfaces combining shadcn/ui components, Tailwind CSS utility styling, and canvas-based visual design systems.
+- [[skills/ui-ux-pro-max/SKILL]] — Searchable local UI/UX guidance: 80 searchable styles (51 active), 192 product palettes and exact reasoning profiles, 74 font pairings, 120 UX guidelines, 105 curated icons, 17 GSAP presets, 25 chart 
+- [[skills/unslop/SKILL]] — unslop was created by Damir Sokolovsky ([@heydamir](https://x.com/heydamir)), who started the Unslopping series on X. It is licensed under CC BY 4.0, so keep this credit in any copy or adaptation.
+- [[skills/untangle-codebase/SKILL]] — Start a thorough refactor of this codebase and complete it to the end.
+- [[skills/vault-context/SKILL]] — Progressive disclosure navigation for your Obsidian vault. Instead of loading everything upfront, follow the vault's own wikilink graph contextually — depth for directed tasks, synthesis for cross-dom
+- [[skills/vault-discover/SKILL]] — Progressive wikilink graph builder for flat or under-linked vaults. Run after /harness-init to transform a collection of imported notes into a navigable knowledge graph. Each mode addresses a differen
+- [[skills/vercel-cli-with-tokens/SKILL]] — Deploy and manage projects on Vercel using the CLI with token-based authentication, without relying on vercel login.
+- [[skills/vercel-optimize/SKILL]] — Run an observability-first Vercel optimization audit. Do not inspect source files until signals.json exists and a deterministic gate points to a route, file, or project setting.
+- [[skills/web-design-guidelines/SKILL]] — Review files for compliance with Web Interface Guidelines.
+- [[skills/writing-guidelines/SKILL]] — Review files for compliance with Writing Guidelines.
+- [[skills/slides/references/slide-strategies]] — 15 proven deck structures with emotion arcs.
+- [[skills/design/references/slides]] — Strategic HTML presentation design with Chart.js data visualization, design tokens, responsive layouts, and copywriting formulas.
+- [[skills/design/references/slides-copywriting-formulas]] — 25 formulas for persuasive slide copy.
+- [[skills/design/references/slides-create]] — Invoke slides skill to create persuasive HTML slides using design tokens, Chart.js, and the slide knowledge database.
+- [[skills/design/references/slides-html-template]] — Complete HTML structure with navigation, tokens, and Chart.js integration.
+- [[skills/design/references/slides-layout-patterns]] — 25 slide layouts with CSS structures and animation classes.
+- [[skills/design/references/slides-strategies]] — 15 proven deck structures with emotion arcs.
+- [[skills/design/references/social-photos-design]] — Design social media images via HTML/CSS rendering + screenshot export. Orchestrates the bundled ui-ux-pro-max, brand, and design-system skills; screenshot export runs through Chrome headless, Playwrig
+- [[skills/react-best-practices/rules/rerender-split-combined-hooks]] — When a hook contains multiple independent tasks with different dependencies, split them into separate hooks. A combined hook reruns all tasks when any dependency changes, even if some tasks don't use  ( #rerender #useMemo #useEffect #dependencies #optimization)
+- [[skills/react-native-skills/rules/state-ground-truth]] — State variables—both React useState and Reanimated shared values—should ( #state #derived-state #reanimated #hooks)
+- [[skills/design-system/references/states-and-variants]] — Component state definitions and variant patterns.
+- [[skills/expo-native-ui/references/storage]] — Use the localStorage polyfill for key-value storage. Never use AsyncStorage
+- [[skills/react-best-practices/rules/advanced-event-handler-refs]] — Store callbacks in refs when used in effects that shouldn't re-subscribe on callback changes. ( #advanced #hooks #refs #event-handlers #optimization)
+- [[skills/structural-humanizer/references/storyscope-findings]] — Source: Russell, Rajendhran, Pham, Iyyer, Wieting (UMD + Google DeepMind),
+- [[skills/react-best-practices/rules/async-suspense-boundaries]] — Instead of awaiting data in async components before returning JSX, use Suspense boundaries to show the wrapper UI faster while data loads. ( #async #suspense #streaming #layout-shift)
+- [[skills/shadcn/rules/styling]] — See [customization.md](../customization.md) for theming, CSS variables, and adding custom colors.
+- [[skills/react-best-practices/rules/rerender-derived-state]] — Subscribe to derived boolean state instead of continuous values to reduce re-render frequency. ( #rerender #derived-state #media-query #optimization)
+- [[skills/react-best-practices/rules/rendering-hydration-suppress-warning]] — In SSR frameworks (e.g., Next.js), some values are intentionally different on server vs client (random IDs, dates, locale/timezone formatting). For these expected mismatches, wrap the dynamic text in  ( #rendering #hydration #ssr #nextjs)
+- [[skills/vercel-optimize/references/playbooks/sveltekit]] — Framework-specific playbook for SvelteKit projects on Vercel. Applies in
+- [[skills/vercel-optimize/references/support-topics/sveltekit-isr-prerender-safety]] — For SvelteKit, the right lever is often prerender or adapter ISR on public consumer pages. First prove every visitor can safely see the same response for the configured interval.
+- [[skills/vercel-optimize/references/support-topics/sveltekit-split-cold-start-tradeoff]] — SvelteKit bundles routes together by default to avoid excessive cold starts. Treat split: true as a targeted tradeoff, not a blanket optimization.
+- [[skills/expo-router/references/tabs]] — Always prefer NativeTabs from 'expo-router/unstable-native-tabs' for the best iOS experience.
+- [[skills/ui-styling/references/tailwind-customization]] — Config file structure, custom utilities, plugins, and theme extensions.
+- [[skills/design-system/references/tailwind-integration]] — Map design system tokens to Tailwind CSS configuration.
+- [[skills/ui-styling/references/tailwind-responsive]] — Mobile-first breakpoints, responsive utilities, and adaptive layouts.
+- [[skills/ui-styling/references/tailwind-utilities]] — Core utility classes for layout, spacing, typography, colors, borders, and shadows.
+- [[skills/react-native-best-practices/references/native-threading-model]] — Understand which threads Turbo Modules and Fabric use for initialization, method calls, and view updates. ( #threads #turbo-modules #fabric #async #sync)
+- [[skills/design-system/references/token-architecture]] — Three-layer token system for scalable, themeable design systems.
+- [[skills/unslop/references/tokens]] — Starting values for each pass. When the project already has a good system, keep its values and only fix how they are used. These are starting points, not a house style, so let the direction move them.
+- [[skills/expo-router/references/toolbar-and-headers]] — Add native iOS toolbar items to Stack screens. Items can be placed in the header (left/right) or in a bottom toolbar area.
+- [[skills/react-native-best-practices/references/bundle-tree-shaking]] — Enable dead code elimination to remove unused exports from your JavaScript bundle. ( #bundle #tree-shaking #dead-code #metro #repack)
+- [[skills/react-view-transitions/references/troubleshooting]] — VT not activating: Ensure <ViewTransition> comes before any DOM node and the state update is inside startTransition. A raw viewTransitionName only isolates an element; it does not activate a React vie
+- [[skills/brand/references/typography-specifications]] — Guidelines for defining and implementing brand typography.
+- [[skills/react-native-best-practices/references/js-uncontrolled-components]] — Fix TextInput synchronization and flickering issues by using the uncontrolled component pattern where React does not need to own every keystroke. ( #textinput #forms #controlled #uncontrolled)
+- [[skills/migrate-radix-to-base/universal-patterns]] — Sources: (1) mechanical diff of the 61 component pairs in
+- [[skills/brand/references/update]] — Update brand colors, typography, and style - automatically syncs to all design system files.
+- [[skills/vercel-optimize/references/support-topics/usage-spike-triage]] — A single-day or single-SKU spike needs cause before fix. Branches: bot or AI crawler on a cacheable route, viral moment, pricing-model migration, or code regression.
+- [[skills/react-native-skills/rules/react-compiler-reanimated-shared-values]] — With React Compiler enabled, use .get() and .set() instead of reading or ( #reanimated #react-compiler #shared-values)
+- [[skills/react-native-skills/rules/list-performance-virtualize]] — Use a list virtualizer like LegendList or FlashList instead of ScrollView with ( #lists #performance #virtualization #scrollview)
+- [[skills/react-best-practices/rules/rendering-activity]] — Use React's <Activity> to preserve state/DOM for expensive components that frequently toggle visibility. ( #rendering #activity #visibility #state-preservation)
+- [[skills/react-best-practices/rules/server-after-nonblocking]] — Use Next.js's after() to schedule work that should execute after a response is sent. This prevents logging, analytics, and other side effects from blocking the response. ( #server #async #logging #analytics #side-effects)
+- [[skills/composition-patterns/rules/architecture-compound-components]] — Structure complex components as compound components with a shared context. Each ( #composition #compound-components #architecture)
+- [[skills/react-native-skills/rules/design-system-compound-components]] — Don't create components that can accept a string if they aren't a text node. If ( #design-system #components #composition)
+- [[skills/react-native-skills/rules/list-performance-images]] — Always load compressed, appropriately-sized images in lists. Full-resolution ( #lists #images #performance #optimization)
+- [[skills/react-native-skills/rules/ui-scrollview-content-inset]] — When adding space to the top or bottom of a ScrollView that may change ( #scrollview #layout #contentInset #performance)
+- [[skills/react-native-skills/rules/ui-safe-area-scroll]] — Use contentInsetAdjustmentBehavior="automatic" on the root ScrollView instead of wrapping content in SafeAreaView or manual padding. This lets iOS handle safe area insets natively with proper scroll b ( #safe-area #scrollview #layout)
+- [[skills/react-best-practices/rules/rendering-script-defer-async]] — Script tags without defer or async block HTML parsing while the script downloads and executes. This delays First Contentful Paint and Time to Interactive. ( #rendering #script #defer #async #performance)
+- [[skills/react-best-practices/rules/rendering-conditional-render]] — Use explicit ternary operators (? :) instead of && for conditional rendering when the condition can be 0, NaN, or other falsy values that render. ( #rendering #conditional #jsx #falsy-values)
+- [[skills/react-native-skills/rules/ui-expo-image]] — Use expo-image instead of React Native's Image. It provides memory-efficient caching, blurhash placeholders, progressive loading, and better performance for lists. ( #images #performance #expo-image #ui)
+- [[skills/react-native-skills/rules/react-state-fallback]] — Use undefined as initial state and nullish coalescing (??) to fall back to ( #state #hooks #derived-state #props #initialState)
+- [[skills/react-best-practices/rules/js-flatmap-filter]] — Chaining .map().filter(Boolean) creates an intermediate array and iterates twice. Use .flatMap() to transform and filter in a single pass. ( #javascript #arrays #flatMap #filter #performance)
+- [[skills/react-best-practices/rules/rerender-functional-setstate]] — When updating state based on the current state value, use the functional update form of setState instead of directly referencing the state variable. This prevents stale closures, eliminates unnecessar ( #react #hooks #useState #useCallback #callbacks #closures)
+- [[skills/react-native-skills/rules/ui-image-gallery]] — For image galleries with lightbox (tap to fullscreen), use @nandorojo/galeria. ( #images #gallery #lightbox #expo-image #ui)
+- [[skills/react-native-skills/rules/animation-gesture-detector-press]] — For animated press states (scale, opacity on press), use GestureDetector with ( #animation #gestures #press #reanimated)
+- [[skills/react-native-skills/rules/list-performance-item-types]] — When a list has different item layouts (messages, images, headers, etc.), use a ( #list #performance #recycling #heterogeneous #LegendList)
+- [[skills/react-best-practices/rules/rerender-lazy-state-init]] — Pass a function to useState for expensive initial values. Without the function form, the initializer runs on every render even though the value is only used once. ( #react #hooks #useState #performance #initialization)
+- [[skills/react-best-practices/rules/js-min-max-loop]] — Finding the smallest or largest element only requires a single pass through the array. Sorting is wasteful and slower. ( #javascript #arrays #performance #sorting #algorithms)
+- [[skills/react-native-skills/rules/ui-menus]] — Use native platform menus instead of custom JS implementations. Native menus ( #user-interface #menus #context-menus #zeego #accessibility)
+- [[skills/react-native-skills/rules/ui-native-modals]] — Use native <Modal> with presentationStyle="formSheet" or React Navigation ( #modals #bottom-sheet #native #react-navigation)
+- [[skills/react-native-skills/rules/navigation-native-navigators]] — Always use native navigators instead of JS-based ones. Native navigators use ( #navigation #react-navigation #expo-router #native-stack #tabs)
+- [[skills/react-best-practices/rules/client-passive-event-listeners]] — Add { passive: true } to touch and wheel event listeners to enable immediate scrolling. Browsers normally wait for listeners to finish to check if preventDefault() is called, causing scroll delay. ( #client #event-listeners #scrolling #performance #touch #wheel)
+- [[skills/react-native-skills/rules/ui-pressable]] — Never use TouchableOpacity or TouchableHighlight. Use Pressable from ( #ui #pressable #touchable #gestures)
+- [[skills/react-best-practices/rules/rendering-resource-hints]] — React DOM provides APIs to hint the browser about resources it will need. These are especially useful in server components to start loading resources before the client even receives the HTML. ( #rendering #preload #preconnect #prefetch #resource-hints)
+- [[skills/react-best-practices/rules/js-set-map-lookups]] — Convert arrays to Set/Map for repeated membership checks. ( #javascript #set #map #data-structures #performance)
+- [[skills/react-native-skills/rules/monorepo-single-dependency-versions]] — Use a single version of each dependency across all packages in your monorepo. ( #monorepo #dependencies #installation)
+- [[skills/react-best-practices/rules/client-swr-dedup]] — SWR enables request deduplication, caching, and revalidation across component instances. ( #client #swr #deduplication #data-fetching)
+- [[skills/react-best-practices/rules/js-tosorted-immutable]] — .sort() mutates the array in place, which can cause bugs with React state and props. Use .toSorted() to create a new sorted array without mutation. ( #javascript #arrays #immutability #react #state #mutation)
+- [[skills/react-best-practices/rules/rerender-transitions]] — Mark frequent, non-urgent state updates as transitions to maintain UI responsiveness. ( #rerender #transitions #startTransition #performance)
+- [[skills/react-best-practices/rules/rerender-use-deferred-value]] — When user input triggers expensive computations or renders, use useDeferredValue to keep the input responsive. The deferred value lags behind, allowing React to prioritize the input update and render  ( #rerender #useDeferredValue #optimization #concurrent)
+- [[skills/react-best-practices/rules/rerender-use-ref-transient-values]] — When a value changes frequently and you don't want a re-render on every update (e.g., mouse trackers, intervals, transient flags), store it in useRef instead of useState. Keep component state for UI;  ( #rerender #useref #state #performance)
+- [[skills/react-best-practices/rules/rendering-usetransition-loading]] — Use useTransition instead of manual useState for loading states. This provides built-in isPending state and automatically manages transitions. ( #rendering #transitions #useTransition #loading #state)
+- [[skills/react-best-practices/rules/advanced-use-latest]] — Access latest values in callbacks without adding them to dependency arrays. Prevents effect re-runs while avoiding stale closures. ( #advanced #hooks #useEffectEvent #refs #optimization)
+- [[skills/react-native-skills/rules/react-state-dispatcher]] — When the next state depends on the current state, use a dispatch updater ( #state #hooks #useState #callbacks)
+- [[skills/agent-device/references/verification]] — Open this file when the task needs evidence, regression checks, replay maintenance, or startup performance measurements after the main interaction flow is already working.
+- [[skills/vercel-optimize/references/verification]] — How claims in recommendations are mechanically verified, and when the recommender re-runs after a low pass rate.
+- [[skills/react-best-practices/rules/client-localstorage-schema]] — Add version prefix to keys and store only needed fields. Prevents schema conflicts and accidental storage of sensitive data. ( #client #localStorage #storage #versioning #data-minimization)
+- [[skills/react-native-best-practices/references/native-view-flattening]] — Understand and debug React Native's view flattening optimization. ( #views #flattening #collapsable #hierarchy)
+- [[skills/expo-native-ui/references/visual-effects]] — Use expo-blur for blur effects. Prefer systemMaterial tints as they adapt to dark mode.
+- [[skills/brand/references/visual-identity]] — Primary: Full logo (horizontal/stacked)
+- [[skills/unslop/references/visuals]] — How to replace decorative filler with a visual that belongs to this product, and how to generate one when an image tool is available.
+- [[skills/vercel-optimize/references/voice]] — Use Vercel's customer-facing voice: sharp teammate, clear, competent, no fluff.
+- [[skills/brand/references/voice-framework]] — Voice = Brand's personality (consistent)
+- [[skills/expo-native-ui/references/webgpu-three]] — json
+- [[skills/vercel-optimize/references/support-topics/workflow-resumable-stream-routes]] — Stream-shaped routes may be Workflow SDK reconnection endpoints. Long wall-clock duration can be the live client connection.
+- [[skills/agent-desktop/references/workflows]] — Patterns for multi-step desktop automation. Every ref comes from the latest snapshot output.
+- [[skills/react-native-skills/rules/rendering-text-in-text-component]] — Strings must be rendered inside <Text>. React Native crashes if a string is a ( #rendering #text #core)
+- [[skills/migrate-radix-to-base/wrapper-shapes]] — Facts learned by diffing hand migrations against the shadcn base registry
+- [[skills/expo-router/references/zoom-transitions]] — Fluid zoom transitions for navigating between screens. iOS 18+, Expo SDK 55+, Stack navigator only.
+
+## Claude
+
+- [[claude/commands/ask]] — You are in Ask mode: a read-only question-and-answer session. Answer the question below; do not change anything.
+- [[claude/commands/config-update]] — Bring this machine up to date with its claude-config repo.
+- [[claude/commands/modularize]] — Modularize the function $ARGUMENTS in this codebase.
+- [[claude/RTK]] — Command output here is condensed to save tokens, keeping every signal and
+- [[claude/commands/save-handoff]] — Write a handoff so another harness (or a fresh session) can continue this project with no other context. Never write inside map/.
+- [[claude/commands/spec-init]] — Scaffold spec-driven development in the current project. Skip any part already present.
+
+## Cursor
+
+- [[cursor/README]] — One source of truth: the base install (install.sh / install.ps1) still owns tools, skills, plugins, ~/.mcptoon/config.json and ~/.claude-tools/bin/. This surface only wires Cursor IDE and Cursor Code 
+
+## Opencode
+
+- [[opencode/commands/ask]] — You are in Ask mode: a read-only question-and-answer session. Answer the question below; do not change anything.
+- [[opencode/commands/config-update]] — Bring this machine up to date with its claude-config repo.
+- [[opencode/commands/modularize]] — Modularize the function $ARGUMENTS in this codebase.
+- [[opencode/README]] — One source of truth: the OpenCode surface renders from what the repo already defines — claude/mcpServers.json (MCP entries), claude/commands/ (adapted to OpenCode tool names), claude/plugins.json (whi
+- [[opencode/commands/save-handoff]] — Write a handoff so another harness (or a fresh session) can continue this project with no other context. Never write inside map/.
+- [[opencode/commands/spec-init]] — Scaffold spec-driven development in the current project. Skip any part already present.
+
+## Uncategorized
+
+- [[CHANGELOG]] — Newest first. config-sync shows these lines to Claude when the repo moves ahead of what is installed; /config-update applies them.
+- [[Home]] — Project vault. Created 2026-11-15 by vault-bootstrap.
+- [[INSTALL-FOR-AGENTS]] — If a user gives you this repository's link, use it as the source of their setup. Do this in order.
+- [[Notes]] — Back to [[Home]].
+
+## Windows
+
+- [[windows/README]] — One source of truth: claude/, mcptoon/, launchd/, skills/, bin/ and tools/ are the only places a tool, hook, MCP server,
