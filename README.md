@@ -1,10 +1,52 @@
-# claude-config
+# Luke's claude-config
 
-A portable snapshot of one Claude Code setup: hooks, plugins, MCP servers, skills, helper scripts and the tool list behind them. Built to cut token use, keep project memory in the repo so any agent harness can pick up where the last one stopped, and give every project an Obsidian vault.
+**One repo, every agent.** A tuned, token-lean, self-remembering AI coding environment that installs with a double-click on Windows and macOS, for Claude Code, Cursor and OpenCode.
 
 Licensed under MIT (see `LICENSE`); bundled third-party skills keep their own licenses (see Skill sources).
 
-Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directory are stored as `__HOME__` and filled in by `install.sh`.
+## Why it exists
+
+It started on 2026-11-01 as a portable snapshot of one Claude Code setup: the hooks, plugins, MCP servers and skills that one machine had grown. It is now more than a backup. It is a single source of truth that renders the same stack for three agent harnesses on two operating systems, installs it, checks it and keeps it current.
+
+- **One double-click.** `Install.cmd` (Windows) or `Install.command` (macOS) detects your OS and which harnesses are on the machine, installs what is missing, configures the ones you pick (default: all) and ends with a PASS/FAIL report and a log. Re-running is safe: nothing is duplicated and replaced files are kept as `*.bak-YYYYMMDD`.
+- **Three harnesses, one source.** `claude/`, `mcptoon/`, `skills/`, `bin/` and `tools/` define every tool, hook, server and skill once. `windows/render.py`, `cursor/render.py` and `opencode/render.py` turn them into each harness's own config. Remove a tool from the source and it is gone everywhere.
+- **Cheaper every turn.** RTK shrinks command output, the Caveman proxy and style shrink requests and replies, context-mode keeps raw data out of the conversation, and the mcptoon gateway puts 18 MCP servers (280 tools) behind a handful of gateway tools. Skills load on demand from a catalog instead of being described every session.
+- **Agents that remember.** `.agent/handoff.md`, `.agent/memory/` and the obsidian-wiki hooks record where work stopped and which rules bind the project. Any harness can pick it up, and every project becomes an Obsidian vault.
+- **One owner per job.** Each task (searching code, finding callers, reading docs, browsing, memory) has exactly one designated tool, so tools do not fight. The table is below.
+- **Guarded by default.** The guard-pack hooks block piped remote scripts, `--no-verify`, secret reads and force pushes. Semgrep runs locally with no account. Browsing goes through Lightpanda first. `export.py` scans for secrets before anything is committed.
+- **Stays current.** `bin/config-sync` notices when the repo moves ahead of the machine, and `CHANGELOG.md` says what changed and whether you need to act. A personal branch (`comet`) follows `main` automatically.
+- **Made for people and for agents.** Humans double-click. An agent can be pointed at [`INSTALL-FOR-AGENTS.md`](INSTALL-FOR-AGENTS.md) or run the same installer without prompts.
+
+The idea: build one carefully tuned workshop, then carry it to any machine and hand it to any agent, with no re-explaining and no drift.
+
+## Install (one double-click)
+
+Download or clone this repo, then double-click:
+
+| Your computer | Double-click |
+|---|---|
+| Windows 10/11 | `Install.cmd` |
+| macOS | `Install.command` (first time: right-click, Open) |
+
+It installs what is missing (Git, Node, uv, Python, and on a Mac Homebrew), finds which of **Claude Code, Cursor and OpenCode** are on the machine, and asks what to set up. Press Enter for the recommended choice, all detected harnesses. A harness that is missing can be installed from the same menu. When it finishes it checks the result (MCP gateway, each harness, the browser service) and prints PASS or FAIL for each check. Re-running it is safe: nothing is duplicated and replaced files are kept as `*.bak-YYYYMMDD`. A full log is written to `~/.claude-tools/install-<date>.log`.
+
+Without a menu (scripts and agents): `pwsh ./setup/setup.ps1 -All -Yes` on Windows, `./setup/setup.sh --all --yes` on a Mac; `-Only claude,cursor,opencode` (`--only` on a Mac) names the harnesses and installs any that is missing. A ZIP download (no `.git`) is turned into a checkout of this branch so `config-sync` updates work.
+
+## Supported harnesses and systems
+
+| Harness | Windows 10/11 | macOS | Details |
+|---|---|---|---|
+| Claude Code | yes | yes | this README, [`windows/README.md`](windows/README.md) |
+| Cursor IDE and Cursor Code CLI | yes | yes | [`cursor/README.md`](cursor/README.md) |
+| OpenCode V2 | yes | yes | [`opencode/README.md`](opencode/README.md) |
+
+The base installer (`install.ps1` / `install.sh`) owns the shared stack; the Cursor and OpenCode installers wire those harnesses to it. The one-click setup runs them in order.
+
+## Branches
+
+- `main` is the shared configuration.
+- `comet` is `main` plus personal settings (the Comet browser fallback and a Claude model preference). A workflow merges every push to `main` into `comet`, so it never falls behind.
+- `.config-branch` names the branch a ZIP download should become a git checkout of, so `config-sync` updates keep working.
 
 ## What the stack does
 
@@ -13,7 +55,7 @@ Snapshot taken 2026-11-01 on macOS (Apple Silicon). Paths with your home directo
 | Shrink bash output | RTK | `rtk hook claude` rewrites noisy command output |
 | Shrink requests and replies | Caveman (plugin, CLI, local proxy on `127.0.0.1:8788`, caveman-blocks) | compresses input and output, terse style |
 | Keep raw data out of context | context-mode (plugin) | sandboxed execution plus search index |
-| Hide tool schemas | mcptoon | one gateway in front of 19 MCP servers (418 tools behind a handful of gateway tools) |
+| Hide tool schemas | mcptoon | one gateway in front of 18 MCP servers (280 tools behind a handful of gateway tools) |
 | Project memory and handoff | agent-handoff (`bin/agent-handoff`) | writes `.agent/` and a managed block in `AGENTS.md` on session start, logs edits, writes a summary at session end |
 | Obsidian vault in every project | `bin/vault-bootstrap`, Obsidian plugin, obsidian-wiki, mcp-obsidian | creates `.obsidian/`, `Home.md`, registers the vault |
 | Code lookup | jCodeMunch (symbols), lumen (semantic search), codegraph (graph), fallow (static analysis) | all via mcptoon |
@@ -65,26 +107,9 @@ Opt out per project by touching `.agent-handoff-off`, `.spec-bootstrap-off` or `
 
 > **Giving this repo to an agent?** Point it at [`INSTALL-FOR-AGENTS.md`](INSTALL-FOR-AGENTS.md). Updates are detected by `bin/config-sync` and described in [`CHANGELOG.md`](CHANGELOG.md).
 
-> **Windows 11:** see [`windows/README.md`](windows/README.md) and `install.ps1`. It renders these same templates for Windows; nothing here is duplicated.
+## Advanced: run the macOS installer directly
 
-> **OpenCode V2:** see [`opencode/README.md`](opencode/README.md) and `install-opencode.sh` (macOS) / `install-opencode.ps1` (Windows 11). The same templates rendered for OpenCode; run the base installer for your OS first. Nothing here is duplicated.
-
-> **Cursor / Cursor Code:** see [`cursor/README.md`](cursor/README.md) and `install-cursor.sh` (macOS) / `install-cursor.ps1` (Windows 11). Wires the same mcptoon gateway + skills into Cursor IDE and Cursor Code CLI; run the base installer for your OS first.
-
-## Install (one double-click)
-
-Download or clone this repo, then double-click:
-
-| Your computer | Double-click |
-|---|---|
-| Windows 10/11 | `Install.cmd` |
-| macOS | `Install.command` (first time: right-click, Open) |
-
-It installs what is missing (Git, Node, uv, Python, and on a Mac Homebrew), finds which of **Claude Code, Cursor and OpenCode** are on the machine, and asks what to set up. Press Enter for the recommended choice, all detected harnesses. A harness that is missing can be installed from the same menu. When it finishes it checks the result (MCP gateway, each harness, the browser service) and prints PASS or FAIL for each check. Re-running it is safe: nothing is duplicated and replaced files are kept as `*.bak-YYYYMMDD`. A full log is written to `~/.claude-tools/install-<date>.log`.
-
-Without a menu (scripts and agents): `pwsh ./setup/setup.ps1 -All -Yes` on Windows, `./setup/setup.sh --all --yes` on a Mac; `-Only claude,cursor,opencode` (`--only` on a Mac) names the harnesses and installs any that is missing. A ZIP download (no `.git`) is turned into a checkout of this branch so `config-sync` updates work.
-
-## Restore on a new Mac (advanced: the installer the one-click setup runs)
+The one-click setup runs this for you. Paths with your home directory are stored as `__HOME__` and filled in by `install.sh`.
 
 ```bash
 git clone <this repo> claude-config && cd claude-config
@@ -103,6 +128,9 @@ Kwipu, lumen, Caveman and the launchd services are set up by the installer itsel
 ## Layout
 
 ```
+Install.cmd        Windows double-click installer (Install.command on macOS)
+setup/             setup.ps1 / setup.sh: detect, choose, install, verify
+install.*          base installers (tools, MCP gateway, skills, plugins, services)
 claude/            CLAUDE.md, RTK.md, settings.json (hooks, plugins, env), commands/, hooks/, mcpServers.json, plugins.json
 skills/            user skills (third-party skills keep their own licenses)
 bin/               helper scripts that the hooks call
@@ -113,12 +141,16 @@ windows/           Windows render of the same templates (install.ps1)
 opencode/          OpenCode V2 surface (install-opencode.*)
 cursor/            Cursor IDE + Cursor Code surface (install-cursor.*)
 export.py          re-snapshot this machine into the repo
+.agent/           handoff and durable project memory for any agent
+CHANGELOG.md       what changed and whether you must act
+INSTALL-FOR-AGENTS.md  steps for an agent given this repo
+.config-branch     branch a ZIP download becomes a checkout of
 ```
 
 ## Known limits
 - The Caveman proxy is a single point of failure for every request; savings are not measured here.
 - OpenSpec and spec-kit overlap; both are kept on purpose.
-- `claude/settings.json` contains Caveman's generated hooks with absolute Homebrew paths. Re-run `caveman setup` if Node lives elsewhere.
+- Caveman writes its own hooks per machine (`caveman setup`); the installer strips the copies in the repo and substitutes your Homebrew prefix. If Node moves, re-run the installer.
 
 - Browser policy: Lightpanda is the primary browser. `playwright` needs `--isolated` against it (otherwise "No page on the STARTUP session"). This is the `comet` branch: main plus a fallback that attaches to Comet on debug port 9223; if Comet is already open without that port, quit it (Cmd+Q) and the next fallback call relaunches it normally. Launching Comet via automation (`--userDataDir`) once wiped its extensions and sign-in, so do not do that. Claude Desktop's own browser setting cannot be pointed at Lightpanda; the deny rules cover Claude Code only. `lightpanda mcp` and CDP attach were tested; screenshots and logged-in pages need the Comet fallback.
 
@@ -183,6 +215,7 @@ Each folder in `skills/` with its upstream repo. Every repo below was confirmed 
 | fig-parser | https://github.com/sunyui/figma-parser |
 | figcraft | https://github.com/storytold/figcraft (skill pack: https://github.com/Vinciux99/artcraft-claude-skills, not tree-checked) |
 | mcptoon | https://github.com/activeing123/mcptoon |
+| astryx | https://www.npmjs.com/package/@astryxdesign/cli (installed by `tools/npm-global.txt`; the skill is generated by the CLI) |
 | unslop | https://github.com/heydamir/unslop (CC-BY-4.0) |
 | untangle-codebase | https://github.com/caldoai/skills (`skills/untangle-codebase`) |
 

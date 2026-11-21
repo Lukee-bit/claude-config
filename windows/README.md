@@ -1,4 +1,4 @@
-# Windows 11 port
+# Luke's claude-config on Windows 10/11
 
 One source of truth: `claude/`, `mcptoon/`, `launchd/`, `skills/`, `bin/` and `tools/` are the only places a tool, hook, MCP server,
 plugin or service is defined. Remove it there and it is gone on macOS and Windows. Nothing in `windows/` lists tools of its own except
