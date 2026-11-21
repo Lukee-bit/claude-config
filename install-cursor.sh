@@ -38,4 +38,8 @@ if [ $TOOLS -eq 1 ]; then
   fi
 fi
 
+# Cursor Code CLI leaves a new MCP server at "needs approval" until it is enabled.
+AGENT=$(command -v agent || command -v cursor-agent || true)
+if [ -n "$AGENT" ] && [ $DRY -eq 0 ]; then "$AGENT" mcp enable mcptoon >/dev/null 2>&1 && echo "  Cursor Code CLI: mcptoon approved" || true; fi
+
 say "Done. Fully quit and restart Cursor IDE + Cursor Code CLI, then verify: mcptoon doctor; MCP list shows mcptoon. See cursor/README.md."

@@ -47,4 +47,9 @@ if (-not $NoTools) {
   Run { caveman setup --yes --agents opencode } 'caveman setup --yes --agents opencode'
 }
 
+# OpenCode's background service caches config; without a reload `opencode mcp list` stays empty.
+if (-not $DryRun -and (Get-Command opencode -ErrorAction SilentlyContinue)) {
+  try { opencode reload 2>&1 | Out-Null; Write-Host '  opencode service reloaded' } catch { Write-Host '  note: opencode service not running; it reads the config on next start' }
+}
+
 Say 'Done. Restart OpenCode (new plugin files need it), then verify: opencode mcp list (caveman, gsd, mcptoon); mcptoon doctor. See opencode/README.md.'

@@ -10,3 +10,6 @@ windows/** text eol=lf
 install.sh text eol=lf
 *.ps1 text eol=crlf
 opencode/** text eol=lf
+Install.cmd text eol=crlf
+Install.command text eol=lf
+.config-branch text eol=lf
