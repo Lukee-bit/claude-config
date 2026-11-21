@@ -40,7 +40,7 @@ else {
 
 if (-not $NoTools) {
   Say 'GSD Core (adds its OpenCode commands, agents and hooks)'
-  Run { npx -y '@opengsd/gsd-core@latest' --opencode --global } 'npx @opengsd/gsd-core --opencode --global'
+  Run { npx -y '@opengsd/gsd-core@latest' --opencode --global --profile=core } 'npx @opengsd/gsd-core --opencode --global'
   Say 'RTK (OpenCode plugin)'
   Run { rtk init --global --opencode } 'rtk init --global --opencode'
   Say 'Caveman (OpenCode provider routes + MCP entry)'

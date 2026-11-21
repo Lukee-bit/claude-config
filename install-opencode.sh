@@ -44,7 +44,7 @@ fi
 
 if [ $TOOLS -eq 1 ]; then
   say "GSD Core (adds its OpenCode commands, agents and hooks)"
-  run npx -y @opengsd/gsd-core@latest --opencode --global || true
+  run npx -y @opengsd/gsd-core@latest --opencode --global --profile=core || true
   say "RTK (OpenCode plugin)"
   run rtk init --global --opencode || true
   say "Caveman (OpenCode provider routes + MCP entry)"

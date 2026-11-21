@@ -3,6 +3,10 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-21 Windows: JDK dropped; Cursor and OpenCode get GSD core
+- `windows/tools/winget.txt` no longer lists Temurin 21 (only Agent-Fusion used it, and Agent-Fusion is gone). `install-cursor.*` and `install-opencode.*` now install GSD in the `core` profile, matching Claude, so the full GSD set is not duplicated next to `~/.claude/skills`.
+- Action: `winget uninstall -e --id EclipseAdoptium.Temurin.21.JDK` if you installed it for Agent-Fusion; re-run `install-cursor` and `install-opencode`.
+
 ## 2026-11-21 Project memory, context and notes are in the repo
 - Committed for harness handoff: `.agent/` (handoff, memory, MCP server list), the Obsidian vault files (`AGENTS.md`, `CLAUDE.md`, `Home.md`, `Notes.md`, `index.md`, `hot.md`, `_meta/`, `_raw/`, `.obsidian/` config), `.specify/`, `openspec/`, `.serena/project.yml`, `.mcp.json` and the project `.claude/` commands and skills. A fork's agent starts at `.agent/handoff.md`.
 - Still ignored: `.env`, `.obsidian/plugins/` (API key), `.codegraph/` (rebuild with `codegraph init -y`), `.claude/settings.local.json`, `.serena/project.local.yml`, caches. `.agent/mcp-servers.json` uses `$HOME` in paths.

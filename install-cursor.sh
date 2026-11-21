@@ -30,7 +30,7 @@ fi
 if [ $TOOLS -eq 1 ]; then
   if command -v npx >/dev/null; then
     say "GSD Core (Cursor hooks / commands)"
-    run npx -y @opengsd/gsd-core@latest --cursor --global || true
+    run npx -y @opengsd/gsd-core@latest --cursor --global --profile=core || true
     # Re-merge in case GSD rewrote hooks.json
     if [ $DRY -eq 0 ]; then "$PY" cursor/render.py; fi
   else
