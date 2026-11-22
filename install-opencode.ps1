@@ -31,6 +31,11 @@ Say 'OpenCode config (~/.config/opencode)'
 # at runtime (claude-config.js) or in render.py.
 Place opencode/AGENTS.md "$OC/AGENTS.md"
 foreach ($f in (Get-ChildItem opencode/commands -File)) { Place $f.FullName "$OC/commands/$($f.Name)" }
+# ask and modularize come from Luke's skills (cloned by install.ps1)
+foreach ($t in 'ask', 'modularize') {
+  $f = "$HOME/.claude-tools/src/lukes-skills/plugins/$t/opencode/commands/$t.md"
+  if (Test-Path $f) { Place $f "$OC/commands/$t.md" } else { Write-Host "  skipped /${t}: run install.ps1 first (lukes-skills clone missing)" }
+}
 Place opencode/plugins/claude-config.js "$OC/plugins/claude-config.js"
 if ($DryRun) { Write-Host '  would render opencode/render.py -> ~/.config/opencode/opencode.json (backup first)' }
 else {

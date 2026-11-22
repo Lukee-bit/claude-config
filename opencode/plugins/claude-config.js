@@ -268,7 +268,7 @@ async function setup(ctx) {
           if (typeof sessionID !== "string" || !sessionID) continue;
           if (event.type === "session.created" && project) {
             pyBg("agent-handoff", ["init", project], {}, project);
-            bashBg("vault-bootstrap", [project], project);
+            pyBg("vault-bootstrap", [project], {}, project);
             bashBg("spec-bootstrap", [project], project);
             bashBg("index-bootstrap", [project], project);
           }
