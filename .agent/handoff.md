@@ -19,14 +19,14 @@
 <!-- handoff:narrative:end -->
 
 <!-- handoff:auto:begin -->
-## Auto status (2026-11-21 19:02)
-- branch: `feat/lukes-skills-handoff`
-- uncommitted files: 8
+## Auto status (2026-11-21 21:37)
+- branch: `feat/lukes-skills-tools`
+- uncommitted files: 18
 - recent commits:
+  - 7f8f986 agent-handoff now comes from Luke's skills (#22)
   - 6cea39d Docs: rebrand to Luke's claude-config and refresh the README (#21)
   - 811700e One-click installer (Install.cmd / Install.command) + install fixes (#20)
   - 5764073 Windows: match user mcptoon entry to project scope; link obsidian-skills from new upstream path (#19)
   - c88e4fa install.ps1: fix regex that wrote config-repo (invalid '\' pattern aborted the final step) (#18)
-  - 0289739 Windows: drop Temurin JDK; Cursor and OpenCode install GSD core profile (#17)
 - OpenSpec active changes: none
 <!-- handoff:auto:end -->

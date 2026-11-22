@@ -168,6 +168,24 @@ JSON
 elif [ -x "$HOME/.claude-tools/bin/agent-handoff" ]; then echo "  warning: lukes-skills clone missing, keeping the installed agent-handoff"
 else echo "  lukes-skills clone missing: agent-handoff cannot be installed"; exit 1; fi
 
+say "vault-bootstrap, ask and modularize (Luke's skills) with the Local REST API plugin setup on"
+LS="$HOME/.claude-tools/src/lukes-skills/plugins"
+if [ $DRY -eq 1 ]; then echo "  would place vault-bootstrap, ask and modularize from lukes-skills"
+elif [ -f "$LS/vault-bootstrap/bin/vault_bootstrap.py" ]; then
+  place "$LS/vault-bootstrap/bin/vault_bootstrap.py" "$HOME/.claude-tools/bin/vault-bootstrap"; chmod +x "$HOME/.claude-tools/bin/vault-bootstrap"
+  place "$LS/vault-bootstrap/bin/obsidian_trust.py" "$HOME/.claude-tools/bin/obsidian_trust.py"
+  VBCFG="$(mktemp)"
+  cat > "$VBCFG" <<'JSON'
+{
+  "integrations": { "localRestApi": true },
+  "localRestApi": { "pluginDir": "~/.claude-tools/obsidian-plugins", "keyFile": "~/.claude-tools/obsidian.env", "trust": true }
+}
+JSON
+  place "$VBCFG" "$HOME/.config/vault-bootstrap/config.json"; rm -f "$VBCFG"
+  for t in ask modularize; do place "$LS/$t/commands/$t.md" "$HOME/.claude/commands/$t.md"; done
+elif [ -x "$HOME/.claude-tools/bin/vault-bootstrap" ]; then echo "  warning: lukes-skills clone missing, keeping the installed vault-bootstrap"
+else echo "  lukes-skills clone missing: vault-bootstrap cannot be installed"; exit 1; fi
+
 say "Obsidian Local REST API plugin (copied into each vault by bin/vault-bootstrap)"
 PLG="$HOME/.claude-tools/obsidian-plugins/obsidian-local-rest-api"
 if [ $DRY -eq 0 ] && [ ! -f "$PLG/main.js" ]; then

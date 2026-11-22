@@ -5,6 +5,10 @@ Each entry says what changed and whether anything needs doing beyond the re-run 
 
 ## 2026-11-17 comet branch
 - Main plus the Comet fallback: `playwright-fallback` / `chrome-devtools-fallback` attach to the real Comet profile (port 9223) via `bin/comet-*`. Merge main into this branch after each main change: `git merge origin/main`.
+## 2026-11-21 vault-bootstrap, /ask and /modularize move to Luke's skills
+- `vault-bootstrap` (now Python, plus `obsidian_trust.py` beside it), `/ask` and `/modularize` come from https://github.com/Lukee-bit/lukes-skills at the pinned commit in `tools/git-sources.txt`. Same install path (`~/.claude-tools/bin/vault-bootstrap`); `~/.config/vault-bootstrap/config.json` turns the Local REST API plugin setup on, so the vault files are unchanged. `/ask` and `/modularize` lose the named code-search tools (wording is generic). `bin/vault-bootstrap`, `bin/obsidian-trust-vault.py` and the repo copies of the two commands are removed. The OpenCode adapter still lives here; it now runs `vault-bootstrap` with Python.
+- Action: re-run the installer (`config-sync apply`). On Windows the Claude SessionStart hook now runs it with `python`.
+
 ## 2026-11-21 agent-handoff moves to Luke's skills
 - `agent-handoff` is now its own tool, in https://github.com/Lukee-bit/lukes-skills (a Claude Code plugin, an Agent Skill and a command). The installers clone it at the pinned commit in `tools/git-sources.txt`, install it to the same path (`~/.claude-tools/bin/agent-handoff`) and write `~/.config/agent-handoff/config.json` with the mcptoon, obsidian and codegraph outputs on, so its output is unchanged. `bin/agent-handoff` is removed from this repo.
 - Action: re-run the installer (`config-sync apply`).

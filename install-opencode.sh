@@ -34,6 +34,11 @@ place() {
 say "OpenCode config (~/.config/opencode)"
 place opencode/AGENTS.md "$OC/AGENTS.md"
 for f in opencode/commands/*.md; do place "$f" "$OC/commands/$(basename "$f")"; done
+# ask and modularize come from Luke's skills (cloned by install.sh)
+for t in ask modularize; do
+  f="$HOME/.claude-tools/src/lukes-skills/plugins/$t/opencode/commands/$t.md"
+  if [ -f "$f" ]; then place "$f" "$OC/commands/$t.md"; else echo "  skipped /$t: run install.sh first (lukes-skills clone missing)"; fi
+done
 place opencode/plugins/claude-config.js "$OC/plugins/claude-config.js"
 if [ $DRY -eq 1 ]; then
   echo "  would render opencode/render.py -> $OC/opencode.json (backup first)"

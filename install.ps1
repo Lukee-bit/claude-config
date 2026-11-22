@@ -152,6 +152,27 @@ if (Test-Path $ah) {
 elseif (Test-Path "$HOME/.claude-tools/bin/agent-handoff") { Write-Warning 'lukes-skills clone missing: keeping the installed agent-handoff' }
 else { throw 'lukes-skills clone missing: agent-handoff cannot be installed' }
 
+Say 'vault-bootstrap, ask and modularize (Luke''s skills) with the Local REST API plugin setup on'
+$ls = "$HOME/.claude-tools/src/lukes-skills/plugins"
+if (Test-Path "$ls/vault-bootstrap/bin/vault_bootstrap.py") {
+  Place "$ls/vault-bootstrap/bin/vault_bootstrap.py" "$HOME/.claude-tools/bin/vault-bootstrap"
+  Place "$ls/vault-bootstrap/bin/obsidian_trust.py" "$HOME/.claude-tools/bin/obsidian_trust.py"
+  $vbcfg = Join-Path $Tmp 'vault-bootstrap.json'
+  if (-not $DryRun) {
+    New-Item -ItemType Directory -Force $Tmp | Out-Null
+    Set-Content $vbcfg -Encoding utf8 -Value @'
+{
+  "integrations": { "localRestApi": true },
+  "localRestApi": { "pluginDir": "~/.claude-tools/obsidian-plugins", "keyFile": "~/.claude-tools/obsidian.env", "trust": true }
+}
+'@
+  }
+  Place $vbcfg "$HOME/.config/vault-bootstrap/config.json"
+  if (-not $SkipClaudeConfig) { foreach ($t in 'ask', 'modularize') { Place "$ls/$t/commands/$t.md" "$HOME/.claude/commands/$t.md" } }
+} elseif ($DryRun) { Write-Host '  would place vault-bootstrap, ask and modularize from lukes-skills' }
+elseif (Test-Path "$HOME/.claude-tools/bin/vault-bootstrap") { Write-Warning 'lukes-skills clone missing: keeping the installed vault-bootstrap' }
+else { throw 'lukes-skills clone missing: vault-bootstrap cannot be installed' }
+
 Say 'Obsidian Local REST API plugin (copied into each vault by bin/vault-bootstrap)'
 $pl = "$HOME/.claude-tools/obsidian-plugins/obsidian-local-rest-api"
 if (-not (Test-Path "$pl/main.js")) {
