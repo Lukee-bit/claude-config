@@ -17,10 +17,12 @@ TOOLS = HOME / ".claude-tools"
 
 BIN_SCRIPTS = ["spec-bootstrap", "index-bootstrap",
                "kwipu-mcp", "mcp-obsidian-run", "codegraph-run",
-               "comet-cdp", "comet-chrome-devtools", "comet-playwright", "semgrep-mcp-run",
+               "semgrep-mcp-run",
                "_platform.sh", "semgrep-roots-shim.py", "kwipu-build.py", "config-sync"]
 # Third-party skills keep their own licenses; skip app-managed and unknown-origin ones.
 SKILL_SKIP = {"synced", "learned", "codex-transfer"}
+# comet-only scripts: kept off the main list so main edits to BIN_SCRIPTS merge cleanly.
+BIN_SCRIPTS += ["comet-cdp", "comet-chrome-devtools", "comet-playwright"]
 COPY_IGNORE = shutil.ignore_patterns("node_modules", ".git", ".DS_Store", "__pycache__", "*.pyc")
 SECRET = re.compile(r"(sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_\w{20,}|xox[abprs]-[\w-]{10,}|AKIA[0-9A-Z]{16}"
                     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----|(?i:api[_-]?key|secret|token|password)\s*[=:]\s*[\"']?[A-Za-z0-9_\-]{24,})")
