@@ -15,10 +15,10 @@ OUT = Path(__file__).resolve().parent
 CLAUDE = HOME / ".claude"
 TOOLS = HOME / ".claude-tools"
 
-BIN_SCRIPTS = ["vault-bootstrap", "spec-bootstrap", "index-bootstrap",
+BIN_SCRIPTS = ["spec-bootstrap", "index-bootstrap",
                "kwipu-mcp", "mcp-obsidian-run", "codegraph-run",
                "semgrep-mcp-run",
-               "_platform.sh", "obsidian-trust-vault.py", "semgrep-roots-shim.py", "kwipu-build.py", "config-sync"]
+               "_platform.sh", "semgrep-roots-shim.py", "kwipu-build.py", "config-sync"]
 # Third-party skills keep their own licenses; skip app-managed and unknown-origin ones.
 SKILL_SKIP = {"synced", "learned", "codex-transfer"}
 COPY_IGNORE = shutil.ignore_patterns("node_modules", ".git", ".DS_Store", "__pycache__", "*.pyc")
@@ -75,6 +75,8 @@ def main() -> None:
     for d in ("commands", "hooks"):
         for f in sorted((CLAUDE / d).glob("*")):
             if f.name.startswith("gsd-") or not f.is_file() or f.name in ("managed-hooks-registry.cjs", "package.json"):
+                continue
+            if d == "commands" and f.name in ("ask.md", "modularize.md"):  # installed from Luke's skills
                 continue
             copy_text(f, f"claude/{d}/{f.name}", 0o755 if f.suffix in (".sh", ".mjs") else None)
     # allowlist: ~/.claude.json also holds servers with auth headers (never export those)

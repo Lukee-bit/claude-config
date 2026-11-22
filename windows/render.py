@@ -20,7 +20,7 @@ UV_TOOLS_WIN = "AppData/Roaming/uv/tools"          # macOS: .local/share/uv/tool
 # Hooks that Caveman's own installer owns. `caveman setup` writes them natively per OS, so they are not copied.
 CAVEMAN_OWNED = ("caveman-proxy' native-hook", "caveman' shrink-hook", "caveman-blocks")
 # Interpreter for scripts under .claude-tools/bin (a Windows shell cannot honour a shebang).
-INTERPRETER = {"agent-handoff": "python", "kwipu-build.py": "python", "obsidian-trust-vault.py": "python"}
+INTERPRETER = {"agent-handoff": "python", "vault-bootstrap": "python", "kwipu-build.py": "python"}
 # Homebrew binaries that are npm packages on Windows.
 HOMEBREW_BIN = "/opt/homebrew/bin/"
 # MCP servers whose Windows invocation needs extra arguments (context-mode 2.x requires `server`).

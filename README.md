@@ -57,7 +57,7 @@ The base installer (`install.ps1` / `install.sh`) owns the shared stack; the Cur
 | Keep raw data out of context | context-mode (plugin) | sandboxed execution plus search index |
 | Hide tool schemas | mcptoon | one gateway in front of 18 MCP servers (280 tools behind a handful of gateway tools) |
 | Project memory and handoff | agent-handoff ([Luke's skills](https://github.com/Lukee-bit/lukes-skills)) | writes `.agent/` and a managed block in `AGENTS.md` on session start, logs edits, writes a summary at session end |
-| Obsidian vault in every project | `bin/vault-bootstrap`, Obsidian plugin, obsidian-wiki, mcp-obsidian | creates `.obsidian/`, `Home.md`, registers the vault |
+| Obsidian vault in every project | vault-bootstrap ([Luke's skills](https://github.com/Lukee-bit/lukes-skills)), Obsidian plugin, obsidian-wiki, mcp-obsidian | creates `.obsidian/`, `Home.md`, registers the vault |
 | Code lookup | jCodeMunch (symbols), lumen (semantic search), codegraph (graph), fallow (static analysis) | all via mcptoon |
 | Knowledge and context server | kwipu (vault Q&A on local Ollama) | via mcptoon |
 | Specs | OpenSpec and spec-kit | scaffolded by `bin/spec-bootstrap` |
@@ -122,7 +122,7 @@ Kwipu, lumen, Caveman and the launchd services are set up by the installer itsel
 2. **Kwipu:** `git clone https://github.com/benmaster82/Kwipu ~/.claude-tools/Kwipu`, create its `.venv` and install its requirements.
 3. **lumen:** install the `lumen` binary (version 0.0.42) from https://github.com/ory/lumen and put it on your PATH (`~/.local/bin/lumen`).
 4. **figcraft:** install the FigCraft desktop app from https://github.com/storytold/figcraft/releases (macOS `.dmg`, drag to `/Applications`); the MCP server expects its CLI at `~/.artcraft/bin/figcraft-cli`.
-5. **Obsidian:** install the app from https://obsidian.md. Open it once so `obsidian-local-rest-api` creates its key; `bin/vault-bootstrap` seeds the key from `~/.claude-tools/obsidian.env`, which is generated on first run and never committed.
+5. **Obsidian:** install the app from https://obsidian.md. Open it once so `obsidian-local-rest-api` creates its key; `vault-bootstrap` seeds the key from `~/.claude-tools/obsidian.env`, which is generated on first run and never committed.
 6. Restart Claude Code, run `mcptoon doctor` (all servers OK) and `/context`.
 
 ## Layout
@@ -168,8 +168,8 @@ Upstream repo for every tool in the stack. `install.sh` installs the Homebrew pa
 | Caveman (plugin, CLI, proxy) | https://github.com/JuliusBrussee/caveman |
 | context-mode | https://github.com/mksglu/context-mode |
 | mcptoon | https://github.com/activeing123/mcptoon |
-| agent-handoff | https://github.com/Lukee-bit/lukes-skills (Luke's skills, original work) |
-| vault-bootstrap, spec-bootstrap, index-bootstrap | this repo (`bin/`) |
+| agent-handoff, vault-bootstrap, `/ask`, `/modularize` | https://github.com/Lukee-bit/lukes-skills (Luke's skills, original work; each also installs alone, and the OpenCode hooks bridge there is not used here yet) |
+| spec-bootstrap, index-bootstrap | this repo (`bin/`) |
 | Obsidian helper skills (`obsidian` plugin) | https://github.com/kepano/obsidian-skills |
 | obsidian-wiki | https://github.com/Ar9av/obsidian-wiki |
 | mcp-obsidian | https://github.com/MarkusPfundstein/mcp-obsidian |
