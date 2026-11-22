@@ -3,6 +3,9 @@
 Newest first. `config-sync` shows these lines to Claude when the repo moves ahead of what is installed; `/config-update` applies them.
 Each entry says what changed and whether anything needs doing beyond the re-run installer (`config-sync apply` does the re-run).
 
+## 2026-11-21 agent-handoff moves to Luke's skills
+- `agent-handoff` is now its own tool, in https://github.com/Lukee-bit/lukes-skills (a Claude Code plugin, an Agent Skill and a command). The installers clone it at the pinned commit in `tools/git-sources.txt`, install it to the same path (`~/.claude-tools/bin/agent-handoff`) and write `~/.config/agent-handoff/config.json` with the mcptoon, obsidian and codegraph outputs on, so its output is unchanged. `bin/agent-handoff` is removed from this repo.
+- Action: re-run the installer (`config-sync apply`).
 ## 2026-11-21 Docs: Luke's claude-config
 - The project is now named Luke's claude-config. The README opens with what the project is and why (one double-click install, three harnesses from one source, token savings, repo-resident memory, guardrails, auto-update) and its numbers are corrected (18 MCP servers, 280 tools). Headings of the Windows, Cursor and OpenCode READMEs follow. The repository URL, folder name and install paths are unchanged.
 - Action: none.

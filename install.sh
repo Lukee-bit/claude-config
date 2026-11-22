@@ -133,17 +133,41 @@ json.dump(d, open(p, "w"), indent=2)
 PY
 else echo "  would add lightpanda to Claude Desktop config"; fi
 
-say "Third-party repos built from source (tools/git-sources.txt)"
+say "External repos (tools/git-sources.txt)"
 while read -r name url rev; do
   [ -z "$name" ] && continue; case "$name" in \#*) continue;; esac
   if [ "$name" = Kwipu ]; then dir="$HOME/.claude-tools/Kwipu"; else dir="$HOME/.claude-tools/src/$name"; fi
-  if [ -d "$dir" ]; then echo "  $name present"; continue; fi
+  if [ -d "$dir" ]; then
+    if [ "$name" = lukes-skills ]; then
+      if [ $DRY -eq 1 ]; then echo "  would update $name @ $rev"; else git -C "$dir" fetch -q origin 2>/dev/null; git -C "$dir" checkout -q "$rev"; fi
+    else echo "  $name present"; fi
+    continue
+  fi
   if [ $DRY -eq 1 ]; then echo "  would clone $name @ $rev"; continue; fi
   mkdir -p "$(dirname "$dir")" && git clone -q "$url" "$dir" && git -C "$dir" checkout -q "$rev"
 done < tools/git-sources.txt
 if [ $DRY -eq 0 ] && [ -d "$HOME/.claude-tools/Kwipu" ] && [ ! -x "$HOME/.claude-tools/Kwipu/.venv/bin/python" ]; then
   UV_LINK_MODE=copy uv venv "$HOME/.claude-tools/Kwipu/.venv" --python 3.13 && UV_LINK_MODE=copy uv pip install --python "$HOME/.claude-tools/Kwipu/.venv/bin/python" -r "$HOME/.claude-tools/Kwipu/requirements.txt"
 fi
+say "agent-handoff (Luke's skills) with the mcptoon, obsidian and codegraph outputs on"
+AH="$HOME/.claude-tools/src/lukes-skills/plugins/agent-handoff/bin/agent_handoff.py"
+if [ $DRY -eq 1 ]; then echo "  would place agent-handoff from lukes-skills and write its config"
+elif [ -f "$AH" ]; then
+  place "$AH" "$HOME/.claude-tools/bin/agent-handoff"; chmod +x "$HOME/.claude-tools/bin/agent-handoff"
+  AHCFG="$(mktemp)"
+  cat > "$AHCFG" <<'JSON'
+{
+  "integrations": { "mcptoon": true, "obsidian": true, "codegraph": true },
+  "claudeMemoryLink": true,
+  "summary": { "enabled": true, "model": "haiku" },
+  "backupDir": "~/.claude-tools/backups",
+  "obsidian": { "profileSeed": "~/.claude-tools/default-vault/_meta/profile.md" }
+}
+JSON
+  place "$AHCFG" "$HOME/.config/agent-handoff/config.json"; rm -f "$AHCFG"
+elif [ -x "$HOME/.claude-tools/bin/agent-handoff" ]; then echo "  warning: lukes-skills clone missing, keeping the installed agent-handoff"
+else echo "  lukes-skills clone missing: agent-handoff cannot be installed"; exit 1; fi
+
 say "Obsidian Local REST API plugin (copied into each vault by bin/vault-bootstrap)"
 PLG="$HOME/.claude-tools/obsidian-plugins/obsidian-local-rest-api"
 if [ $DRY -eq 0 ] && [ ! -f "$PLG/main.js" ]; then

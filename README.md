@@ -56,7 +56,7 @@ The base installer (`install.ps1` / `install.sh`) owns the shared stack; the Cur
 | Shrink requests and replies | Caveman (plugin, CLI, local proxy on `127.0.0.1:8788`, caveman-blocks) | compresses input and output, terse style |
 | Keep raw data out of context | context-mode (plugin) | sandboxed execution plus search index |
 | Hide tool schemas | mcptoon | one gateway in front of 18 MCP servers (280 tools behind a handful of gateway tools) |
-| Project memory and handoff | agent-handoff (`bin/agent-handoff`) | writes `.agent/` and a managed block in `AGENTS.md` on session start, logs edits, writes a summary at session end |
+| Project memory and handoff | agent-handoff ([Luke's skills](https://github.com/Lukee-bit/lukes-skills)) | writes `.agent/` and a managed block in `AGENTS.md` on session start, logs edits, writes a summary at session end |
 | Obsidian vault in every project | `bin/vault-bootstrap`, Obsidian plugin, obsidian-wiki, mcp-obsidian | creates `.obsidian/`, `Home.md`, registers the vault |
 | Code lookup | jCodeMunch (symbols), lumen (semantic search), codegraph (graph), fallow (static analysis) | all via mcptoon |
 | Knowledge and context server | kwipu (vault Q&A on local Ollama) | via mcptoon |
@@ -168,7 +168,8 @@ Upstream repo for every tool in the stack. `install.sh` installs the Homebrew pa
 | Caveman (plugin, CLI, proxy) | https://github.com/JuliusBrussee/caveman |
 | context-mode | https://github.com/mksglu/context-mode |
 | mcptoon | https://github.com/activeing123/mcptoon |
-| agent-handoff, vault-bootstrap, spec-bootstrap, index-bootstrap | this repo (`bin/`) |
+| agent-handoff | https://github.com/Lukee-bit/lukes-skills (Luke's skills, original work) |
+| vault-bootstrap, spec-bootstrap, index-bootstrap | this repo (`bin/`) |
 | Obsidian helper skills (`obsidian` plugin) | https://github.com/kepano/obsidian-skills |
 | obsidian-wiki | https://github.com/Ar9av/obsidian-wiki |
 | mcp-obsidian | https://github.com/MarkusPfundstein/mcp-obsidian |
