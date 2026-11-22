@@ -115,17 +115,42 @@ elseif (-not $DryRun) {
   python -c "import json,os,sys; p=os.path.expanduser('~/.claude.json'); c=json.load(open(p,encoding='utf-8')) if os.path.exists(p) else {}; n=json.load(open(sys.argv[1],encoding='utf-8')); c.setdefault('mcpServers',{}).update(n); json.dump(c,open(p,'w',encoding='utf-8'),indent=2); print('  merged:',', '.join(n))" "$Tmp/mcps.json"
 }
 
-Say 'Third-party repos built from source (tools/git-sources.txt)'
+Say 'External repos (tools/git-sources.txt)'
 foreach ($l in Lines tools/git-sources.txt) {
   $name, $url, $rev = $l -split '\s+'
   $dir = if ($name -eq 'Kwipu') { "$HOME/.claude-tools/Kwipu" } else { "$HOME/.claude-tools/src/$name" }
-  if (Test-Path $dir) { Write-Host "  $name present"; continue }
+  if (Test-Path $dir) {
+    if ($name -eq 'lukes-skills') { Run { git -C $dir fetch -q origin 2>$null; git -C $dir checkout -q $rev } "update $name @ $rev" } else { Write-Host "  $name present" }
+    continue
+  }
   Run { New-Item -ItemType Directory -Force (Split-Path $dir) | Out-Null; git clone $url $dir; git -C $dir checkout $rev } "clone $name @ $rev"
 }
 if (-not $DryRun) {
   $kw = "$HOME/.claude-tools/Kwipu"
   if ((Test-Path $kw) -and -not (Test-Path "$kw/.venv/Scripts/python.exe")) { uv venv "$kw/.venv" --python 3.13; uv pip install --python "$kw/.venv/Scripts/python.exe" -r "$kw/requirements.txt" }
 }
+
+Say 'agent-handoff (Luke''s skills) with the mcptoon, obsidian and codegraph outputs on'
+$ah = "$HOME/.claude-tools/src/lukes-skills/plugins/agent-handoff/bin/agent_handoff.py"
+if (Test-Path $ah) {
+  Place $ah "$HOME/.claude-tools/bin/agent-handoff"
+  $ahcfg = Join-Path $Tmp 'agent-handoff.json'
+  if (-not $DryRun) {
+    New-Item -ItemType Directory -Force $Tmp | Out-Null
+    Set-Content $ahcfg -Encoding utf8 -Value @'
+{
+  "integrations": { "mcptoon": true, "obsidian": true, "codegraph": true },
+  "claudeMemoryLink": true,
+  "summary": { "enabled": true, "model": "haiku" },
+  "backupDir": "~/.claude-tools/backups",
+  "obsidian": { "profileSeed": "~/.claude-tools/default-vault/_meta/profile.md" }
+}
+'@
+  }
+  Place $ahcfg "$HOME/.config/agent-handoff/config.json"
+} elseif ($DryRun) { Write-Host '  would place agent-handoff from lukes-skills' }
+elseif (Test-Path "$HOME/.claude-tools/bin/agent-handoff") { Write-Warning 'lukes-skills clone missing: keeping the installed agent-handoff' }
+else { throw 'lukes-skills clone missing: agent-handoff cannot be installed' }
 
 Say 'Obsidian Local REST API plugin (copied into each vault by bin/vault-bootstrap)'
 $pl = "$HOME/.claude-tools/obsidian-plugins/obsidian-local-rest-api"

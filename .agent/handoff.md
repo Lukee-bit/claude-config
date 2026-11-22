@@ -19,14 +19,14 @@
 <!-- handoff:narrative:end -->
 
 <!-- handoff:auto:begin -->
-## Auto status (2026-11-21 14:34)
-- branch: `comet`
-- uncommitted files: 20
+## Auto status (2026-11-21 19:02)
+- branch: `feat/lukes-skills-handoff`
+- uncommitted files: 8
 - recent commits:
-  - 1e3c0bc comet branch: Comet as the fallback browser
-  - 3a11a15 Merge pull request #11 from Lukee-bit/standard-browser-fallback
-  - a640a32 Standard Chrome fallback on main; Comet moves to the comet branch
-  - f71619f Merge pull request #10 from Lukee-bit/figcraft-replaces-openpencil
-  - 795bfe4 Replace OpenPencil with FigCraft; pre-approve MCP servers
+  - 6cea39d Docs: rebrand to Luke's claude-config and refresh the README (#21)
+  - 811700e One-click installer (Install.cmd / Install.command) + install fixes (#20)
+  - 5764073 Windows: match user mcptoon entry to project scope; link obsidian-skills from new upstream path (#19)
+  - c88e4fa install.ps1: fix regex that wrote config-repo (invalid '\' pattern aborted the final step) (#18)
+  - 0289739 Windows: drop Temurin JDK; Cursor and OpenCode install GSD core profile (#17)
 - OpenSpec active changes: none
 <!-- handoff:auto:end -->
