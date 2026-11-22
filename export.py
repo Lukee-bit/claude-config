@@ -15,7 +15,7 @@ OUT = Path(__file__).resolve().parent
 CLAUDE = HOME / ".claude"
 TOOLS = HOME / ".claude-tools"
 
-BIN_SCRIPTS = ["agent-handoff", "vault-bootstrap", "spec-bootstrap", "index-bootstrap",
+BIN_SCRIPTS = ["vault-bootstrap", "spec-bootstrap", "index-bootstrap",
                "kwipu-mcp", "mcp-obsidian-run", "codegraph-run",
                "semgrep-mcp-run",
                "_platform.sh", "obsidian-trust-vault.py", "semgrep-roots-shim.py", "kwipu-build.py", "config-sync"]
